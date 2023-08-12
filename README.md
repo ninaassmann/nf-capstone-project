@@ -1,37 +1,29 @@
-# New Next Project
+# Capstone Project - PawConnect
+Web Development Bootcamp [neue fische](https://www.neuefische.de/bootcamp/web-development)
 
-This project was created from the neue fische `next` template.
 
-You can [🔗 **use this template on CodeSandbox**](https://codesandbox.io/p/sandbox/github/neuefische/web-exercises/tree/main/templates/next?file=/README.md) or locally by running this command in your Terminal:
+`Currently working on my project. Fell free to follow my progress.`
 
-```bash
-npx -y ghcd@latest neuefische/web-exercises/tree/main/templates/next my-app -i
-```
+---
 
-## Development
+My capstone project entails the development of a comprehensive pet management application designed to effortlessly oversee your beloved companions. This innovative app empowers users to create personalized profiles for each of their pets, facilitating the organization of crucial details. From vaccinations and dietary preferences to microchip identification and weight monitoring, the app serves as a centralized hub for all essential pet-related information.
 
-### Local Development
+In times of urgency, the app also allows users to designate their veterinarian as an emergency contact, ensuring swift accessibility when needed the most.
 
-To work locally, please install the dependencies using `npm i` first.
+Moreover, the application goes beyond conventional pet management by incorporating a feature that aids in reuniting lost pets with their owners. Whether a pet is missing or found, this functionality fosters a seamless connection between pets and their caretakers.
 
-Run `npm run dev` to start a development server and open the displayed URL in a browser.
+Additionally, an expansive information repository is envisioned, offering users a wealth of knowledge about diverse pet breeds. This resourceful section serves as a valuable reference for pet enthusiasts seeking insights into various breeds, their characteristics, and care requirements.
 
-Use `npm run test` to run the tests.
+---
 
-### CodeSandbox Cloud
+## Bootcamp Infos
 
-Select the "Preview: 3000" tab to view this project.
+I started the Web Development Bootcamp on 18.062023 and will finish it on 08.09.2023.
 
-Select the "Tests: logs" tab to view the tests.
+In the last four weeks, the task is to program a final project. The following specifications are given:
 
-> The `npm run dev` and `npm run test` scripts run automatically.
-
-### Scripts
-
-You can use the following commands:
-
-- `npm run dev` to start a development server
-- `npm run build` to build the project
-- `npm run start` to start a production server
-- `npm run test` to run the tests
-- `npm run lint` to run the linter
+- React JS
+- nextJS
+- CRUD Operation
+- Agile workflow / User Stories
+- Code Review and Quality Assurance
