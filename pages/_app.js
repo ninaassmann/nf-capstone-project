@@ -3,15 +3,15 @@ import useLocalStorageState from "use-local-storage-state";
 import useSWR from "swr";
 
 const fetcher = async (url) => {
-  const res = await fetch(url);
-  if (!res.ok) {
+  const response = await fetch(url);
+  if (!response.ok) {
     const error = new Error("An error occurred while fetching the data.");
-    error.info = await res.json();
-    error.status = res.status;
+    error.info = await response.json();
+    error.status = response.status;
     throw error;
   }
 
-  return res.json();
+  return response.json();
 };
 
 export default function App({ Component, pageProps }) {

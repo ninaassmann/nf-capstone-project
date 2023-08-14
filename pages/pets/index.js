@@ -48,7 +48,7 @@ export default function Form({ addNewPet, dogData }) {
           <label htmlFor="petBirthday">Birthday</label>
           <input type="date" id="petBirthday" name="petBirthday" required />
         </div>
-        <div className="select-wrap">
+        <SelectWrapper>
           <label htmlFor="petBreed">Breed</label>
           <select name="petBreed" id="petBreed">
             {dogData &&
@@ -58,7 +58,7 @@ export default function Form({ addNewPet, dogData }) {
                 </option>
               ))}
           </select>
-        </div>
+        </SelectWrapper>
         <Button type="submit" buttonText="Create a new Dog" />
       </StyledForm>
       <Link href="/">back to overview</Link>
@@ -90,17 +90,17 @@ const StyledForm = styled.form`
       appearance: none;
     }
   }
+`;
 
-  & .select-wrap {
-    display: inline-block;
-    position: relative;
-    &::after {
-      content: "↓";
-      position: absolute;
-      font-size: 1rem;
-      right: 1rem;
-      top: 2.125rem;
-      color: black;
-    }
+const SelectWrapper = styled.div`
+  display: inline-block;
+  position: relative;
+  &::after {
+    content: "↓";
+    position: absolute;
+    font-size: 1rem;
+    right: 1rem;
+    top: 2.5rem;
+    color: black;
   }
 `;
