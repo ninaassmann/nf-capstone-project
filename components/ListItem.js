@@ -20,6 +20,6 @@ export default function ListItem({ id, name, breed, birthday }) {
 
 const StyledListItem = styled.li`
   padding: 1rem;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   background-color: lightgray;
 `;

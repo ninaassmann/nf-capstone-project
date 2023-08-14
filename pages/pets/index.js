@@ -1,5 +1,6 @@
 import Button from "@/components/Button";
 import Container from "@/components/Container";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { styled } from "styled-components";
 import { uid } from "uid";
@@ -63,6 +64,7 @@ export default function Form({ addNewPet }) {
         </div>
         <Button type="submit" buttonText="Create a new Dog" />
       </StyledForm>
+      <Link href="/">back to overview</Link>
     </Container>
   );
 }
@@ -72,6 +74,7 @@ const StyledForm = styled.form`
   flex-direction: column;
   gap: 2rem;
   margin-top: 2rem;
+  margin-bottom: 2rem;
 
   & div {
     display: flex;

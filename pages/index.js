@@ -7,7 +7,7 @@ export default function HomePage({ pets }) {
   return (
     <main>
       <Container>
-        <StyledLink href="/pets">New Dog Profile</StyledLink>
+        <StyledLink href="/pets">Create a new dog</StyledLink>
         <List pets={pets} />
       </Container>
     </main>
@@ -17,7 +17,7 @@ export default function HomePage({ pets }) {
 const StyledLink = styled(Link)`
   display: inline-block;
   padding: 1rem 2rem;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   background-color: lightblue;
   color: black;
   text-decoration: none;
