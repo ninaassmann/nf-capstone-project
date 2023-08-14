@@ -17,7 +17,7 @@
     "react-dom": "18.2.0",
     "styled-components": "^6.0.2",
     "uid": "^2.0.2",
-    "use-local-storage-state": "^19.0.2"
+    "use-local-storage-state": "^18.3.3"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.0.1",
