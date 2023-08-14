@@ -3,7 +3,7 @@ import List from "@/components/List";
 import Link from "next/link";
 import { styled } from "styled-components";
 
-export default function HomePage({ pets }) {
+export default function HomePage({ pets, dogData }) {
   return (
     <main>
       <Container>
