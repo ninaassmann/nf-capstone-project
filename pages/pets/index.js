@@ -40,6 +40,7 @@ export default function Form({ addNewPet }) {
             id="petName"
             name="petName"
             placeholder="Enter the name of your pet"
+            pattern="[a-zA-Z]*"
             required
           />
         </div>
@@ -59,6 +60,7 @@ export default function Form({ addNewPet }) {
             id="petBreed"
             name="petBreed"
             placeholder="Enter the breed of your pet"
+            pattern="[a-zA-Z]*"
             required
           />
         </div>
