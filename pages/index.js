@@ -1,15 +1,14 @@
-import Button from "@/components/Button";
 import Container from "@/components/Container";
 import List from "@/components/List";
 import Link from "next/link";
 import { styled } from "styled-components";
 
-export default function HomePage() {
+export default function HomePage({ pets }) {
   return (
     <main>
       <Container>
         <StyledLink href="/pets">New Dog Profile</StyledLink>
-        <List />
+        <List pets={pets} />
       </Container>
     </main>
   );

@@ -20,6 +20,8 @@ export default function Form({ addNewPet }) {
       petBirthday: data.petBirthday,
     };
 
+    console.log(newPet);
+
     addNewPet(newPet);
 
     event.target.reset();

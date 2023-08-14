@@ -1,10 +1,9 @@
 import { styled } from "styled-components";
 
-export default function List() {
+export default function List({ pets }) {
   return (
     <StyledList>
-      <li>test 01</li>
-      <li>test 02</li>
+      {pets && pets.map((pet) => <li key={pet.id}>{pet.petName}</li>)}
     </StyledList>
   );
 }
