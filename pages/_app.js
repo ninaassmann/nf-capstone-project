@@ -14,11 +14,22 @@ const fetcher = async (url) => {
   return response.json();
 };
 
+var slugify = require("slugify");
+
 export default function App({ Component, pageProps }) {
   const { data, isLoading, error } = useSWR(
     "https://api.thedogapi.com/v1/breeds",
     fetcher
   );
+
+  const updatedData =
+    data &&
+    data.map((breed) => {
+      breed.slug = slugify(breed.name, { lower: true });
+      return breed;
+    });
+
+  console.log(updatedData);
 
   const [pets, setPets] = useLocalStorageState("pets", {
     defaultValue: [],
@@ -40,7 +51,7 @@ export default function App({ Component, pageProps }) {
         {...pageProps}
         addNewPet={handleNewPet}
         pets={pets}
-        dogData={data}
+        dogData={updatedData}
       />
     </>
   );
