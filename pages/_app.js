@@ -22,15 +22,6 @@ export default function App({ Component, pageProps }) {
     fetcher
   );
 
-  const updatedData =
-    data &&
-    data.map((breed) => {
-      breed.slug = slugify(breed.name, { lower: true });
-      return breed;
-    });
-
-  console.log(updatedData);
-
   const [pets, setPets] = useLocalStorageState("pets", {
     defaultValue: [],
   });
@@ -67,7 +58,7 @@ export default function App({ Component, pageProps }) {
         addNewPet={handleNewPet}
         calculateAge={calculateAge}
         pets={pets}
-        dogData={updatedData}
+        dogData={data}
       />
     </>
   );

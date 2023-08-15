@@ -12,18 +12,25 @@ export default function ListItem({
   const age = calculateAge(birthday);
 
   return (
-    <StyledListItem>
-      <Link href={`/pets/${slug}`}>
+    <li>
+      <StyledLink href={`/pets/${slug}`}>
         <h3>{name}</h3>
         <p>{breed}</p>
         <p>{age}</p>
-      </Link>
-    </StyledListItem>
+      </StyledLink>
+    </li>
   );
 }
 
-const StyledListItem = styled.li`
+const StyledLink = styled(Link)`
+  display: block;
   padding: 1rem;
   border-radius: 0.5rem;
   background-color: lightgray;
+  color: black;
+  text-decoration: none;
+
+  &:hover {
+    filter: brightness(0.85);
+  }
 `;

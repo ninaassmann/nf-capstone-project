@@ -4,6 +4,12 @@ const Container = styled.div`
   width: min(90vw, 600px);
   margin-inline: auto;
   padding-top: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  gap: 1rem;
 `;
 
 export default Container;
