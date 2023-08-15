@@ -16,6 +16,16 @@ const fetcher = async (url) => {
 
 var slugify = require("slugify");
 
+const initialPets = [
+  {
+    id: 1,
+    slug: "freki",
+    petName: "Freki",
+    petBreed: "German Shepherd Mix",
+    petBirthday: "2020-11-20",
+  },
+];
+
 export default function App({ Component, pageProps }) {
   const { data, isLoading, error } = useSWR(
     "https://api.thedogapi.com/v1/breeds",
@@ -23,10 +33,8 @@ export default function App({ Component, pageProps }) {
   );
 
   const [pets, setPets] = useLocalStorageState("pets", {
-    defaultValue: [],
+    defaultValue: initialPets,
   });
-
-  console.log(pets);
 
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
@@ -34,7 +42,6 @@ export default function App({ Component, pageProps }) {
   function handleNewPet(newPet) {
     const petsWithNewPet = [newPet, ...pets];
     setPets(petsWithNewPet);
-    console.log(pets);
   }
 
   function calculateAge(birthday) {

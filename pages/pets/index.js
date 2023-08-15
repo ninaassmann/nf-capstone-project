@@ -24,8 +24,6 @@ export default function Form({ addNewPet, dogData }) {
       petBirthday: data.petBirthday,
     };
 
-    console.log(newPet);
-
     addNewPet(newPet);
 
     event.target.reset();
