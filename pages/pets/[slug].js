@@ -21,6 +21,7 @@ export default function Pet({ pets, calculateAge, dogData }) {
           <p>{pet.petBreed}</p>
           <p>{age}</p>
         </StyledSection>
+        <h2>{pet.petBreed}:</h2>
         <StyledSection>
           <h4>{pet.petBreed} temperament</h4>
           <p>{breed.temperament}</p>
