@@ -2,8 +2,9 @@ import Container from "@/components/Container";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styled, { css } from "styled-components";
+import { calculateAge } from "@/utils/calculateAge";
 
-export default function Pet({ pets, calculateAge, dogData }) {
+export default function Pet({ pets, dogData }) {
   const router = useRouter();
   const { slug } = router.query;
 

@@ -1,14 +1,8 @@
+import { calculateAge } from "@/utils/calculateAge";
 import Link from "next/link";
 import { styled } from "styled-components";
 
-export default function ListItem({
-  id,
-  name,
-  breed,
-  birthday,
-  slug,
-  calculateAge,
-}) {
+export default function ListItem({ id, name, breed, birthday, slug }) {
   const age = calculateAge(birthday);
 
   return (
