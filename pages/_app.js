@@ -14,6 +14,18 @@ const fetcher = async (url) => {
   return response.json();
 };
 
+var slugify = require("slugify");
+
+const initialPets = [
+  {
+    id: 1,
+    slug: "odin",
+    petName: "Odin",
+    petBreed: "Alaskan Husky",
+    petBirthday: "2020-11-20",
+  },
+];
+
 export default function App({ Component, pageProps }) {
   const { data, isLoading, error } = useSWR(
     "https://api.thedogapi.com/v1/breeds",
@@ -21,7 +33,7 @@ export default function App({ Component, pageProps }) {
   );
 
   const [pets, setPets] = useLocalStorageState("pets", {
-    defaultValue: [],
+    defaultValue: initialPets,
   });
 
   if (error) return <div>failed to load</div>;
@@ -30,7 +42,6 @@ export default function App({ Component, pageProps }) {
   function handleNewPet(newPet) {
     const petsWithNewPet = [newPet, ...pets];
     setPets(petsWithNewPet);
-    console.log(pets);
   }
 
   return (

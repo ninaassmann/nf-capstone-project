@@ -3,12 +3,12 @@ import List from "@/components/List";
 import Link from "next/link";
 import { styled } from "styled-components";
 
-export default function HomePage({ pets, dogData }) {
+export default function HomePage({ pets, calculateAge }) {
   return (
     <main>
       <Container>
         <StyledLink href="/pets">Create a new dog</StyledLink>
-        <List pets={pets} />
+        <List pets={pets} calculateAge={calculateAge} />
       </Container>
     </main>
   );

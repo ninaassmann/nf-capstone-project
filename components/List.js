@@ -1,13 +1,14 @@
 import { styled } from "styled-components";
 import ListItem from "./ListItem";
 
-export default function List({ pets }) {
+export default function List({ pets, calculateAge }) {
   return (
     <StyledList>
       {pets &&
         pets.map((pet) => (
           <ListItem
             key={pet.id}
+            slug={pet.slug}
             name={pet.petName}
             breed={pet.petBreed}
             birthday={pet.petBirthday}
@@ -20,6 +21,7 @@ export default function List({ pets }) {
 }
 
 const StyledList = styled.ul`
+  width: 100%;
   margin-top: 2rem;
   display: flex;
   flex-direction: column;

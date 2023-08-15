@@ -1,25 +1,30 @@
+import { calculateAge } from "@/utils/calculateAge";
+import Link from "next/link";
 import { styled } from "styled-components";
 
-export default function ListItem({ id, name, breed, birthday }) {
-  const date = new Date();
-  const birthdayDate = new Date(birthday);
-  const difference = date.getTime() - birthdayDate.getTime();
-  let months = Math.floor(difference / 2629746000);
-  const years = Math.floor(months / 12);
-  months = months - 12 * years;
-  const age = `${years}.${months} years`;
+export default function ListItem({ id, name, breed, birthday, slug }) {
+  const age = calculateAge(birthday);
 
   return (
-    <StyledListItem>
-      <h3>{name}</h3>
-      <p>{breed}</p>
-      {years > 1 ? <p>{age}</p> : <p>{months} months</p>}
-    </StyledListItem>
+    <li>
+      <StyledLink href={`/pets/${slug}`}>
+        <h3>{name}</h3>
+        <p>{breed}</p>
+        <p>{age}</p>
+      </StyledLink>
+    </li>
   );
 }
 
-const StyledListItem = styled.li`
+const StyledLink = styled(Link)`
+  display: block;
   padding: 1rem;
   border-radius: 0.5rem;
   background-color: lightgray;
+  color: black;
+  text-decoration: none;
+
+  &:hover {
+    filter: brightness(0.85);
+  }
 `;

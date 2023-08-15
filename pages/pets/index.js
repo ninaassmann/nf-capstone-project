@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import { styled } from "styled-components";
 import { uid } from "uid";
 
+var slugify = require("slugify");
+
 export default function Form({ addNewPet, dogData }) {
   const router = useRouter();
 
@@ -16,12 +18,11 @@ export default function Form({ addNewPet, dogData }) {
 
     const newPet = {
       id: uid(),
+      slug: slugify(data.petName, { lower: true }),
       petName: data.petName,
       petBreed: data.petBreed,
       petBirthday: data.petBirthday,
     };
-
-    console.log(newPet);
 
     addNewPet(newPet);
 
@@ -40,6 +41,7 @@ export default function Form({ addNewPet, dogData }) {
             id="petName"
             name="petName"
             placeholder="Enter the name of your pet"
+            maxLength="20"
             pattern="[a-zA-Z]*"
             required
           />
@@ -67,6 +69,7 @@ export default function Form({ addNewPet, dogData }) {
 }
 
 const StyledForm = styled.form`
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 2rem;
