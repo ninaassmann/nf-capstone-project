@@ -12,7 +12,6 @@ export default function List({ pets, calculateAge }) {
             name={pet.petName}
             breed={pet.petBreed}
             birthday={pet.petBirthday}
-            calculateAge={calculateAge}
           >
             {pet.petName} {pet.petBreed}
           </ListItem>

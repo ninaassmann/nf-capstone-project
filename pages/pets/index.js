@@ -41,6 +41,7 @@ export default function Form({ addNewPet, dogData }) {
             id="petName"
             name="petName"
             placeholder="Enter the name of your pet"
+            maxLength="20"
             pattern="[a-zA-Z]*"
             required
           />

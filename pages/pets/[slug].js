@@ -9,6 +9,18 @@ export default function Pet({ pets, dogData }) {
   const { slug } = router.query;
 
   const pet = pets.find((pet) => slug === pet.slug);
+
+  if (!pet) {
+    return (
+      <main>
+        <Container>
+          <h1>page not found</h1>
+          <Link href="/">back to overview</Link>
+        </Container>
+      </main>
+    );
+  }
+
   const age = calculateAge(pet.petBirthday);
 
   const breed = dogData && dogData.find((breed) => breed.name === pet.petBreed);
