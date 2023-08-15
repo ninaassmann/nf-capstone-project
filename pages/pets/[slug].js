@@ -10,7 +10,7 @@ export default function Pet({ pets, calculateAge, dogData }) {
   const pet = pets.find((pet) => slug === pet.slug);
   const age = calculateAge(pet.petBirthday);
 
-  const breed = dogData.find((breed) => breed.name === pet.petBreed);
+  const breed = dogData && dogData.find((breed) => breed.name === pet.petBreed);
 
   return (
     <main>
@@ -24,7 +24,7 @@ export default function Pet({ pets, calculateAge, dogData }) {
         <h2>{pet.petBreed}:</h2>
         <StyledSection>
           <h4>{pet.petBreed} temperament</h4>
-          <p>{breed.temperament}</p>
+          <p>{breed && breed.temperament}</p>
         </StyledSection>
         <StyledSection $isRow>
           <div>

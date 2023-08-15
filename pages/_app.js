@@ -19,9 +19,9 @@ var slugify = require("slugify");
 const initialPets = [
   {
     id: 1,
-    slug: "freki",
-    petName: "Freki",
-    petBreed: "German Shepherd Mix",
+    slug: "odin",
+    petName: "Odin",
+    petBreed: "Alaskan Husky",
     petBirthday: "2020-11-20",
   },
 ];
