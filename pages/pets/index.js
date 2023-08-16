@@ -35,10 +35,12 @@ export default function Form({ addNewPet, dogData }) {
       id: uid(),
       slug: slugify(data.petName, { lower: true }),
       petName: data.petName,
-      mixed: data.mixedBreed.checked,
+      mixed: data.mixedBreed === "on",
       petBreed: petBreedArr,
       petBirthday: data.petBirthday,
     };
+
+    console.log(newPet);
 
     addNewPet(newPet);
     setBreedSelect(initialBreedSelectArr);
@@ -69,7 +71,7 @@ export default function Form({ addNewPet, dogData }) {
             name="petName"
             placeholder="Enter the name of your pet"
             maxLength="20"
-            pattern="[a-zA-Z]*"
+            pattern="^[A-Za-z ]+$"
             required
           />
         </InputWrapper>

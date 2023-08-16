@@ -21,7 +21,7 @@ const initialPets = [
     id: 1,
     slug: "odin",
     petName: "Odin",
-    petBreed: "Alaskan Husky",
+    petBreed: ["Alaskan Husky"],
     petBirthday: "2020-11-20",
   },
 ];
