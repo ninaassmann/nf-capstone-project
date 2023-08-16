@@ -2,12 +2,21 @@ import Button from "@/components/Button";
 import Container from "@/components/Container";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { styled } from "styled-components";
 import { uid } from "uid";
 
 var slugify = require("slugify");
 
+const initialBreedSelectArr = [
+  {
+    id: 1,
+    name: "petBreed-1",
+  },
+];
+
 export default function Form({ addNewPet, dogData }) {
+  const [breedSelectArr, setBreedSelect] = useState(initialBreedSelectArr);
   const router = useRouter();
 
   function handleSubmit(event) {
@@ -30,11 +39,20 @@ export default function Form({ addNewPet, dogData }) {
     router.push("/");
   }
 
+  function handleAddBreed() {
+    const newBreedSelect = {
+      id: breedSelectArr.length + 1,
+      name: `petBreed-${breedSelectArr.length + 1}`,
+    };
+
+    setBreedSelect([...breedSelectArr, newBreedSelect]);
+  }
+
   return (
     <Container>
       <h1>Create a new Dog</h1>
       <StyledForm onSubmit={handleSubmit}>
-        <div>
+        <InputWrapper>
           <label htmlFor="petName">Name</label>
           <input
             type="text"
@@ -45,23 +63,37 @@ export default function Form({ addNewPet, dogData }) {
             pattern="[a-zA-Z]*"
             required
           />
-        </div>
-        <div>
+        </InputWrapper>
+        <InputWrapper>
           <label htmlFor="petBirthday">Birthday</label>
           <input type="date" id="petBirthday" name="petBirthday" required />
-        </div>
-        <SelectWrapper>
-          <label htmlFor="petBreed">Breed</label>
-          <select name="petBreed" id="petBreed">
-            {dogData &&
-              dogData.map((breed) => (
-                <option key={breed.id} value={breed.name}>
-                  {breed.name}
-                </option>
-              ))}
-          </select>
-        </SelectWrapper>
-        <Button type="submit" buttonText="Create a new Dog" />
+        </InputWrapper>
+        <fieldset>
+          <legend>Breed</legend>
+          <CheckboxWrapper>
+            <input type="checkbox" id="mixedBreed" name="mixedBreed" />
+            <label htmlFor="mixedBreed">Mixed</label>
+          </CheckboxWrapper>
+
+          {breedSelectArr.map((breedSelect) => (
+            <SelectWrapper key={breedSelect.id}>
+              <select name={`${breedSelect.name}-${breedSelect.id}`}>
+                {dogData &&
+                  dogData.map((breed) => (
+                    <option key={breed.id} value={breed.name}>
+                      {breed.name}
+                    </option>
+                  ))}
+              </select>
+            </SelectWrapper>
+          ))}
+          <Button
+            type="button"
+            onClick={handleAddBreed}
+            buttonText="Add another Breed"
+          />
+        </fieldset>
+        <Button type="submit" buttonText="Create a new Dog" $isPrimary />
       </StyledForm>
       <Link href="/">back to overview</Link>
     </Container>
@@ -76,34 +108,67 @@ const StyledForm = styled.form`
   margin-top: 2rem;
   margin-bottom: 2rem;
 
-  & div {
+  & fieldset {
+    border: none;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
+    padding-top: 1rem;
+  }
+`;
 
-    & input,
-    select {
-      width: 100%;
-      padding: 1rem;
-      border-radius: 0.5rem;
-      border: 1px solid grey;
+const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
-    }
+  & input {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid grey;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
   }
 `;
 
 const SelectWrapper = styled.div`
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   position: relative;
+
+  & select {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid grey;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
   &::after {
     content: "↓";
     position: absolute;
     font-size: 1rem;
     right: 1rem;
-    top: 2.5rem;
+    top: 0.95rem;
     color: black;
+  }
+`;
+
+const CheckboxWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  & input[type="checkbox"] {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 1rem;
   }
 `;
