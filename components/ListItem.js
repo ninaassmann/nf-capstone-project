@@ -1,6 +1,7 @@
 import { calculateAge } from "@/utils/calculateAge";
 import Link from "next/link";
 import { styled } from "styled-components";
+import Label from "./Label";
 
 export default function ListItem({ mixed, name, breed, birthday, slug }) {
   const age = calculateAge(birthday);
@@ -31,14 +32,4 @@ const StyledLink = styled(Link)`
   &:hover {
     filter: brightness(0.85);
   }
-`;
-
-const Label = styled.span`
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background-color: white;
-  padding: 0.25rem 0.5rem;
-  border-radius: 1rem;
-  text-transform: uppercase;
 `;
