@@ -12,6 +12,7 @@ export default function List({ pets, calculateAge }) {
             name={pet.petName}
             breed={pet.petBreed}
             birthday={pet.petBirthday}
+            mixed={pet.mixed}
           >
             {pet.petName} {pet.petBreed}
           </ListItem>

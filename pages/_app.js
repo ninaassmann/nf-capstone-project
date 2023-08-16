@@ -24,6 +24,14 @@ const initialPets = [
     petBreed: ["Alaskan Husky"],
     petBirthday: "2020-11-20",
   },
+  {
+    id: "2",
+    mixed: true,
+    petBirthday: "2020-11-20",
+    petBreed: ["German Shepherd Dog"],
+    petName: "Freki",
+    slug: "freki",
+  },
 ];
 
 export default function App({ Component, pageProps }) {
