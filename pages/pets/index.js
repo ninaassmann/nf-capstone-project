@@ -25,26 +25,35 @@ export default function Form({ addNewPet, dogData }) {
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
+    console.log(data);
+
+    const petBreedArr = breedSelectArr.map(
+      (breedSelect) => data[breedSelect.name]
+    );
+
     const newPet = {
       id: uid(),
       slug: slugify(data.petName, { lower: true }),
       petName: data.petName,
-      petBreed: data.petBreed,
+      mixed: data.mixedBreed.checked,
+      petBreed: petBreedArr,
       petBirthday: data.petBirthday,
     };
 
     addNewPet(newPet);
+    setBreedSelect(initialBreedSelectArr);
 
     event.target.reset();
     router.push("/");
   }
 
   function handleAddBreed() {
+    let index = 2;
     const newBreedSelect = {
       id: breedSelectArr.length + 1,
-      name: `petBreed-${breedSelectArr.length + 1}`,
+      name: `petBreed-${index}`,
     };
-
+    index++;
     setBreedSelect([...breedSelectArr, newBreedSelect]);
   }
 
@@ -77,7 +86,7 @@ export default function Form({ addNewPet, dogData }) {
 
           {breedSelectArr.map((breedSelect) => (
             <SelectWrapper key={breedSelect.id}>
-              <select name={`${breedSelect.name}-${breedSelect.id}`}>
+              <select name={breedSelect.name}>
                 {dogData &&
                   dogData.map((breed) => (
                     <option key={breed.id} value={breed.name}>
