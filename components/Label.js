@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 
-const Label = styled.span`
+export default styled.span`
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -9,5 +9,3 @@ const Label = styled.span`
   border-radius: 1rem;
   text-transform: uppercase;
 `;
-
-export default Label;
