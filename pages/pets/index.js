@@ -15,7 +15,7 @@ const initialBreedSelectArray = [
   },
 ];
 
-export default function Form({ addNewPet, dogData }) {
+export default function Form({ addNewPet, dogData, pets }) {
   const [breedSelectArr, setBreedSelect] = useState(initialBreedSelectArray);
   const router = useRouter();
 
@@ -29,9 +29,20 @@ export default function Form({ addNewPet, dogData }) {
       (breedSelect) => data[breedSelect.name]
     );
 
+    function handleExistingPetName(name) {
+      const petNameExisting =
+        pets && pets.filter((pet) => pet.petName === name);
+
+      const count = petNameExisting.length;
+      if (petNameExisting.length === 0) {
+        return name;
+      }
+      return `${name}-${count}`;
+    }
+
     const newPet = {
       id: uid(),
-      slug: slugify(data.petName, { lower: true }),
+      slug: slugify(handleExistingPetName(data.petName), { lower: true }),
       petName: data.petName,
       mixed: data.mixedBreed === "on",
       petBreed: petBreedArr,
