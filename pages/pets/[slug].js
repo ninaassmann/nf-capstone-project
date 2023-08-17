@@ -37,6 +37,13 @@ export default function Pet({ pets, dogData }) {
           <p>{pet.petBreed.join(", ")}</p>
           <p>{age}</p>
         </StyledSection>
+        <CTA href={`tel:${pet.vet.phone}`}>
+          <div>
+            <h3>{pet.vet.name}</h3>
+            <p>{pet.vet.address}</p>
+          </div>
+          <Phone />
+        </CTA>
         {petBreeds.map((petBreed) => {
           const breed =
             dogData && dogData.find((breed) => breed.name === petBreed);
@@ -65,13 +72,6 @@ export default function Pet({ pets, dogData }) {
             </>
           );
         })}
-        <CTA href={`tel:${pet.vet.phone}`}>
-          <div>
-            <h3>{pet.vet.name}</h3>
-            <p>{pet.vet.address}</p>
-          </div>
-          <Phone />
-        </CTA>
       </Container>
     </main>
   );
