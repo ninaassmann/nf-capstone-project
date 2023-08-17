@@ -3,7 +3,7 @@ import Container from "@/components/Container";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { styled } from "styled-components";
+import { css, styled } from "styled-components";
 import { uid } from "uid";
 
 var slugify = require("slugify");
@@ -36,6 +36,11 @@ export default function Form({ addNewPet, dogData }) {
       mixed: data.mixedBreed === "on",
       petBreed: petBreedArr,
       petBirthday: data.petBirthday,
+      vet: {
+        name: data.vetName,
+        address: data.vetAddress,
+        phone: data.vetPhone,
+      },
     };
 
     addNewPet(newPet);
@@ -105,6 +110,30 @@ export default function Form({ addNewPet, dogData }) {
             buttonText="Add another Breed"
           />
         </StyledFieldset>
+        <StyledFieldset $isHighlight>
+          <legend>Vet Information</legend>
+          <label htmlFor="vetName">Name</label>
+          <StyledInput
+            type="text"
+            id="vetName"
+            name="vetName"
+            placeholder="Enter the name of your vet"
+          />
+          <label htmlFor="vetName">Addess</label>
+          <StyledInput
+            type="text"
+            id="vetAddress"
+            name="vetAddress"
+            placeholder="Enter the address of your vet"
+          />
+          <label htmlFor="vetName">Phone</label>
+          <StyledInput
+            type="tel"
+            id="vetPhone"
+            name="vetPhone"
+            placeholder="Enter the phone number of your vet"
+          />
+        </StyledFieldset>
         <Button type="submit" buttonText="Create a new Dog" $isPrimary />
       </StyledForm>
       <Link href="/">back to overview</Link>
@@ -122,11 +151,29 @@ const StyledForm = styled.form`
 `;
 
 const StyledFieldset = styled.fieldset`
+  position: relative;
   border: none;
   display: flex;
   flex-direction: column;
   gap: 1rem;
   padding-top: 1rem;
+
+  & legend {
+    font-weight: 700;
+  }
+
+  ${({ $isHighlight }) =>
+    $isHighlight &&
+    css`
+      background-color: #f1f1f1;
+      padding: 3rem 1rem 1rem;
+      border-radius: 1rem;
+
+      & legend {
+        position: absolute;
+        top: 1rem;
+      }
+    `}
 `;
 
 const InputWrapper = styled.div`
