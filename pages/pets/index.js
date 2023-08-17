@@ -2,12 +2,21 @@ import Button from "@/components/Button";
 import Container from "@/components/Container";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { styled } from "styled-components";
 import { uid } from "uid";
 
 var slugify = require("slugify");
 
+const initialBreedSelectArray = [
+  {
+    id: 1,
+    name: "petBreed-1",
+  },
+];
+
 export default function Form({ addNewPet, dogData }) {
+  const [breedSelectArr, setBreedSelect] = useState(initialBreedSelectArray);
   const router = useRouter();
 
   function handleSubmit(event) {
@@ -16,52 +25,87 @@ export default function Form({ addNewPet, dogData }) {
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
+    const petBreedArr = breedSelectArr.map(
+      (breedSelect) => data[breedSelect.name]
+    );
+
     const newPet = {
       id: uid(),
       slug: slugify(data.petName, { lower: true }),
       petName: data.petName,
-      petBreed: data.petBreed,
+      mixed: data.mixedBreed === "on",
+      petBreed: petBreedArr,
       petBirthday: data.petBirthday,
     };
 
     addNewPet(newPet);
+    setBreedSelect(initialBreedSelectArr);
 
     event.target.reset();
     router.push("/");
+  }
+
+  function handleAddBreed() {
+    let index = 2;
+    const newBreedSelect = {
+      id: breedSelectArr.length + 1,
+      name: `petBreed-${index}`,
+    };
+    index++;
+    setBreedSelect([...breedSelectArr, newBreedSelect]);
   }
 
   return (
     <Container>
       <h1>Create a new Dog</h1>
       <StyledForm onSubmit={handleSubmit}>
-        <div>
+        <InputWrapper>
           <label htmlFor="petName">Name</label>
-          <input
+          <StyledInput
             type="text"
             id="petName"
             name="petName"
             placeholder="Enter the name of your pet"
             maxLength="20"
-            pattern="[a-zA-Z]*"
+            pattern="^[A-Za-z ]+$"
             required
           />
-        </div>
-        <div>
+        </InputWrapper>
+        <InputWrapper>
           <label htmlFor="petBirthday">Birthday</label>
-          <input type="date" id="petBirthday" name="petBirthday" required />
-        </div>
-        <SelectWrapper>
-          <label htmlFor="petBreed">Breed</label>
-          <select name="petBreed" id="petBreed">
-            {dogData &&
-              dogData.map((breed) => (
-                <option key={breed.id} value={breed.name}>
-                  {breed.name}
-                </option>
-              ))}
-          </select>
-        </SelectWrapper>
-        <Button type="submit" buttonText="Create a new Dog" />
+          <StyledInput
+            type="date"
+            id="petBirthday"
+            name="petBirthday"
+            required
+          />
+        </InputWrapper>
+        <StyledFieldset>
+          <legend>Breed</legend>
+          <CheckboxWrapper>
+            <StyledCheckbox type="checkbox" id="mixedBreed" name="mixedBreed" />
+            <label htmlFor="mixedBreed">Mixed</label>
+          </CheckboxWrapper>
+
+          {breedSelectArr.map((breedSelect) => (
+            <SelectWrapper key={breedSelect.id}>
+              <StyledSelect name={breedSelect.name}>
+                {dogData &&
+                  dogData.map((breed) => (
+                    <option key={breed.id} value={breed.name}>
+                      {breed.name}
+                    </option>
+                  ))}
+              </StyledSelect>
+            </SelectWrapper>
+          ))}
+          <Button
+            type="button"
+            onClick={handleAddBreed}
+            buttonText="Add another Breed"
+          />
+        </StyledFieldset>
+        <Button type="submit" buttonText="Create a new Dog" $isPrimary />
       </StyledForm>
       <Link href="/">back to overview</Link>
     </Container>
@@ -75,35 +119,68 @@ const StyledForm = styled.form`
   gap: 2rem;
   margin-top: 2rem;
   margin-bottom: 2rem;
+`;
 
-  & div {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+const StyledFieldset = styled.fieldset`
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 1rem;
+`;
 
-    & input,
-    select {
-      width: 100%;
-      padding: 1rem;
-      border-radius: 0.5rem;
-      border: 1px solid grey;
+const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
 
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
-    }
-  }
+const StyledInput = styled.input`
+  width: 100%;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid grey;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 `;
 
 const SelectWrapper = styled.div`
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   position: relative;
+`;
+
+const StyledSelect = styled.select`
+  width: 100%;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid grey;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
   &::after {
     content: "↓";
     position: absolute;
     font-size: 1rem;
     right: 1rem;
-    top: 2.5rem;
+    top: 0.95rem;
     color: black;
   }
+`;
+
+const CheckboxWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const StyledCheckbox = styled.input`
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 1rem;
 `;
