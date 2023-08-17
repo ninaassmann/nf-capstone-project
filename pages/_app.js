@@ -14,8 +14,6 @@ const fetcher = async (url) => {
   return response.json();
 };
 
-var slugify = require("slugify");
-
 const initialPets = [
   {
     id: "1",
@@ -23,6 +21,11 @@ const initialPets = [
     petName: "Odin",
     petBreed: ["Alaskan Husky"],
     petBirthday: "2020-11-20",
+    vet: {
+      name: "Dr. Venthien",
+      address: "ABC Str. 29, 12345 Doetown",
+      phone: "132 456 789",
+    },
   },
   {
     id: "2",
@@ -31,6 +34,11 @@ const initialPets = [
     petBreed: ["German Shepherd Dog"],
     petName: "Freki",
     slug: "freki",
+    vet: {
+      name: "Dr. Venthien",
+      address: "ABC Str. 29, 12345 Doetown",
+      phone: "132 456 789",
+    },
   },
   {
     id: "3",
@@ -39,6 +47,11 @@ const initialPets = [
     petBreed: ["German Shepherd Dog", "Eurasier"],
     petName: "Ronya",
     slug: "ronya",
+    vet: {
+      name: "Dr. Venthien",
+      address: "ABC Str. 29, 12345 Doetown",
+      phone: "132 456 789",
+    },
   },
 ];
 
