@@ -6,7 +6,7 @@ import { useState } from "react";
 import { css, styled } from "styled-components";
 import { uid } from "uid";
 
-var slugify = require("slugify");
+const slugify = require("slugify");
 
 const initialBreedSelectArray = [
   {
@@ -44,7 +44,7 @@ export default function Form({ addNewPet, dogData }) {
     };
 
     addNewPet(newPet);
-    setBreedSelect(initialBreedSelectArr);
+    setBreedSelect(initialBreedSelectArray);
 
     event.target.reset();
     router.push("/");
@@ -110,7 +110,7 @@ export default function Form({ addNewPet, dogData }) {
             buttonText="Add another Breed"
           />
         </StyledFieldset>
-        <StyledFieldset $isHighlight>
+        <StyledFieldset isHighlight>
           <legend>Vet Information</legend>
           <label htmlFor="vetName">Name</label>
           <StyledInput
@@ -162,8 +162,8 @@ const StyledFieldset = styled.fieldset`
     font-weight: 700;
   }
 
-  ${({ $isHighlight }) =>
-    $isHighlight &&
+  ${({ isHighlight }) =>
+    isHighlight &&
     css`
       background-color: #f1f1f1;
       padding: 3rem 1rem 1rem;

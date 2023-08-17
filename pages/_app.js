@@ -14,8 +14,6 @@ const fetcher = async (url) => {
   return response.json();
 };
 
-var slugify = require("slugify");
-
 const initialPets = [
   {
     id: "1",
