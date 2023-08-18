@@ -15,9 +15,9 @@ const initialBreedSelectArray = [
 const slugify = require("slugify");
 
 export default function Form({ addNewPet, dogData, pets, pet, isEditMode }) {
-  const [breedSelectArr, setBreedSelect] = useState(initialBreedSelectArray);
-  const [addButton, setAddButton] = useState(false);
-  const [mixed, setMixed] = useState(false);
+  const [breedSelectArray, setBreedSelect] = useState(
+    !pet ? initialBreedSelectArray : []
+  );
   const router = useRouter();
 
   function handleSubmit(event) {
@@ -26,7 +26,7 @@ export default function Form({ addNewPet, dogData, pets, pet, isEditMode }) {
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
-    const petBreedArr = breedSelectArr.map(
+    const petBreedArr = breedSelectArray.map(
       (breedSelect) => data[breedSelect.name]
     );
 
@@ -51,19 +51,14 @@ export default function Form({ addNewPet, dogData, pets, pet, isEditMode }) {
     router.push("/");
   }
 
-  function showAddButton() {
-    setAddButton(!addButton);
-    setBreedSelect(initialBreedSelectArray);
-  }
-
   function handleAddBreed() {
     let index = 2;
     const newBreedSelect = {
-      id: breedSelectArr.length + 1,
+      id: breedSelectArray.length + 1,
       name: `petBreed-${index}`,
     };
     index++;
-    setBreedSelect([...breedSelectArr, newBreedSelect]);
+    setBreedSelect([...breedSelectArray, newBreedSelect]);
   }
 
   return (
@@ -92,41 +87,44 @@ export default function Form({ addNewPet, dogData, pets, pet, isEditMode }) {
       </InputWrapper>
       <StyledFieldset>
         <legend>Breed</legend>
-        <CheckboxWrapper>
-          <StyledCheckbox
-            type="checkbox"
-            id="mixedBreed"
-            name="mixedBreed"
-            onChange={showAddButton}
-            checked={pet && pet.mixed && true}
-            disabled={mixed && true}
-          />
-          <label htmlFor="mixedBreed">Mixed</label>
-        </CheckboxWrapper>
+        <p>
+          Is your pet a purebred or a mixed breed? You can either select
+          unknown, one breed or multiple breeds.
+        </p>
 
-        {breedSelectArr.map((breedSelect) => (
+        {pet &&
+          pet.petBreed.map((breed, index) => (
+            <SelectWrapper key={breed}>
+              <StyledSelect name={`petBreed-${index}`} value={breed}>
+                {dogData &&
+                  dogData.map((breed) => (
+                    <option key={breed.id} value={breed.name}>
+                      {breed.name}
+                    </option>
+                  ))}
+              </StyledSelect>
+            </SelectWrapper>
+          ))}
+        {breedSelectArray.map((breedSelect) => (
           <SelectWrapper key={breedSelect.id}>
             <StyledSelect name={breedSelect.name}>
+              <option key="unknown" value="breed unknown" selected>
+                {"I don't know the breed"}
+              </option>
               {dogData &&
                 dogData.map((breed) => (
-                  <option
-                    key={breed.id}
-                    value={breed.name}
-                    selected={pet && breed.name === pet.petBreed}
-                  >
+                  <option key={breed.id} value={breed.name}>
                     {breed.name}
                   </option>
                 ))}
             </StyledSelect>
           </SelectWrapper>
         ))}
-        {addButton && (
-          <Button
-            type="button"
-            onClick={handleAddBreed}
-            buttonText="Add another Breed"
-          />
-        )}
+        <Button
+          type="button"
+          onClick={handleAddBreed}
+          buttonText="Add another Breed"
+        />
       </StyledFieldset>
       <StyledFieldset isHighlight>
         <legend>Vet Information</legend>
