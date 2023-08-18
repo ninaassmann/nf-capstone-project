@@ -2,6 +2,7 @@ import GlobalStyle from "../styles";
 import useLocalStorageState from "use-local-storage-state";
 import useSWR from "swr";
 import { useRouter } from "next/router";
+import { uid } from "uid";
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -71,8 +72,19 @@ export default function App({ Component, pageProps }) {
   if (isLoading) return <div>loading...</div>;
 
   function handleNewPet(newPet) {
+    newPet.id = uid();
     const petsWithNewPet = [newPet, ...pets];
     setPets(petsWithNewPet);
+  }
+
+  function handleUpdate(updatePet) {
+    const updatedPets = pets.map((pet) => {
+      if (updatePet.id !== pet.id) {
+        return pet;
+      }
+      return updatePet;
+    });
+    setPets(updatedPets);
   }
 
   function handleDelete(petToDelete) {
@@ -89,6 +101,7 @@ export default function App({ Component, pageProps }) {
       <Component
         {...pageProps}
         addNewPet={handleNewPet}
+        updatePets={handleUpdate}
         handleDelete={handleDelete}
         pets={pets}
         dogData={data}

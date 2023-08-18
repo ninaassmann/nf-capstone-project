@@ -14,10 +14,13 @@ const initialBreedSelectArray = [
 
 const slugify = require("slugify");
 
-export default function Form({ addNewPet, dogData, pets, pet, isEditMode }) {
+export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
+  const [petBreeds, setPetBreeds] = useState(pet && pet.petBreed);
+
   const [breedSelectArray, setBreedSelect] = useState(
     !pet ? initialBreedSelectArray : []
   );
+
   const router = useRouter();
 
   function handleSubmit(event) {
@@ -26,16 +29,18 @@ export default function Form({ addNewPet, dogData, pets, pet, isEditMode }) {
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
-    const petBreedArr = breedSelectArray.map(
+    const petBreedArray = breedSelectArray.map(
       (breedSelect) => data[breedSelect.name]
     );
 
-    const newPet = {
-      id: uid(),
+    pet && setPetBreeds(...petBreeds, ...petBreedArray);
+    setPetBreeds(petBreedArray);
+
+    const dataPet = {
+      id: pet && pet.id,
       slug: slugify(handleExistingPetName(data.petName, pets), { lower: true }),
       petName: data.petName,
-      mixed: data.mixedBreed === "on",
-      petBreed: petBreedArr,
+      petBreed: petBreeds,
       petBirthday: data.petBirthday,
       vet: {
         name: data.vetName,
@@ -44,11 +49,12 @@ export default function Form({ addNewPet, dogData, pets, pet, isEditMode }) {
       },
     };
 
-    addNewPet(newPet);
+    pet ? updatePets(dataPet) : addNewPet(dataPet);
+
     setBreedSelect(initialBreedSelectArray);
 
     event.target.reset();
-    router.push("/");
+    pet ? router.push(`/pets/${pet.slug}`) : router.push("/");
   }
 
   function handleAddBreed() {
@@ -69,7 +75,8 @@ export default function Form({ addNewPet, dogData, pets, pet, isEditMode }) {
           type="text"
           id="petName"
           name="petName"
-          placeholder={pet ? pet.petName : "Enter the name of your pet"}
+          placeholder="Enter the name of your pet"
+          defaultValue={pet && pet.petName}
           maxLength="20"
           pattern="^[A-Za-z ]+$"
           required
@@ -81,7 +88,7 @@ export default function Form({ addNewPet, dogData, pets, pet, isEditMode }) {
           type="date"
           id="petBirthday"
           name="petBirthday"
-          value={pet ? pet.petBirthday : ""}
+          defaultValue={pet && pet.petBirthday}
           required
         />
       </InputWrapper>
@@ -95,7 +102,7 @@ export default function Form({ addNewPet, dogData, pets, pet, isEditMode }) {
         {pet &&
           pet.petBreed.map((breed, index) => (
             <SelectWrapper key={breed}>
-              <StyledSelect name={`petBreed-${index}`} value={breed}>
+              <StyledSelect name={`petBreed-${index}`} defaultValue={breed}>
                 {dogData &&
                   dogData.map((breed) => (
                     <option key={breed.id} value={breed.name}>
@@ -134,6 +141,7 @@ export default function Form({ addNewPet, dogData, pets, pet, isEditMode }) {
           id="vetName"
           name="vetName"
           placeholder="Enter the name of your vet"
+          defaultValue={pet && pet.vet.name}
         />
         <label htmlFor="vetName">Addess</label>
         <StyledInput
@@ -141,6 +149,7 @@ export default function Form({ addNewPet, dogData, pets, pet, isEditMode }) {
           id="vetAddress"
           name="vetAddress"
           placeholder="Enter the address of your vet"
+          defaultValue={pet && pet.vet.address}
         />
         <label htmlFor="vetName">Phone</label>
         <StyledInput
@@ -148,6 +157,7 @@ export default function Form({ addNewPet, dogData, pets, pet, isEditMode }) {
           id="vetPhone"
           name="vetPhone"
           placeholder="Enter the phone number of your vet"
+          defaultValue={pet && pet.vet.phone}
         />
       </StyledFieldset>
       <Button type="submit" buttonText="Create a new Dog" variant="primary" />
