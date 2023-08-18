@@ -5,21 +5,14 @@ import { useState } from "react";
 import { uid } from "uid";
 import { handleExistingPetName } from "@/utils/handleExistingPetName";
 
-const initialBreedSelectArray = [
-  {
-    id: 1,
-    name: "petBreed-1",
-  },
-];
+const initialBreedSelectArray = ["petBreed-1"];
 
 const slugify = require("slugify");
 
 export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
   const [petBreeds, setPetBreeds] = useState(pet && pet.petBreed);
 
-  const [breedSelectArray, setBreedSelect] = useState(
-    !pet ? initialBreedSelectArray : []
-  );
+  const [breedSelectArray, setBreedSelect] = useState(initialBreedSelectArray);
 
   const router = useRouter();
 
@@ -59,12 +52,9 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
 
   function handleAddBreed() {
     let index = 2;
-    const newBreedSelect = {
-      id: breedSelectArray.length + 1,
-      name: `petBreed-${index}`,
-    };
-    index++;
+    const newBreedSelect = `petBreed-${index}`;
     setBreedSelect([...breedSelectArray, newBreedSelect]);
+    index++;
   }
 
   return (
@@ -99,34 +89,36 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
           unknown, one breed or multiple breeds.
         </p>
 
-        {pet &&
-          pet.petBreed.map((breed, index) => (
-            <SelectWrapper key={breed}>
-              <StyledSelect name={`petBreed-${index}`} defaultValue={breed}>
-                {dogData &&
-                  dogData.map((breed) => (
-                    <option key={breed.id} value={breed.name}>
-                      {breed.name}
-                    </option>
-                  ))}
-              </StyledSelect>
-            </SelectWrapper>
-          ))}
-        {breedSelectArray.map((breedSelect) => (
-          <SelectWrapper key={breedSelect.id}>
-            <StyledSelect name={breedSelect.name}>
-              <option key="unknown" value="breed unknown" selected>
-                {"I don't know the breed"}
-              </option>
-              {dogData &&
-                dogData.map((breed) => (
-                  <option key={breed.id} value={breed.name}>
-                    {breed.name}
+        {pet
+          ? breedSelectArray.map((breedSelect) =>
+              pet.petBreed.map((breed, index) => (
+                <SelectWrapper key={breedSelect}>
+                  <StyledSelect name={breedSelect} defaultValue={breed}>
+                    {dogData &&
+                      dogData.map((breed) => (
+                        <option key={breed.id} value={breed.name}>
+                          {breed.name}
+                        </option>
+                      ))}
+                  </StyledSelect>
+                </SelectWrapper>
+              ))
+            )
+          : breedSelectArray.map((breedSelect) => (
+              <SelectWrapper key={breedSelect}>
+                <StyledSelect name={breedSelect}>
+                  <option key="unknown" value="breed unknown" selected>
+                    {"I don't know the breed"}
                   </option>
-                ))}
-            </StyledSelect>
-          </SelectWrapper>
-        ))}
+                  {dogData &&
+                    dogData.map((breed) => (
+                      <option key={breed.id} value={breed.name}>
+                        {breed.name}
+                      </option>
+                    ))}
+                </StyledSelect>
+              </SelectWrapper>
+            ))}
         <Button
           type="button"
           onClick={handleAddBreed}
