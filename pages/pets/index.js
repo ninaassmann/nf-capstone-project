@@ -145,7 +145,7 @@ export default function Form({ addNewPet, dogData, pets }) {
             placeholder="Enter the phone number of your vet"
           />
         </StyledFieldset>
-        <Button type="submit" buttonText="Create a new Dog" $isPrimary />
+        <Button type="submit" buttonText="Create a new Dog" variant="primary" />
       </StyledForm>
       <Link href="/">back to overview</Link>
     </Container>

@@ -5,10 +5,15 @@ import styled, { css } from "styled-components";
 import { calculateAge } from "@/utils/calculateAge";
 import Label from "@/components/Label";
 import Phone from "@/components/icons/Phone";
+import { useState } from "react";
+import Button from "@/components/Button";
+import DeleteModal from "@/components/DeleteModal";
 
 export default function Pet({ pets, dogData }) {
   const router = useRouter();
   const { slug } = router.query;
+
+  const [deleteModal, setDeleteModal] = useState(true);
 
   const pet = pets.find((pet) => slug === pet.slug);
 
@@ -27,53 +32,68 @@ export default function Pet({ pets, dogData }) {
 
   const petBreeds = pet.petBreed;
 
-  return (
-    <main>
-      <Container>
-        <Link href="/">back to overview</Link>
-        <StyledSection>
-          {pet.mixed && <Label>Mixed</Label>}
-          <h1>{pet.petName}</h1>
-          <p>{pet.petBreed.join(", ")}</p>
-          <p>{age}</p>
-        </StyledSection>
-        <CTA href={`tel:${pet.vet.phone}`}>
-          <div>
-            <h3>{pet.vet.name}</h3>
-            <p>{pet.vet.address}</p>
-          </div>
-          <Phone />
-        </CTA>
-        {petBreeds.map((petBreed) => {
-          const breed =
-            dogData && dogData.find((breed) => breed.name === petBreed);
+  function handleModalState() {
+    setDeleteModal(!deleteModal);
+  }
 
-          return (
-            <>
-              <h2>{petBreed}:</h2>
-              <StyledSection>
-                <h4>{petBreed} temperament</h4>
-                <p>{breed && breed.temperament}</p>
-              </StyledSection>
-              <StyledSection $isRow>
-                <dl>
-                  <dt>weight:</dt>
-                  <dd>{breed.weight.metric}</dd>
-                </dl>
-                <dl>
-                  <dt>height:</dt>
-                  <dd>{breed.height.metric}</dd>
-                </dl>
-                <dl>
-                  <dt>lifespan:</dt>
-                  <dd>{breed.life_span}</dd>
-                </dl>
-              </StyledSection>
-            </>
-          );
-        })}
-      </Container>
-    </main>
+  return (
+    <>
+      <main>
+        <Container>
+          <Link href="/">back to overview</Link>
+          <StyledSection>
+            {pet.mixed && <Label>Mixed</Label>}
+            <h1>{pet.petName}</h1>
+            <p>{pet.petBreed.join(", ")}</p>
+            <p>{age}</p>
+          </StyledSection>
+          <CTA href={`tel:${pet.vet.phone}`}>
+            <div>
+              <h3>{pet.vet.name}</h3>
+              <p>{pet.vet.address}</p>
+            </div>
+            <Phone />
+          </CTA>
+          {petBreeds.map((petBreed) => {
+            const breed =
+              dogData && dogData.find((breed) => breed.name === petBreed);
+
+            return (
+              <>
+                <h2>{petBreed}:</h2>
+                <StyledSection>
+                  <h4>{petBreed} temperament</h4>
+                  <p>{breed && breed.temperament}</p>
+                </StyledSection>
+                <StyledSection $isRow>
+                  <dl>
+                    <dt>weight:</dt>
+                    <dd>{breed.weight.metric}</dd>
+                  </dl>
+                  <dl>
+                    <dt>height:</dt>
+                    <dd>{breed.height.metric}</dd>
+                  </dl>
+                  <dl>
+                    <dt>lifespan:</dt>
+                    <dd>{breed.life_span}</dd>
+                  </dl>
+                </StyledSection>
+              </>
+            );
+          })}
+          <Button
+            type="button"
+            buttonText="Delete"
+            variant="danger"
+            onClick={handleModalState}
+          />
+        </Container>
+      </main>
+      {deleteModal && (
+        <DeleteModal pet={pet} handleModalState={handleModalState} />
+      )}
+    </>
   );
 }
 
@@ -124,7 +144,7 @@ const CTA = styled(Link)`
   color: white;
   text-decoration: none;
 
-  background-color: rgb(200, 100, 100);
+  background-color: rgb(100, 200, 100);
 
   &:hover {
     filter: brightness(0.85);

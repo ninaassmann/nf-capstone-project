@@ -1,8 +1,18 @@
 import { css, styled } from "styled-components";
 
-export default function Button({ type, onClick, buttonText, $isPrimary }) {
+const buttonVariants = {
+  primary: css`
+    background-color: lightblue;
+  `,
+  danger: css`
+    background-color: rgb(200, 100, 100);
+    color: white;
+  `,
+};
+
+export default function Button({ type, onClick, buttonText, variant }) {
   return (
-    <StyledButton type={type} onClick={onClick} $isPrimary={$isPrimary}>
+    <StyledButton type={type} onClick={onClick} variant={variant}>
       {buttonText}
     </StyledButton>
   );
@@ -16,9 +26,5 @@ const StyledButton = styled.button`
   border: none;
   background-color: lightgray;
 
-  ${({ $isPrimary }) =>
-    $isPrimary &&
-    css`
-      background-color: lightblue;
-    `}
+  ${({ variant }) => buttonVariants[variant] || ""};
 `;
