@@ -17,6 +17,7 @@ const slugify = require("slugify");
 export default function Form({ addNewPet, dogData, pets, pet, isEditMode }) {
   const [breedSelectArr, setBreedSelect] = useState(initialBreedSelectArray);
   const [addButton, setAddButton] = useState(false);
+  const [mixed, setMixed] = useState(false);
   const router = useRouter();
 
   function handleSubmit(event) {
@@ -97,7 +98,8 @@ export default function Form({ addNewPet, dogData, pets, pet, isEditMode }) {
             id="mixedBreed"
             name="mixedBreed"
             onChange={showAddButton}
-            checked={pet.mixed && true}
+            checked={pet && pet.mixed && true}
+            disabled={mixed && true}
           />
           <label htmlFor="mixedBreed">Mixed</label>
         </CheckboxWrapper>
@@ -110,7 +112,7 @@ export default function Form({ addNewPet, dogData, pets, pet, isEditMode }) {
                   <option
                     key={breed.id}
                     value={breed.name}
-                    selected={breed.name === pet.petBreed}
+                    selected={pet && breed.name === pet.petBreed}
                   >
                     {breed.name}
                   </option>
