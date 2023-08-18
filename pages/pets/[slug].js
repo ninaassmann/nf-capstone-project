@@ -88,6 +88,7 @@ export default function Pet({ pets, dogData, handleDelete }) {
             variant="danger"
             onClick={() => setModal("delete")}
           />
+          <Link href={`/pets/update/${pet.slug}`}>Update</Link>
         </Container>
       </main>
       {modal === "delete" && (

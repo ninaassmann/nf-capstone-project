@@ -3,6 +3,7 @@ import Button from "./Button";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { uid } from "uid";
+import { handleExistingPetName } from "@/utils/handleExistingPetName";
 
 const initialBreedSelectArray = [
   {
@@ -13,7 +14,7 @@ const initialBreedSelectArray = [
 
 const slugify = require("slugify");
 
-export default function Form({ addNewPet, dogData, pets }) {
+export default function Form({ addNewPet, dogData, pets, pet, isEditMode }) {
   const [breedSelectArr, setBreedSelect] = useState(initialBreedSelectArray);
   const [addButton, setAddButton] = useState(false);
   const router = useRouter();
@@ -28,20 +29,9 @@ export default function Form({ addNewPet, dogData, pets }) {
       (breedSelect) => data[breedSelect.name]
     );
 
-    function handleExistingPetName(name) {
-      const petNameExisting =
-        pets && pets.filter((pet) => pet.petName === name);
-
-      const count = petNameExisting.length;
-      if (petNameExisting.length === 0) {
-        return name;
-      }
-      return `${name}-${count}`;
-    }
-
     const newPet = {
       id: uid(),
-      slug: slugify(handleExistingPetName(data.petName), { lower: true }),
+      slug: slugify(handleExistingPetName(data.petName, pets), { lower: true }),
       petName: data.petName,
       mixed: data.mixedBreed === "on",
       petBreed: petBreedArr,
@@ -83,7 +73,7 @@ export default function Form({ addNewPet, dogData, pets }) {
           type="text"
           id="petName"
           name="petName"
-          placeholder="Enter the name of your pet"
+          placeholder={pet ? pet.petName : "Enter the name of your pet"}
           maxLength="20"
           pattern="^[A-Za-z ]+$"
           required
@@ -91,7 +81,13 @@ export default function Form({ addNewPet, dogData, pets }) {
       </InputWrapper>
       <InputWrapper>
         <label htmlFor="petBirthday">Birthday</label>
-        <StyledInput type="date" id="petBirthday" name="petBirthday" required />
+        <StyledInput
+          type="date"
+          id="petBirthday"
+          name="petBirthday"
+          value={pet ? pet.petBirthday : ""}
+          required
+        />
       </InputWrapper>
       <StyledFieldset>
         <legend>Breed</legend>
@@ -101,6 +97,7 @@ export default function Form({ addNewPet, dogData, pets }) {
             id="mixedBreed"
             name="mixedBreed"
             onChange={showAddButton}
+            checked={pet.mixed && true}
           />
           <label htmlFor="mixedBreed">Mixed</label>
         </CheckboxWrapper>
@@ -110,7 +107,11 @@ export default function Form({ addNewPet, dogData, pets }) {
             <StyledSelect name={breedSelect.name}>
               {dogData &&
                 dogData.map((breed) => (
-                  <option key={breed.id} value={breed.name}>
+                  <option
+                    key={breed.id}
+                    value={breed.name}
+                    selected={breed.name === pet.petBreed}
+                  >
                     {breed.name}
                   </option>
                 ))}
