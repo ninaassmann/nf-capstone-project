@@ -13,7 +13,7 @@ export default function Pet({ pets, dogData, handleDelete }) {
   const router = useRouter();
   const { slug } = router.query;
 
-  const [deleteModal, setDeleteModal] = useState(false);
+  const [modal, setModal] = useState();
 
   const pet = pets.find((pet) => slug === pet.slug);
 
@@ -31,10 +31,6 @@ export default function Pet({ pets, dogData, handleDelete }) {
   const age = calculateAge(pet.petBirthday);
 
   const petBreeds = pet.petBreed;
-
-  function handleModalState() {
-    setDeleteModal(!deleteModal);
-  }
 
   return (
     <>
@@ -90,14 +86,14 @@ export default function Pet({ pets, dogData, handleDelete }) {
             type="button"
             buttonText="Delete"
             variant="danger"
-            onClick={handleModalState}
+            onClick={() => setModal("delete")}
           />
         </Container>
       </main>
-      {deleteModal && (
+      {modal === "delete" && (
         <DeleteModal
           pet={pet}
-          handleModalState={handleModalState}
+          setModal={setModal}
           handleDelete={handleDelete}
         />
       )}
