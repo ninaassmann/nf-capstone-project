@@ -57,30 +57,31 @@ export default function Pet({ pets, dogData, handleDelete }) {
           {petBreeds.map((petBreed) => {
             const dataBreed =
               dogData && dogData.find((breed) => breed.name === petBreed);
-            console.log(dataBreed);
-            return (
-              <>
-                <h2>{petBreed}:</h2>
-                <StyledSection>
-                  <h4>{petBreed} temperament</h4>
-                  <p>{dataBreed.temperament}</p>
-                </StyledSection>
-                <StyledSection $isRow>
-                  <dl>
-                    <dt>weight:</dt>
-                    <dd>{dataBreed.weight.metric}</dd>
-                  </dl>
-                  <dl>
-                    <dt>height:</dt>
-                    <dd>{dataBreed.height.metric}</dd>
-                  </dl>
-                  <dl>
-                    <dt>lifespan:</dt>
-                    <dd>{dataBreed.life_span}</dd>
-                  </dl>
-                </StyledSection>
-              </>
-            );
+            if (dataBreed) {
+              return (
+                <>
+                  <h2>{petBreed}:</h2>
+                  <StyledSection>
+                    <h4>{petBreed} temperament</h4>
+                    <p>{dataBreed.temperament}</p>
+                  </StyledSection>
+                  <StyledSection $isRow>
+                    <dl>
+                      <dt>weight:</dt>
+                      <dd>{dataBreed.weight.metric}</dd>
+                    </dl>
+                    <dl>
+                      <dt>height:</dt>
+                      <dd>{dataBreed.height.metric}</dd>
+                    </dl>
+                    <dl>
+                      <dt>lifespan:</dt>
+                      <dd>{dataBreed.life_span}</dd>
+                    </dl>
+                  </StyledSection>
+                </>
+              );
+            }
           })}
           <Button
             type="button"
