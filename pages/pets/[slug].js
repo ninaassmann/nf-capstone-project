@@ -9,11 +9,11 @@ import { useState } from "react";
 import Button from "@/components/Button";
 import DeleteModal from "@/components/DeleteModal";
 
-export default function Pet({ pets, dogData }) {
+export default function Pet({ pets, dogData, handleDelete }) {
   const router = useRouter();
   const { slug } = router.query;
 
-  const [deleteModal, setDeleteModal] = useState(true);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   const pet = pets.find((pet) => slug === pet.slug);
 
@@ -91,7 +91,11 @@ export default function Pet({ pets, dogData }) {
         </Container>
       </main>
       {deleteModal && (
-        <DeleteModal pet={pet} handleModalState={handleModalState} />
+        <DeleteModal
+          pet={pet}
+          handleModalState={handleModalState}
+          handleDelete={handleDelete}
+        />
       )}
     </>
   );

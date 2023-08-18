@@ -1,7 +1,7 @@
 import { css, styled } from "styled-components";
 import Button from "./Button";
 
-export default function DeleteModal({ pet, handleModalState }) {
+export default function DeleteModal({ pet, handleModalState, handleDelete }) {
   return (
     <Modal>
       <Container>
@@ -19,6 +19,7 @@ export default function DeleteModal({ pet, handleModalState }) {
             type="button"
             buttonText="Yes, get rid of it"
             variant="danger"
+            onClick={() => handleDelete(pet)}
           />
         </Wrapper>
       </Container>
