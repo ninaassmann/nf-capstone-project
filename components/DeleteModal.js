@@ -1,4 +1,4 @@
-import { css, styled } from "styled-components";
+import styled from "styled-components";
 import Button from "./Button";
 
 export default function DeleteModal({ pet, setModal, handleDelete }) {
