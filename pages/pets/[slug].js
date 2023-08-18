@@ -55,28 +55,28 @@ export default function Pet({ pets, dogData, handleDelete }) {
           )}
 
           {petBreeds.map((petBreed) => {
-            const breed =
+            const dataBreed =
               dogData && dogData.find((breed) => breed.name === petBreed);
-
+            console.log(dataBreed);
             return (
               <>
                 <h2>{petBreed}:</h2>
                 <StyledSection>
                   <h4>{petBreed} temperament</h4>
-                  <p>{breed && breed.temperament}</p>
+                  <p>{dataBreed.temperament}</p>
                 </StyledSection>
                 <StyledSection $isRow>
                   <dl>
                     <dt>weight:</dt>
-                    <dd>{breed.weight.metric}</dd>
+                    <dd>{dataBreed.weight.metric}</dd>
                   </dl>
                   <dl>
                     <dt>height:</dt>
-                    <dd>{breed.height.metric}</dd>
+                    <dd>{dataBreed.height.metric}</dd>
                   </dl>
                   <dl>
                     <dt>lifespan:</dt>
-                    <dd>{breed.life_span}</dd>
+                    <dd>{dataBreed.life_span}</dd>
                   </dl>
                 </StyledSection>
               </>

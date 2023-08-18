@@ -1,7 +1,7 @@
 import { css, styled } from "styled-components";
 import Button from "./Button";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { uid } from "uid";
 import { handleExistingPetName } from "@/utils/handleExistingPetName";
 
@@ -12,15 +12,14 @@ const slugify = require("slugify");
 export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
   const router = useRouter();
 
-  const newArrayPetBreeds = pet.petBreed.map((breed, index) => ({
-    breed: breed,
-    selectName: `petBreed-${index + 1}`,
-  }));
+  const newArrayPetBreeds = pet
+    ? pet.petBreed.map((breed, index) => ({
+        breed: breed,
+        selectName: `petBreed-${index + 1}`,
+      }))
+    : [{ selectName: `petBreed-1` }];
 
   const [petBreeds, setPetBreeds] = useState(newArrayPetBreeds);
-  const [breedSelectArray, setBreedSelectArray] = useState(
-    initialBreedSelectArray
-  );
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -28,20 +27,13 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
-    const petBreedArray = breedSelectArray.map(
-      (breedSelect) => data[breedSelect.name]
-    );
-
-    pet && setPetBreeds(...petBreeds, ...petBreedArray);
-    setPetBreeds(petBreedArray);
-
     const dataPet = {
-      id: pet && pet.id,
+      id: pet ? pet.id : uid(),
       slug: pet
         ? pet.slug
         : slugify(handleExistingPetName(data.petName, pets), { lower: true }),
       petName: data.petName,
-      petBreed: petBreeds.map((breed) => breed.breed),
+      petBreed: petBreeds.map((breed) => data[breed.selectName]),
       petBirthday: data.petBirthday,
       vet: {
         name: data.vetName,
@@ -50,14 +42,18 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
       },
     };
 
+    if (
+      dataPet.petBreed.length > 1 ||
+      dataPet.petBreed.includes("breed unknown")
+    ) {
+      dataPet.mixed = true;
+    } else {
+      dataPet.mixed = false;
+    }
+
     pet ? updatePets(dataPet) : addNewPet(dataPet);
 
-    setBreedSelectArray(initialBreedSelectArray);
-
-    !pet && event.target.reset();
-    pet ? router.push(`/pets/${pet.slug}`) : router.push("/");
-
-    console.log(dataPet);
+    router.push("/");
   }
 
   function handleAddBreed() {
