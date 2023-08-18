@@ -47,13 +47,17 @@ export default function Pet({ pets, dogData, handleDelete }) {
             <p>{pet.petBreed.join(", ")}</p>
             <p>{age}</p>
           </StyledSection>
-          <CTA href={`tel:${pet.vet.phone}`}>
-            <div>
-              <h3>{pet.vet.name}</h3>
-              <p>{pet.vet.address}</p>
-            </div>
-            <Phone />
-          </CTA>
+
+          {pet.vet.name && (
+            <CTA href={`tel:${pet.vet.phone}`}>
+              <div>
+                <h3>{pet.vet.name}</h3>
+                <p>{pet.vet.address}</p>
+              </div>
+              <Phone />
+            </CTA>
+          )}
+
           {petBreeds.map((petBreed) => {
             const breed =
               dogData && dogData.find((breed) => breed.name === petBreed);
@@ -116,6 +120,10 @@ const StyledSection = styled.section`
   & dt {
     margin-bottom: 0.5rem;
     font-weight: 700;
+  }
+
+  &:last-of-type {
+    margin-bottom: 2rem;
   }
 
   ${({ $isRow }) =>

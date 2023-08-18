@@ -17,6 +17,7 @@ const initialBreedSelectArray = [
 
 export default function Form({ addNewPet, dogData, pets }) {
   const [breedSelectArr, setBreedSelect] = useState(initialBreedSelectArray);
+  const [addButton, setAddButton] = useState(false);
   const router = useRouter();
 
   function handleSubmit(event) {
@@ -61,6 +62,11 @@ export default function Form({ addNewPet, dogData, pets }) {
     router.push("/");
   }
 
+  function showAddButton() {
+    setAddButton(!addButton);
+    setBreedSelect(initialBreedSelectArray);
+  }
+
   function handleAddBreed() {
     let index = 2;
     const newBreedSelect = {
@@ -99,7 +105,12 @@ export default function Form({ addNewPet, dogData, pets }) {
         <StyledFieldset>
           <legend>Breed</legend>
           <CheckboxWrapper>
-            <StyledCheckbox type="checkbox" id="mixedBreed" name="mixedBreed" />
+            <StyledCheckbox
+              type="checkbox"
+              id="mixedBreed"
+              name="mixedBreed"
+              onChange={showAddButton}
+            />
             <label htmlFor="mixedBreed">Mixed</label>
           </CheckboxWrapper>
 
@@ -115,11 +126,13 @@ export default function Form({ addNewPet, dogData, pets }) {
               </StyledSelect>
             </SelectWrapper>
           ))}
-          <Button
-            type="button"
-            onClick={handleAddBreed}
-            buttonText="Add another Breed"
-          />
+          {addButton && (
+            <Button
+              type="button"
+              onClick={handleAddBreed}
+              buttonText="Add another Breed"
+            />
+          )}
         </StyledFieldset>
         <StyledFieldset isHighlight>
           <legend>Vet Information</legend>
