@@ -12,7 +12,7 @@ export default function FormPage({ pets, dogData, updatePets }) {
     <Container>
       <h1>Update {pet.petName}</h1>
       <Form pet={pet} dogData={dogData} pets={pets} updatePets={updatePets} />
-      <Link href="/">back to overview</Link>
+      <Link href={`/pets/${pet.slug}`}>back</Link>
     </Container>
   );
 }

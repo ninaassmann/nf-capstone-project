@@ -1,7 +1,7 @@
 import { css, styled } from "styled-components";
 import Button from "./Button";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { uid } from "uid";
 import { handleExistingPetName } from "@/utils/handleExistingPetName";
 
@@ -10,11 +10,17 @@ const initialBreedSelectArray = ["petBreed-1"];
 const slugify = require("slugify");
 
 export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
-  const [petBreeds, setPetBreeds] = useState(pet && pet.petBreed);
-
-  const [breedSelectArray, setBreedSelect] = useState(initialBreedSelectArray);
-
   const router = useRouter();
+
+  const newArrayPetBreeds = pet.petBreed.map((breed, index) => ({
+    breed: breed,
+    selectName: `petBreed-${index + 1}`,
+  }));
+
+  const [petBreeds, setPetBreeds] = useState(newArrayPetBreeds);
+  const [breedSelectArray, setBreedSelectArray] = useState(
+    initialBreedSelectArray
+  );
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -31,9 +37,11 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
 
     const dataPet = {
       id: pet && pet.id,
-      slug: slugify(handleExistingPetName(data.petName, pets), { lower: true }),
+      slug: pet
+        ? pet.slug
+        : slugify(handleExistingPetName(data.petName, pets), { lower: true }),
       petName: data.petName,
-      petBreed: petBreeds,
+      petBreed: petBreeds.map((breed) => breed.breed),
       petBirthday: data.petBirthday,
       vet: {
         name: data.vetName,
@@ -44,17 +52,18 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
 
     pet ? updatePets(dataPet) : addNewPet(dataPet);
 
-    setBreedSelect(initialBreedSelectArray);
+    setBreedSelectArray(initialBreedSelectArray);
 
-    event.target.reset();
+    !pet && event.target.reset();
     pet ? router.push(`/pets/${pet.slug}`) : router.push("/");
+
+    console.log(dataPet);
   }
 
   function handleAddBreed() {
-    let index = 2;
-    const newBreedSelect = `petBreed-${index}`;
-    setBreedSelect([...breedSelectArray, newBreedSelect]);
-    index++;
+    const index = petBreeds.length + 1;
+    const newBreedSelect = { selectName: `petBreed-${index}` };
+    setPetBreeds([...petBreeds, newBreedSelect]);
   }
 
   return (
@@ -69,9 +78,12 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
           defaultValue={pet && pet.petName}
           maxLength="20"
           pattern="^[A-Za-z ]+$"
+          disabled={pet}
           required
         />
+        {pet && <small>You can not update the Name</small>}
       </InputWrapper>
+
       <InputWrapper>
         <label htmlFor="petBirthday">Birthday</label>
         <StyledInput
@@ -82,6 +94,7 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
           required
         />
       </InputWrapper>
+
       <StyledFieldset>
         <legend>Breed</legend>
         <p>
@@ -89,42 +102,29 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
           unknown, one breed or multiple breeds.
         </p>
 
-        {pet
-          ? breedSelectArray.map((breedSelect) =>
-              pet.petBreed.map((breed, index) => (
-                <SelectWrapper key={breedSelect}>
-                  <StyledSelect name={breedSelect} defaultValue={breed}>
-                    {dogData &&
-                      dogData.map((breed) => (
-                        <option key={breed.id} value={breed.name}>
-                          {breed.name}
-                        </option>
-                      ))}
-                  </StyledSelect>
-                </SelectWrapper>
-              ))
-            )
-          : breedSelectArray.map((breedSelect) => (
-              <SelectWrapper key={breedSelect}>
-                <StyledSelect name={breedSelect}>
-                  <option key="unknown" value="breed unknown" selected>
-                    {"I don't know the breed"}
+        {petBreeds.map((breed) => (
+          <SelectWrapper key={breed.selectName}>
+            <StyledSelect name={breed.selectName} defaultValue={breed.breed}>
+              <option key="unknown" value="breed unknown" selected>
+                {"I don't know the breed"}
+              </option>
+              {dogData &&
+                dogData.map((breed) => (
+                  <option key={breed.id} value={breed.name}>
+                    {breed.name}
                   </option>
-                  {dogData &&
-                    dogData.map((breed) => (
-                      <option key={breed.id} value={breed.name}>
-                        {breed.name}
-                      </option>
-                    ))}
-                </StyledSelect>
-              </SelectWrapper>
-            ))}
+                ))}
+            </StyledSelect>
+          </SelectWrapper>
+        ))}
+
         <Button
           type="button"
           onClick={handleAddBreed}
           buttonText="Add another Breed"
         />
       </StyledFieldset>
+
       <StyledFieldset isHighlight>
         <legend>Vet Information</legend>
         <label htmlFor="vetName">Name</label>
@@ -135,6 +135,7 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
           placeholder="Enter the name of your vet"
           defaultValue={pet && pet.vet.name}
         />
+
         <label htmlFor="vetName">Addess</label>
         <StyledInput
           type="text"
@@ -143,6 +144,7 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
           placeholder="Enter the address of your vet"
           defaultValue={pet && pet.vet.address}
         />
+
         <label htmlFor="vetName">Phone</label>
         <StyledInput
           type="tel"
@@ -152,7 +154,12 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
           defaultValue={pet && pet.vet.phone}
         />
       </StyledFieldset>
-      <Button type="submit" buttonText="Create a new Dog" variant="primary" />
+
+      <Button
+        type="submit"
+        buttonText={pet ? "Update Dog" : "Create a new Dog"}
+        variant="primary"
+      />
     </StyledForm>
   );
 }
@@ -207,6 +214,13 @@ const StyledInput = styled.input`
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      border: none;
+      background-color: #f1f1f1;
+    `}
 `;
 
 const SelectWrapper = styled.div`
