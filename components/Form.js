@@ -5,9 +5,9 @@ import { useState } from "react";
 import { uid } from "uid";
 import { handleExistingPetName } from "@/utils/handleExistingPetName";
 
-const initialBreedSelectArray = ["petBreed-1"];
-
 const slugify = require("slugify");
+
+var today = new Date().toISOString().split("T")[0];
 
 export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
   const router = useRouter();
@@ -86,6 +86,8 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
           type="date"
           id="petBirthday"
           name="petBirthday"
+          min="2000-01-01"
+          max={today}
           defaultValue={pet && pet.petBirthday}
           required
         />
