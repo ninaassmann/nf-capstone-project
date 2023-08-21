@@ -1,6 +1,8 @@
 import GlobalStyle from "../styles";
 import useLocalStorageState from "use-local-storage-state";
 import useSWR from "swr";
+import { useRouter } from "next/router";
+import { uid } from "uid";
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -56,6 +58,7 @@ const initialPets = [
 ];
 
 export default function App({ Component, pageProps }) {
+  const router = useRouter();
   const { data, isLoading, error } = useSWR(
     "https://api.thedogapi.com/v1/breeds",
     fetcher
@@ -69,8 +72,27 @@ export default function App({ Component, pageProps }) {
   if (isLoading) return <div>loading...</div>;
 
   function handleNewPet(newPet) {
+    newPet.id = uid();
     const petsWithNewPet = [newPet, ...pets];
     setPets(petsWithNewPet);
+  }
+
+  function handleUpdate(updatePet) {
+    const updatedPets = pets.map((pet) => {
+      if (updatePet.id !== pet.id) {
+        return pet;
+      }
+      return updatePet;
+    });
+    setPets(updatedPets);
+  }
+
+  function handleDelete(petToDelete) {
+    const petsWithoutDeletedPet = pets.filter(
+      (pet) => pet.slug !== petToDelete.slug
+    );
+    setPets(petsWithoutDeletedPet);
+    router.push("/");
   }
 
   return (
@@ -79,6 +101,8 @@ export default function App({ Component, pageProps }) {
       <Component
         {...pageProps}
         addNewPet={handleNewPet}
+        updatePets={handleUpdate}
+        handleDelete={handleDelete}
         pets={pets}
         dogData={data}
       />

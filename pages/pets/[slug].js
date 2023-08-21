@@ -5,10 +5,15 @@ import styled, { css } from "styled-components";
 import { calculateAge } from "@/utils/calculateAge";
 import Label from "@/components/Label";
 import Phone from "@/components/icons/Phone";
+import { useState } from "react";
+import Button from "@/components/Button";
+import DeleteModal from "@/components/DeleteModal";
 
-export default function Pet({ pets, dogData }) {
+export default function Pet({ pets, dogData, handleDelete }) {
   const router = useRouter();
   const { slug } = router.query;
+
+  const [modal, setModal] = useState();
 
   const pet = pets.find((pet) => slug === pet.slug);
 
@@ -28,52 +33,73 @@ export default function Pet({ pets, dogData }) {
   const petBreeds = pet.petBreed;
 
   return (
-    <main>
-      <Container>
-        <Link href="/">back to overview</Link>
-        <StyledSection>
-          {pet.mixed && <Label>Mixed</Label>}
-          <h1>{pet.petName}</h1>
-          <p>{pet.petBreed.join(", ")}</p>
-          <p>{age}</p>
-        </StyledSection>
-        <CTA href={`tel:${pet.vet.phone}`}>
-          <div>
-            <h3>{pet.vet.name}</h3>
-            <p>{pet.vet.address}</p>
-          </div>
-          <Phone />
-        </CTA>
-        {petBreeds.map((petBreed) => {
-          const breed =
-            dogData && dogData.find((breed) => breed.name === petBreed);
+    <>
+      <main>
+        <Container>
+          <Link href="/">back to overview</Link>
+          <StyledSection>
+            {pet.mixed && <Label>Mixed</Label>}
+            <h1>{pet.petName}</h1>
+            <p>{pet.petBreed.join(", ")}</p>
+            <p>{age}</p>
+          </StyledSection>
 
-          return (
-            <>
-              <h2>{petBreed}:</h2>
-              <StyledSection>
-                <h4>{petBreed} temperament</h4>
-                <p>{breed && breed.temperament}</p>
-              </StyledSection>
-              <StyledSection $isRow>
-                <dl>
-                  <dt>weight:</dt>
-                  <dd>{breed.weight.metric}</dd>
-                </dl>
-                <dl>
-                  <dt>height:</dt>
-                  <dd>{breed.height.metric}</dd>
-                </dl>
-                <dl>
-                  <dt>lifespan:</dt>
-                  <dd>{breed.life_span}</dd>
-                </dl>
-              </StyledSection>
-            </>
-          );
-        })}
-      </Container>
-    </main>
+          {pet.vet.name && (
+            <CTA href={`tel:${pet.vet.phone}`}>
+              <div>
+                <h3>{pet.vet.name}</h3>
+                <p>{pet.vet.address}</p>
+              </div>
+              <Phone />
+            </CTA>
+          )}
+
+          {petBreeds.map((petBreed) => {
+            const dataBreed =
+              dogData && dogData.find((breed) => breed.name === petBreed);
+            if (dataBreed) {
+              return (
+                <>
+                  <h2>{petBreed}:</h2>
+                  <StyledSection>
+                    <h4>{petBreed} temperament</h4>
+                    <p>{dataBreed.temperament}</p>
+                  </StyledSection>
+                  <StyledSection $isRow>
+                    <dl>
+                      <dt>weight:</dt>
+                      <dd>{dataBreed.weight.metric}</dd>
+                    </dl>
+                    <dl>
+                      <dt>height:</dt>
+                      <dd>{dataBreed.height.metric}</dd>
+                    </dl>
+                    <dl>
+                      <dt>lifespan:</dt>
+                      <dd>{dataBreed.life_span}</dd>
+                    </dl>
+                  </StyledSection>
+                </>
+              );
+            }
+          })}
+          <Button
+            type="button"
+            buttonText="Delete"
+            variant="danger"
+            onClick={() => setModal("delete")}
+          />
+          <Link href={`/pets/update/${pet.slug}`}>Update</Link>
+        </Container>
+      </main>
+      {modal === "delete" && (
+        <DeleteModal
+          pet={pet}
+          setModal={setModal}
+          handleDelete={handleDelete}
+        />
+      )}
+    </>
   );
 }
 
@@ -92,6 +118,10 @@ const StyledSection = styled.section`
   & dt {
     margin-bottom: 0.5rem;
     font-weight: 700;
+  }
+
+  &:last-of-type {
+    margin-bottom: 2rem;
   }
 
   ${({ $isRow }) =>
@@ -124,7 +154,7 @@ const CTA = styled(Link)`
   color: white;
   text-decoration: none;
 
-  background-color: rgb(200, 100, 100);
+  background-color: rgb(100, 200, 100);
 
   &:hover {
     filter: brightness(0.85);
