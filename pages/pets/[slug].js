@@ -20,7 +20,8 @@ export default function Pet({ pets, dogData, handleDelete, toast }) {
   const [modal, setModal] = useState();
 
   const pet = pets.find((pet) => slug === pet.slug);
-  console.log(pet);
+  const age = calculateAge(pet.petBirthday);
+  const petBreeds = pet.petBreed;
 
   if (!pet) {
     return (
@@ -33,15 +34,12 @@ export default function Pet({ pets, dogData, handleDelete, toast }) {
     );
   }
 
-  const age = calculateAge(pet.petBirthday);
-
-  const petBreeds = pet.petBreed;
-
   return (
     <>
       <main>
         <Container>
           <Link href="/">back to overview</Link>
+
           <Section>
             {pet.mixed && <Label>Mixed</Label>}
             <h1>{pet.petName}</h1>
@@ -59,15 +57,18 @@ export default function Pet({ pets, dogData, handleDelete, toast }) {
             type="button"
             buttonText="Delete"
             variant="danger"
-            onClick={() => setModal("delete")}
+            onClick={() => setModal(true)}
           />
+
           <Link href={`/pets/update/${pet.slug}`}>Update</Link>
-          {toast === true && (
-            <Toast text={"Congratulation! You updated your pet."} />
-          )}
         </Container>
       </main>
-      {modal === "delete" && (
+
+      {toast === true && (
+        <Toast text={"Congratulation! You updated your pet."} />
+      )}
+
+      {modal === true && (
         <DeleteModal
           pet={pet}
           setModal={setModal}

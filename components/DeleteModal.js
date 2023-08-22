@@ -18,7 +18,7 @@ export default function DeleteModal({ pet, setModal, handleDelete }) {
           <Button
             type="button"
             buttonText="Yes, get rid of it"
-            variant="danger"
+            $variant="danger"
             onClick={() => handleDelete(pet)}
           />
         </Wrapper>

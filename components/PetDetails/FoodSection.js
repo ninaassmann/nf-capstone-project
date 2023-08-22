@@ -1,5 +1,7 @@
+import { styled } from "styled-components";
 import Section from "./Section.styled";
 import Label from "@/components/Label";
+import Button from "../Button";
 
 export default function FoodSection({ pet }) {
   const size = pet.food.size;
@@ -21,7 +23,7 @@ export default function FoodSection({ pet }) {
           {size / 1000}kg {pet.food.type === "Dry" ? "Bag" : "Can"}
         </span>
       </p>
-      <ul>
+      <StyledList>
         <li key={price}>
           price per bag <span>{price}€</span>
         </li>
@@ -31,9 +33,35 @@ export default function FoodSection({ pet }) {
         <li key={result}>
           price per day <span>{result}€</span>
         </li>
-      </ul>
-      <p>Current Stock: {pet.food.stock}</p>
-      <button>Add new {pet.food.type === "Dry" ? "Bag" : "Can"}</button>
+      </StyledList>
+      <p>Current Stock: {size / 1000}kg</p>
+      <Button
+        buttonText={pet.food.type === "Dry" ? "Add Bag" : "Add Can"}
+        type="button"
+        $variant="secondary"
+      />
     </Section>
   );
 }
+
+const StyledList = styled.ul`
+  list-style-type: none;
+  margin: 2rem 0 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  gap: 0.25rem;
+
+  & li {
+    width: 100%;
+    padding: 0.5rem 0.25rem 0.75rem;
+    & span {
+      float: right;
+    }
+  }
+
+  & li:not(:last-of-type) {
+    border-bottom: 1px solid;
+  }
+`;

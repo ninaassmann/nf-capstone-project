@@ -13,10 +13,6 @@ const Section = styled.section`
     font-weight: 700;
   }
 
-  &:last-of-type {
-    margin-bottom: 2rem;
-  }
-
   ${({ $isRow }) =>
     $isRow &&
     css`

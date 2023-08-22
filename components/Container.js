@@ -14,10 +14,6 @@ const Container = styled.div`
   & section:first-of-type {
     margin-top: 1rem;
   }
-
-  & h2 {
-    margin-top: 1rem;
-  }
 `;
 
 export default Container;
