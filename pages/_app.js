@@ -69,11 +69,11 @@ export default function App({ Component, pageProps }) {
     defaultValue: initialPets,
   });
 
-  const [toastState, setToastState] = useState(false);
+  const [toast, setToast] = useState(false);
 
-  if (toastState === true) {
+  if (toast === true) {
     setTimeout(() => {
-      setToastState(false);
+      setToast(false);
     }, 3000);
   }
 
@@ -114,8 +114,8 @@ export default function App({ Component, pageProps }) {
         handleDelete={handleDelete}
         pets={pets}
         dogData={data}
-        toastState={toastState}
-        setToastState={setToastState}
+        toast={toast}
+        setToast={setToast}
       />
     </>
   );

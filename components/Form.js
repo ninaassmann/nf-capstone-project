@@ -15,7 +15,7 @@ export default function Form({
   dogData,
   pets,
   pet,
-  setToastState,
+  setToast,
 }) {
   const router = useRouter();
 
@@ -28,6 +28,9 @@ export default function Form({
 
   const [petBreeds, setPetBreeds] = useState(newArrayPetBreeds);
   const [selectedBreeds, setSelectedBreeds] = useState([]);
+
+  const toastUpdate = { state: true, type: "update" };
+  const toastNew = { state: true, type: "new" };
 
   function handleBreedSelectChange(event) {
     const updatedPetBreeds = petBreeds.map((breed) => {
@@ -75,11 +78,9 @@ export default function Form({
     } else {
       dataPet.mixed = false;
     }
-
+    setToast(true);
     pet ? updatePets(dataPet) : addNewPet(dataPet);
-
-    router.push("/");
-    setToastState(true);
+    pet ? router.push(`/pets/${pet.slug}`) : router.push("/");
   }
 
   function handleAddBreed() {
@@ -130,10 +131,10 @@ export default function Form({
           <SelectWrapper key={breed.formSelectName}>
             <StyledSelect
               name={breed.formSelectName}
-              defaultValue={pet ? breed.breed : "breed unknown"}
+              defaultValue={pet ? breed.breed : "Breed Unknown"}
               onChange={(event) => handleBreedSelectChange(event)}
             >
-              <option key="unknown" value="breed unknown">
+              <option key="unknown" value="Breed Unknown">
                 {"I don't know the breed"}
               </option>
               {dogData &&

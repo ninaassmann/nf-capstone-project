@@ -8,8 +8,9 @@ import Phone from "@/components/icons/Phone";
 import { useState } from "react";
 import Button from "@/components/Button";
 import DeleteModal from "@/components/DeleteModal";
+import Toast from "@/components/Toast";
 
-export default function Pet({ pets, dogData, handleDelete }) {
+export default function Pet({ pets, dogData, handleDelete, toast }) {
   const router = useRouter();
   const { slug } = router.query;
 
@@ -90,6 +91,9 @@ export default function Pet({ pets, dogData, handleDelete }) {
             onClick={() => setModal("delete")}
           />
           <Link href={`/pets/update/${pet.slug}`}>Update</Link>
+          {toast === true && (
+            <Toast text={"Congratulation! You updated your pet."} />
+          )}
         </Container>
       </main>
       {modal === "delete" && (
