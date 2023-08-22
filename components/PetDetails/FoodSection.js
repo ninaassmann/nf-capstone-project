@@ -2,8 +2,12 @@ import { styled } from "styled-components";
 import Section from "./Section.styled";
 import Label from "@/components/Label";
 import Button from "../Button";
+import { useState } from "react";
 
 export default function FoodSection({ pet }) {
+  console.log(pet);
+  const [foodStock, setFoodStock] = useState(pet.food.stock);
+
   const size = pet.food.size;
   const price = pet.food.price;
   const dailyNeed = pet.food.dailyNeed;
@@ -11,6 +15,12 @@ export default function FoodSection({ pet }) {
   const pricePerGram = price / size;
 
   const result = Math.round(pricePerGram * dailyNeed * 100) / 100;
+
+  function addFood() {
+    const updatedStock = Number(pet.food.stock) + Number(foodStock);
+    setFoodStock(updatedStock);
+  }
+
   return (
     <Section>
       <h2>Food</h2>
@@ -34,11 +44,12 @@ export default function FoodSection({ pet }) {
           price per day <span>{result}€</span>
         </li>
       </StyledList>
-      <p>Current Stock: {size / 1000}kg</p>
+      <p>Current Stock: {foodStock / 1000}kg</p>
       <Button
         buttonText={pet.food.type === "Dry" ? "Add Bag" : "Add Can"}
         type="button"
         $variant="secondary"
+        onClick={addFood}
       />
     </Section>
   );
