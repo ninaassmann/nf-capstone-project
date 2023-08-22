@@ -23,18 +23,18 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
   const [selectedBreeds, setSelectedBreeds] = useState([]);
 
   function handleBreedSelectChange(event) {
-    let selectedBreed = selectedBreeds.find(
+    let newBreed = selectedBreeds.find(
       (breed) => breed.selectName === event.target.name
     );
-    if (selectedBreed) {
-      selectedBreed.breed = event.target.value;
+    if (newBreed) {
+      newBreed.breed = event.target.value;
     } else {
-      selectedBreed = {
+      newBreed = {
         breed: event.target.value,
         selectName: event.target.name,
       };
     }
-    setSelectedBreeds([...selectedBreeds, selectedBreed]);
+    setSelectedBreeds([...selectedBreeds, newBreed]);
   }
 
   function handleSubmit(event) {
