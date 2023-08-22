@@ -22,7 +22,7 @@ const initialPets = [
     slug: "odin",
     petName: "Odin",
     petBreed: ["Alaskan Husky"],
-    petBirthday: "2020-11-20",
+    petBirthday: "2023-01-05",
     vet: {
       name: "Dr. Venthien",
       address: "ABC Str. 29, 12345 Doetown",
@@ -44,11 +44,11 @@ const initialPets = [
   },
   {
     id: "3",
-    mixed: true,
-    petBirthday: "2020-11-20",
-    petBreed: ["German Shepherd Dog", "Eurasier"],
-    petName: "Ronya",
-    slug: "ronya",
+    mixed: false,
+    petBirthday: "2023-08-15",
+    petBreed: ["Eurasier"],
+    petName: "Puppy",
+    slug: "puppy",
     vet: {
       name: "Dr. Venthien",
       address: "ABC Str. 29, 12345 Doetown",

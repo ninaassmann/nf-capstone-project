@@ -5,9 +5,9 @@ import { useState } from "react";
 import { uid } from "uid";
 import { handleExistingPetName } from "@/utils/handleExistingPetName";
 
-const initialBreedSelectArray = ["petBreed-1"];
-
 const slugify = require("slugify");
+
+var today = new Date().toISOString().split("T")[0];
 
 export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
   const router = useRouter();
@@ -15,11 +15,27 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
   const newArrayPetBreeds = pet
     ? pet.petBreed.map((breed, index) => ({
         breed: breed,
-        selectName: `petBreed-${index + 1}`,
+        formSelectName: `petBreed-${index + 1}`,
       }))
-    : [{ selectName: `petBreed-1` }];
+    : [{ formSelectName: `petBreed-1` }];
 
   const [petBreeds, setPetBreeds] = useState(newArrayPetBreeds);
+  const [selectedBreeds, setSelectedBreeds] = useState([]);
+
+  function handleBreedSelectChange(event) {
+    let newBreed = selectedBreeds.find(
+      (breed) => breed.formSelectName === event.target.name
+    );
+    if (newBreed) {
+      newBreed.breed = event.target.value;
+    } else {
+      newBreed = {
+        breed: event.target.value,
+        formSelectName: event.target.name,
+      };
+    }
+    setSelectedBreeds([...selectedBreeds, newBreed]);
+  }
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -32,7 +48,7 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
       slug: pet
         ? pet.slug
         : slugify(handleExistingPetName(data.petName, pets), { lower: true }),
-      petName: data.petName,
+      petName: pet ? pet.petName : data.petName,
       petBreed: petBreeds.map((breed) => data[breed.selectName]),
       petBirthday: data.petBirthday,
       vet: {
@@ -58,7 +74,7 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
 
   function handleAddBreed() {
     const index = petBreeds.length + 1;
-    const newBreedSelect = { selectName: `petBreed-${index}` };
+    const newBreedSelect = { formSelectName: `petBreed-${index}` };
     setPetBreeds([...petBreeds, newBreedSelect]);
   }
 
@@ -86,6 +102,8 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
           type="date"
           id="petBirthday"
           name="petBirthday"
+          min="2000-01-01"
+          max={today}
           defaultValue={pet && pet.petBirthday}
           required
         />
@@ -100,13 +118,23 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
 
         {petBreeds.map((breed) => (
           <SelectWrapper key={breed.selectName}>
-            <StyledSelect name={breed.selectName} defaultValue={breed.breed}>
+            <StyledSelect
+              name={breed.formSelectName}
+              defaultValue={breed.breed}
+              onChange={(event) => handleBreedSelectChange(event)}
+            >
               <option key="unknown" value="breed unknown" selected>
                 {"I don't know the breed"}
               </option>
               {dogData &&
                 dogData.map((breed) => (
-                  <option key={breed.id} value={breed.name}>
+                  <option
+                    key={breed.id}
+                    value={breed.name}
+                    disabled={selectedBreeds.some(
+                      (selectedBreed) => selectedBreed.breed === breed.name
+                    )}
+                  >
                     {breed.name}
                   </option>
                 ))}
