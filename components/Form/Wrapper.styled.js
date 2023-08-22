@@ -1,9 +1,10 @@
 const { styled } = require("styled-components");
 
-const InputWrapper = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  position: relative;
 `;
 
-export default InputWrapper;
+export default Wrapper;
