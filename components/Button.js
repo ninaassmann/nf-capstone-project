@@ -10,9 +10,9 @@ const buttonVariants = {
   `,
 };
 
-export default function Button({ type, onClick, buttonText, variant }) {
+export default function Button({ type, onClick, buttonText, $variant }) {
   return (
-    <StyledButton type={type} onClick={onClick} variant={variant}>
+    <StyledButton type={type} onClick={onClick} $variant={$variant}>
       {buttonText}
     </StyledButton>
   );

@@ -3,6 +3,7 @@ import useLocalStorageState from "use-local-storage-state";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import { uid } from "uid";
+import { useState } from "react";
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -68,6 +69,14 @@ export default function App({ Component, pageProps }) {
     defaultValue: initialPets,
   });
 
+  const [toastState, setToastState] = useState(false);
+
+  if (toastState === true) {
+    setTimeout(() => {
+      setToastState(false);
+    }, 3000);
+  }
+
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
 
@@ -105,6 +114,8 @@ export default function App({ Component, pageProps }) {
         handleDelete={handleDelete}
         pets={pets}
         dogData={data}
+        toastState={toastState}
+        setToastState={setToastState}
       />
     </>
   );

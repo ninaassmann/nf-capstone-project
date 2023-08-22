@@ -3,7 +3,7 @@ import Link from "next/link";
 import Form from "@/components/Form";
 import { useRouter } from "next/router";
 
-export default function FormPage({ pets, dogData, updatePets }) {
+export default function FormPage({ pets, dogData, updatePets, setToastState }) {
   const router = useRouter();
   const { slug } = router.query;
 
@@ -11,7 +11,13 @@ export default function FormPage({ pets, dogData, updatePets }) {
   return (
     <Container>
       <h1>Update {pet.petName}</h1>
-      <Form pet={pet} dogData={dogData} pets={pets} updatePets={updatePets} />
+      <Form
+        pet={pet}
+        dogData={dogData}
+        pets={pets}
+        updatePets={updatePets}
+        setToastState={setToastState}
+      />
       <Link href={`/pets/${pet.slug}`}>back</Link>
     </Container>
   );
