@@ -20,6 +20,22 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
     : [{ selectName: `petBreed-1` }];
 
   const [petBreeds, setPetBreeds] = useState(newArrayPetBreeds);
+  const [selectedBreeds, setSelectedBreeds] = useState([]);
+
+  function handleBreedSelectChange(event) {
+    let selectedBreed = selectedBreeds.find(
+      (breed) => breed.selectName === event.target.name
+    );
+    if (selectedBreed) {
+      selectedBreed.breed = event.target.value;
+    } else {
+      selectedBreed = {
+        breed: event.target.value,
+        selectName: event.target.name,
+      };
+    }
+    setSelectedBreeds([...selectedBreeds, selectedBreed]);
+  }
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -32,7 +48,7 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
       slug: pet
         ? pet.slug
         : slugify(handleExistingPetName(data.petName, pets), { lower: true }),
-      petName: data.petName,
+      petName: pet ? pet.petName : data.petName,
       petBreed: petBreeds.map((breed) => data[breed.selectName]),
       petBirthday: data.petBirthday,
       vet: {
@@ -102,13 +118,25 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
 
         {petBreeds.map((breed) => (
           <SelectWrapper key={breed.selectName}>
-            <StyledSelect name={breed.selectName} defaultValue={breed.breed}>
+            <StyledSelect
+              name={breed.selectName}
+              defaultValue={breed.breed}
+              onChange={(event) =>
+                handleBreedSelectChange(event, breed.selectName)
+              }
+            >
               <option key="unknown" value="breed unknown" selected>
                 {"I don't know the breed"}
               </option>
               {dogData &&
                 dogData.map((breed) => (
-                  <option key={breed.id} value={breed.name}>
+                  <option
+                    key={breed.id}
+                    value={breed.name}
+                    disabled={selectedBreeds.some(
+                      (selectedBreed) => selectedBreed.breed === breed.name
+                    )}
+                  >
                     {breed.name}
                   </option>
                 ))}
