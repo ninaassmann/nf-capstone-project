@@ -9,7 +9,14 @@ const slugify = require("slugify");
 
 var today = new Date().toISOString().split("T")[0];
 
-export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
+export default function Form({
+  addNewPet,
+  updatePets,
+  dogData,
+  pets,
+  pet,
+  setToast,
+}) {
   const router = useRouter();
 
   const newArrayPetBreeds = pet
@@ -22,19 +29,22 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
   const [petBreeds, setPetBreeds] = useState(newArrayPetBreeds);
   const [selectedBreeds, setSelectedBreeds] = useState([]);
 
+  const toastUpdate = { state: true, type: "update" };
+  const toastNew = { state: true, type: "new" };
+
   function handleBreedSelectChange(event) {
-    let newBreed = selectedBreeds.find(
-      (breed) => breed.formSelectName === event.target.name
-    );
-    if (newBreed) {
-      newBreed.breed = event.target.value;
-    } else {
-      newBreed = {
-        breed: event.target.value,
-        formSelectName: event.target.name,
-      };
-    }
-    setSelectedBreeds([...selectedBreeds, newBreed]);
+    const updatedPetBreeds = petBreeds.map((breed) => {
+      if (event.target.name !== breed.formSelectName) {
+        return breed;
+      } else {
+        const updatedBreed = {
+          ...breed,
+          breed: event.target.value,
+        };
+        return updatedBreed;
+      }
+    });
+    setPetBreeds(updatedPetBreeds);
   }
 
   function handleSubmit(event) {
@@ -43,13 +53,15 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
+    console.log(petBreeds);
     const dataPet = {
       id: pet ? pet.id : uid(),
       slug: pet
         ? pet.slug
         : slugify(handleExistingPetName(data.petName, pets), { lower: true }),
       petName: pet ? pet.petName : data.petName,
-      petBreed: petBreeds.map((breed) => data[breed.selectName]),
+      petBreed:
+        petBreeds && petBreeds.map((breed) => data[breed.formSelectName]),
       petBirthday: data.petBirthday,
       vet: {
         name: data.vetName,
@@ -66,10 +78,9 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
     } else {
       dataPet.mixed = false;
     }
-
+    setToast(true);
     pet ? updatePets(dataPet) : addNewPet(dataPet);
-
-    router.push("/");
+    pet ? router.push(`/pets/${pet.slug}`) : router.push("/");
   }
 
   function handleAddBreed() {
@@ -117,13 +128,13 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
         </p>
 
         {petBreeds.map((breed) => (
-          <SelectWrapper key={breed.selectName}>
+          <SelectWrapper key={breed.formSelectName}>
             <StyledSelect
               name={breed.formSelectName}
-              defaultValue={breed.breed}
+              defaultValue={pet ? breed.breed : "Breed Unknown"}
               onChange={(event) => handleBreedSelectChange(event)}
             >
-              <option key="unknown" value="breed unknown" selected>
+              <option key="unknown" value="Breed Unknown">
                 {"I don't know the breed"}
               </option>
               {dogData &&
@@ -149,7 +160,7 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
         />
       </StyledFieldset>
 
-      <StyledFieldset isHighlight>
+      <StyledFieldset $isHighlight>
         <legend>Vet Information</legend>
         <label htmlFor="vetName">Name</label>
         <StyledInput
@@ -182,7 +193,7 @@ export default function Form({ addNewPet, updatePets, dogData, pets, pet }) {
       <Button
         type="submit"
         buttonText={pet ? "Update Dog" : "Create a new Dog"}
-        variant="primary"
+        $variant="primary"
       />
     </StyledForm>
   );
@@ -209,8 +220,8 @@ const StyledFieldset = styled.fieldset`
     font-weight: 700;
   }
 
-  ${({ isHighlight }) =>
-    isHighlight &&
+  ${({ $isHighlight }) =>
+    $isHighlight &&
     css`
       background-color: #f1f1f1;
       padding: 3rem 1rem 1rem;
