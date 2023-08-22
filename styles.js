@@ -13,4 +13,9 @@ export default createGlobalStyle`
     margin: 0;
     font-family: system-ui;
   }
+
+  h1,
+  h2 {
+    margin: 0 0 0.5rem 0;
+  }
 `;

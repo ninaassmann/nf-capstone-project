@@ -40,11 +40,11 @@ export default function FoodFieldset({ pet }) {
 
       <fieldset>
         <legend>Type</legend>
-        <input type="radio" name="foodType" value="Dry" id="dry" />
-        <label htmlFor="wet">Dry</label>
+        <input type="radio" name="foodType" value="Dry" id="dry" selected />
+        <label htmlFor="dry">Dry</label>
 
         <input type="radio" name="foodType" value="Wet" id="wet" />
-        <label htmlFor="dry">Wet</label>
+        <label htmlFor="wet">Wet</label>
       </fieldset>
 
       <InputWrapper>
@@ -58,17 +58,18 @@ export default function FoodFieldset({ pet }) {
       </InputWrapper>
 
       <InputWrapper>
-        <label htmlFor="foodPackageSize">Package Price (€)</label>
+        <label htmlFor="foodPackagePrice">Package Price (€)</label>
         <StyledInput
           type="number"
           id="foodPackagePrice"
           name="foodPackagePrice"
+          step=".01"
           defaultValue={pet && pet.food.packagePrice}
         />
       </InputWrapper>
 
       <InputWrapper>
-        <label htmlFor="foodPackageSize">Daily Need (g)</label>
+        <label htmlFor="foodDailyNeed">Daily Need (g)</label>
         <StyledInput
           type="number"
           id="foodDailyNeed"
@@ -78,7 +79,7 @@ export default function FoodFieldset({ pet }) {
       </InputWrapper>
 
       <InputWrapper>
-        <label htmlFor="foodPackageSize">Current Stock (g)</label>
+        <label htmlFor="foodStock">Current Stock (g)</label>
         <StyledInput
           type="number"
           id="foodStock"

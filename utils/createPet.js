@@ -18,6 +18,16 @@ export function createPet(data, pet, pets, petBreeds) {
       address: data.vetAddress,
       phone: data.vetPhone,
     },
+    food: {
+      name: data.foodName,
+      petAge: data.foodPetAge,
+      notes: data.foodNotes,
+      type: data.foodType,
+      size: data.foodPackageSize,
+      price: data.foodPackagePrice,
+      dailyNeed: data.foodDailyNeed,
+      stock: data.foodStock,
+    },
   };
 
   if (
