@@ -1,9 +1,12 @@
 import { css, styled } from "styled-components";
-import Button from "./Button";
+import Button from "../Button";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { uid } from "uid";
 import { handleExistingPetName } from "@/utils/handleExistingPetName";
+import FoodFieldset from "./FoodFieldset";
+import StyledForm from "./Form.styled";
+import InputWrapper from "./Wrapper.styled";
 
 const slugify = require("slugify");
 
@@ -162,33 +165,41 @@ export default function Form({
 
       <StyledFieldset $isHighlight>
         <legend>Vet Information</legend>
-        <label htmlFor="vetName">Name</label>
-        <StyledInput
-          type="text"
-          id="vetName"
-          name="vetName"
-          placeholder="Enter the name of your vet"
-          defaultValue={pet && pet.vet.name}
-        />
+        <InputWrapper>
+          <label htmlFor="vetName">Name</label>
+          <StyledInput
+            type="text"
+            id="vetName"
+            name="vetName"
+            placeholder="Enter the name of your vet"
+            defaultValue={pet && pet.vet.name}
+          />
+        </InputWrapper>
 
-        <label htmlFor="vetName">Addess</label>
-        <StyledInput
-          type="text"
-          id="vetAddress"
-          name="vetAddress"
-          placeholder="Enter the address of your vet"
-          defaultValue={pet && pet.vet.address}
-        />
+        <InputWrapper>
+          <label htmlFor="vetName">Addess</label>
+          <StyledInput
+            type="text"
+            id="vetAddress"
+            name="vetAddress"
+            placeholder="Enter the address of your vet"
+            defaultValue={pet && pet.vet.address}
+          />
+        </InputWrapper>
 
-        <label htmlFor="vetName">Phone</label>
-        <StyledInput
-          type="tel"
-          id="vetPhone"
-          name="vetPhone"
-          placeholder="Enter the phone number of your vet"
-          defaultValue={pet && pet.vet.phone}
-        />
+        <InputWrapper>
+          <label htmlFor="vetName">Phone</label>
+          <StyledInput
+            type="tel"
+            id="vetPhone"
+            name="vetPhone"
+            placeholder="Enter the phone number of your vet"
+            defaultValue={pet && pet.vet.phone}
+          />
+        </InputWrapper>
       </StyledFieldset>
+
+      <FoodFieldset pet={pet} />
 
       <Button
         type="submit"
@@ -198,15 +209,6 @@ export default function Form({
     </StyledForm>
   );
 }
-
-const StyledForm = styled.form`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-`;
 
 const StyledFieldset = styled.fieldset`
   position: relative;
@@ -227,17 +229,11 @@ const StyledFieldset = styled.fieldset`
       padding: 3rem 1rem 1rem;
       border-radius: 1rem;
 
-      & legend {
+      & > legend {
         position: absolute;
         top: 1rem;
       }
     `}
-`;
-
-const InputWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
 `;
 
 const StyledInput = styled.input`
