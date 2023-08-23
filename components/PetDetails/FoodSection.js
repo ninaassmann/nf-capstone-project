@@ -30,7 +30,8 @@ export default function FoodSection({ pet, updatePets }) {
   function handleAddFood(event) {
     event.preventDefault();
     const count = event.target.count.value;
-    const updatedStock = Number(foodStock) + Number(size) * Number(count);
+    const updatedStock =
+      Number(foodStock) + Number(pet.food.size) * Number(count);
 
     setFoodStock(updatedStock);
 

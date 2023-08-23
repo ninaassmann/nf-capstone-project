@@ -26,8 +26,8 @@ export default function Pet({
   const [modal, setModal] = useState();
 
   const pet = pets.find((pet) => slug === pet.slug);
-  const age = calculateAge(pet.petBirthday);
-  const petBreeds = pet.petBreed;
+  const age = calculateAge(pet && pet.petBirthday);
+  const petBreeds = pet && pet.petBreed;
 
   if (!pet) {
     return (

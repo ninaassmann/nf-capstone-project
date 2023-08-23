@@ -29,13 +29,13 @@ export default function App({ Component, pageProps }) {
     defaultValue: initialPets,
   });
 
-  const [toast, setToast] = useState(true);
+  const [toast, setToast] = useState(false);
 
-  /* if (toast === true) {
+  if (toast === true) {
     setTimeout(() => {
       setToast(false);
     }, 3000);
-  } */
+  }
 
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
@@ -60,8 +60,9 @@ export default function App({ Component, pageProps }) {
     const petsWithoutDeletedPet = pets.filter(
       (pet) => pet.slug !== petToDelete.slug
     );
-    setPets(petsWithoutDeletedPet);
+
     router.push("/");
+    setPets(petsWithoutDeletedPet);
   }
 
   return (
