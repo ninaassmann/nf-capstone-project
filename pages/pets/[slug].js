@@ -13,7 +13,14 @@ import Section from "@/components/PetDetails/Section.styled";
 import FoodSection from "@/components/PetDetails/FoodSection";
 import VetSection from "@/components/PetDetails/VetSection";
 
-export default function Pet({ pets, dogData, handleDelete, toast }) {
+export default function Pet({
+  pets,
+  updateFoodStock,
+  dogData,
+  handleDelete,
+  toast,
+  updatePets,
+}) {
   const router = useRouter();
   const { slug } = router.query;
 
@@ -49,14 +56,18 @@ export default function Pet({ pets, dogData, handleDelete, toast }) {
 
           <VetSection pet={pet} />
 
-          <FoodSection pet={pet} />
+          <FoodSection
+            pet={pet}
+            updateFoodStock={updateFoodStock}
+            updatePets={updatePets}
+          />
 
           <BreedInfoSection petBreeds={petBreeds} dogData={dogData} />
 
           <Button
             type="button"
             buttonText="Delete"
-            variant="danger"
+            $variant="danger"
             onClick={() => setModal(true)}
           />
 

@@ -3,9 +3,10 @@ import Section from "./Section.styled";
 import Label from "@/components/Label";
 import Button from "../Button";
 import { useState } from "react";
+import Input from "../Form/Input.styled";
+import FoodForm from "./FoodForm";
 
-export default function FoodSection({ pet }) {
-  console.log(pet);
+export default function FoodSection({ pet, updatePets }) {
   const [foodStock, setFoodStock] = useState(pet.food.stock);
 
   const size = pet.food.size;
@@ -16,9 +17,16 @@ export default function FoodSection({ pet }) {
 
   const result = Math.round(pricePerGram * dailyNeed * 100) / 100;
 
-  function addFood() {
-    const updatedStock = Number(pet.food.stock) + Number(foodStock);
+  function handleAddFood(event) {
+    event.preventDefault();
+    const count = event.target.count.value;
+    const updatedStock = Number(foodStock) + Number(size) * Number(count);
+
     setFoodStock(updatedStock);
+
+    const updatedPet = pet;
+    pet.food.stock = updatedStock;
+    updatePets(updatedPet);
   }
 
   return (
@@ -45,12 +53,7 @@ export default function FoodSection({ pet }) {
         </li>
       </StyledList>
       <p>Current Stock: {foodStock / 1000}kg</p>
-      <Button
-        buttonText={pet.food.type === "Dry" ? "Add Bag" : "Add Can"}
-        type="button"
-        $variant="secondary"
-        onClick={addFood}
-      />
+      <FoodForm handleAddFood={handleAddFood} />
     </Section>
   );
 }

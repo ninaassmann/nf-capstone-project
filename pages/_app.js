@@ -86,12 +86,12 @@ export default function App({ Component, pageProps }) {
     setPets(petsWithNewPet);
   }
 
-  function handleUpdate(updatePet) {
+  function handleUpdate(updatedPet) {
     const updatedPets = pets.map((pet) => {
-      if (updatePet.id !== pet.id) {
+      if (updatedPet.id !== pet.id) {
         return pet;
       }
-      return updatePet;
+      return updatedPet;
     });
     setPets(updatedPets);
   }
