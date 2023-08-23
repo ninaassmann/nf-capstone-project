@@ -18,7 +18,7 @@ export default function DeleteModal({ pet, setModal, handleDelete }) {
           <Button
             type="button"
             buttonText="Yes, get rid of it"
-            variant="danger"
+            $variant="danger"
             onClick={() => handleDelete(pet)}
           />
         </Wrapper>
@@ -30,6 +30,7 @@ export default function DeleteModal({ pet, setModal, handleDelete }) {
 const Modal = styled.div`
   position: absolute;
   top: 0;
+  left: -5vw;
   width: 100vw;
   height: 100vh;
   display: flex;

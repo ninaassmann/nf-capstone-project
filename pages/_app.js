@@ -4,6 +4,7 @@ import useSWR from "swr";
 import { useRouter } from "next/router";
 import { uid } from "uid";
 import { useState } from "react";
+import initialPets from "@/data/pets";
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -16,47 +17,6 @@ const fetcher = async (url) => {
 
   return response.json();
 };
-
-const initialPets = [
-  {
-    id: "1",
-    slug: "odin",
-    petName: "Odin",
-    petBreed: ["Alaskan Husky"],
-    petBirthday: "2023-01-05",
-    vet: {
-      name: "Dr. Venthien",
-      address: "ABC Str. 29, 12345 Doetown",
-      phone: "132 456 789",
-    },
-  },
-  {
-    id: "2",
-    mixed: true,
-    petBirthday: "2020-11-20",
-    petBreed: ["German Shepherd Dog"],
-    petName: "Freki",
-    slug: "freki",
-    vet: {
-      name: "Dr. Venthien",
-      address: "ABC Str. 29, 12345 Doetown",
-      phone: "132 456 789",
-    },
-  },
-  {
-    id: "3",
-    mixed: false,
-    petBirthday: "2023-08-15",
-    petBreed: ["Eurasier"],
-    petName: "Puppy",
-    slug: "puppy",
-    vet: {
-      name: "Dr. Venthien",
-      address: "ABC Str. 29, 12345 Doetown",
-      phone: "132 456 789",
-    },
-  },
-];
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
@@ -86,12 +46,12 @@ export default function App({ Component, pageProps }) {
     setPets(petsWithNewPet);
   }
 
-  function handleUpdate(updatePet) {
+  function handleUpdate(updatedPet) {
     const updatedPets = pets.map((pet) => {
-      if (updatePet.id !== pet.id) {
+      if (updatedPet.id !== pet.id) {
         return pet;
       }
-      return updatePet;
+      return updatedPet;
     });
     setPets(updatedPets);
   }
@@ -100,8 +60,9 @@ export default function App({ Component, pageProps }) {
     const petsWithoutDeletedPet = pets.filter(
       (pet) => pet.slug !== petToDelete.slug
     );
-    setPets(petsWithoutDeletedPet);
+
     router.push("/");
+    setPets(petsWithoutDeletedPet);
   }
 
   return (

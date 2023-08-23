@@ -12,5 +12,18 @@ export default createGlobalStyle`
   body {
     margin: 0;
     font-family: system-ui;
+    width: min(90vw, 600px);
+  margin-inline: auto;
+  position: relative;
   }
+
+  h1,
+  h2 {
+    margin: 0 0 0.5rem 0;
+  }
+  p:has(small) {padding: 0.5rem 0;}
+
+  label:has(:checked) {
+   background: hsl(107, 65%, 69%);
+}
 `;

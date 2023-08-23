@@ -22,6 +22,6 @@ const ToastContainer = styled.div`
   width: min(90vw, 600px);
   margin-inline: auto;
   padding: 1.5rem;
-  transform: translateY(200%);
-  animation: ${toastAnimation} 3s ease;
+  /* transform: translateY(200%);
+  animation: ${toastAnimation} 3s ease; */
 `;
