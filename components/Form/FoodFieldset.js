@@ -1,142 +1,157 @@
 import { css, styled } from "styled-components";
+import Fieldset from "./Fieldset.styled";
+import Wrapper from "./Wrapper.styled";
+import Input from "./Input.styled";
+import Description from "../Description";
 
 export default function FoodFieldset({ pet }) {
   return (
-    <StyledFieldset $isHighlight>
+    <Fieldset $isHighlight>
       <legend>Food Information</legend>
 
-      <InputWrapper>
+      <Wrapper>
         <label htmlFor="foodName">Name</label>
-        <StyledInput
+        <Input
           type="text"
           id="foodName"
           name="foodName"
           placeholder="Enter the name of the food"
           defaultValue={pet && pet.food.name}
         />
-      </InputWrapper>
+      </Wrapper>
 
-      <fieldset>
-        <input type="radio" name="foodPetAge" value="Puppy" id="puppy" />
-        <label htmlFor="puppy">Puppy</label>
+      <StyledFieldset>
+        <Wrapper $isRow>
+          <StyledLabel htmlFor="puppy">
+            <StyledRadio
+              type="radio"
+              name="foodPetAge"
+              value="Puppy"
+              id="puppy"
+            />
+            Puppy
+          </StyledLabel>
 
-        <input type="radio" name="foodPetAge" value="Adult" id="adult" />
-        <label htmlFor="adult">Adult</label>
+          <StyledLabel htmlFor="adult">
+            <StyledRadio
+              type="radio"
+              name="foodPetAge"
+              value="Adult"
+              id="adult"
+            />
+            Adult
+          </StyledLabel>
 
-        <input type="radio" name="foodPetAge" value="Senior" id="senior" />
-        <label htmlFor="senior">Senior</label>
-      </fieldset>
+          <StyledLabel htmlFor="senior">
+            <StyledRadio
+              type="radio"
+              name="foodPetAge"
+              value="Senior"
+              id="senior"
+            />
+            Senior
+          </StyledLabel>
+        </Wrapper>
+      </StyledFieldset>
 
-      <InputWrapper>
+      <StyledFieldset>
+        <p>
+          <small>
+            Dry food typically comes in Bags, Wet food in Cans. Currently there
+            is no option for barf.
+          </small>
+        </p>
+        <Wrapper $isRow>
+          <StyledLabel htmlFor="dry">
+            <StyledRadio type="radio" name="foodType" value="Dry" id="dry" />
+            Dry
+          </StyledLabel>
+
+          <StyledLabel htmlFor="wet">
+            <StyledRadio type="radio" name="foodType" value="Wet" id="wet" />
+            Wet
+          </StyledLabel>
+        </Wrapper>
+      </StyledFieldset>
+
+      <Wrapper>
         <label htmlFor="foodNotes">Notes</label>
-        <StyledInput
+        <Input
           type="text"
           id="foodNotes"
           name="foodNotes"
           placeholder="Do you want to add some Notes? (e.g. Diet, Alergies, ...)"
           defaultValue={pet && pet.food.notes}
         />
-      </InputWrapper>
+      </Wrapper>
 
-      <fieldset>
-        <legend>Type</legend>
-        <input type="radio" name="foodType" value="Dry" id="dry" selected />
-        <label htmlFor="dry">Dry</label>
-
-        <input type="radio" name="foodType" value="Wet" id="wet" />
-        <label htmlFor="wet">Wet</label>
-      </fieldset>
-
-      <InputWrapper>
-        <label htmlFor="foodPackageSize">Pachage Size (g)</label>
-        <StyledInput
+      <Wrapper>
+        <label htmlFor="foodPackageSize">Package Size (g)</label>
+        <Description text="Please enter the size of one package" />
+        <Input
           type="number"
           id="foodPackageSize"
           name="foodPackageSize"
           defaultValue={pet && pet.food.packageSize}
         />
-      </InputWrapper>
-
-      <InputWrapper>
+      </Wrapper>
+      <Wrapper>
         <label htmlFor="foodPackagePrice">Package Price (€)</label>
-        <StyledInput
+        <Description text="Please enter the price of one package" />
+        <Input
           type="number"
           id="foodPackagePrice"
           name="foodPackagePrice"
           step=".01"
           defaultValue={pet && pet.food.packagePrice}
         />
-      </InputWrapper>
+      </Wrapper>
 
-      <InputWrapper>
+      <Wrapper>
         <label htmlFor="foodDailyNeed">Daily Need (g)</label>
-        <StyledInput
+        <Description text="How much food does your pet gets a day?" />
+        <Input
           type="number"
           id="foodDailyNeed"
           name="foodDailyNeed"
           defaultValue={pet && pet.food.dailyNeed}
         />
-      </InputWrapper>
+      </Wrapper>
 
-      <InputWrapper>
+      <Wrapper>
         <label htmlFor="foodStock">Current Stock (g)</label>
-        <StyledInput
+        <Description text="Please enter the amount of food you have currently at home" />
+        <Input
           type="number"
           id="foodStock"
           name="foodStock"
           defaultValue={pet && pet.food.stock}
         />
-      </InputWrapper>
-    </StyledFieldset>
+      </Wrapper>
+    </Fieldset>
   );
 }
 
 const StyledFieldset = styled.fieldset`
-  position: relative;
   border: none;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding-top: 1rem;
-
-  & legend {
-    font-weight: 700;
-  }
-
-  ${({ $isHighlight }) =>
-    $isHighlight &&
-    css`
-      background-color: #f1f1f1;
-      padding: 3rem 1rem 1rem;
-      border-radius: 1rem;
-
-      & > legend {
-        position: absolute;
-        top: 1rem;
-      }
-    `}
-`;
-
-const InputWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-`;
-
-const StyledInput = styled.input`
   width: 100%;
-  padding: 1rem;
+`;
+
+const StyledLabel = styled.label`
+  position: relative;
+  width: 100%;
+  text-align: center;
+  background: white;
+  padding: 1rem 2rem;
   border-radius: 0.5rem;
-  border: 1px solid grey;
+`;
 
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-
-  ${({ disabled }) =>
-    disabled &&
-    css`
-      border: none;
-      background-color: #f1f1f1;
-    `}
+const StyledRadio = styled.input`
+  /* appearance: none; */
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
 `;
