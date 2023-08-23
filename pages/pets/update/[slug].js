@@ -1,4 +1,4 @@
-import Container from "@/components/Container";
+import Container from "@/components/Container.styled";
 import Link from "next/link";
 import Form from "@/components/Form";
 import { useRouter } from "next/router";

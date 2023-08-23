@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import Section from "./Section.styled";
-import Label from "@/components/Label";
+import Label from "@/components/Label.styled";
 import { useEffect, useState } from "react";
 import FoodForm from "./FoodForm";
 import { checkFeedingTime } from "@/utils/checkFeedingTime";

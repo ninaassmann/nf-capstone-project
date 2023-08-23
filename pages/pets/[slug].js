@@ -1,8 +1,8 @@
-import Container from "@/components/Container";
+import Container from "@/components/Container.styled";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { calculateAge } from "@/utils/calculateAge";
-import Label from "@/components/Label";
+import Label from "@/components/Label.styled";
 import { useState } from "react";
 import Button from "@/components/Button";
 import DeleteModal from "@/components/DeleteModal";

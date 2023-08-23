@@ -1,7 +1,7 @@
 import { calculateAge } from "@/utils/calculateAge";
 import Link from "next/link";
 import { styled } from "styled-components";
-import Label from "./Label";
+import Label from "./Label.styled";
 
 export default function ListItem({ mixed, name, breed, birthday, slug }) {
   const age = calculateAge(birthday);

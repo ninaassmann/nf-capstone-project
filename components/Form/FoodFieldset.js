@@ -28,6 +28,7 @@ export default function FoodFieldset({ pet }) {
               name="foodPetAge"
               value="Puppy"
               id="puppy"
+              checked={pet && pet.food.petAge === "Puppy"}
             />
             Puppy
           </StyledLabel>
@@ -38,6 +39,7 @@ export default function FoodFieldset({ pet }) {
               name="foodPetAge"
               value="Adult"
               id="adult"
+              checked={pet && pet.food.petAge === "Adult"}
             />
             Adult
           </StyledLabel>
@@ -48,6 +50,7 @@ export default function FoodFieldset({ pet }) {
               name="foodPetAge"
               value="Senior"
               id="senior"
+              checked={pet && pet.food.petAge === "Senior"}
             />
             Senior
           </StyledLabel>
@@ -63,12 +66,24 @@ export default function FoodFieldset({ pet }) {
         </p>
         <Wrapper $isRow>
           <StyledLabel htmlFor="dry">
-            <StyledRadio type="radio" name="foodType" value="Dry" id="dry" />
+            <StyledRadio
+              type="radio"
+              name="foodType"
+              value="Dry"
+              id="dry"
+              checked={pet && pet.food.type === "Dry"}
+            />
             Dry
           </StyledLabel>
 
           <StyledLabel htmlFor="wet">
-            <StyledRadio type="radio" name="foodType" value="Wet" id="wet" />
+            <StyledRadio
+              type="radio"
+              name="foodType"
+              value="Wet"
+              id="wet"
+              checked={pet && pet.food.type === "Wet"}
+            />
             Wet
           </StyledLabel>
         </Wrapper>
@@ -92,7 +107,7 @@ export default function FoodFieldset({ pet }) {
           type="number"
           id="foodPackageSize"
           name="foodPackageSize"
-          defaultValue={pet && pet.food.packageSize}
+          defaultValue={pet && pet.food.size}
         />
       </Wrapper>
       <Wrapper>
@@ -103,7 +118,7 @@ export default function FoodFieldset({ pet }) {
           id="foodPackagePrice"
           name="foodPackagePrice"
           step=".01"
-          defaultValue={pet && pet.food.packagePrice}
+          defaultValue={pet && pet.food.price}
         />
       </Wrapper>
 

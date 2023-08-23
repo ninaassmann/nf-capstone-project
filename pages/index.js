@@ -1,4 +1,4 @@
-import Container from "@/components/Container";
+import Container from "@/components/Container.styled";
 import List from "@/components/List";
 import Toast from "@/components/Toast";
 import Link from "next/link";

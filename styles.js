@@ -12,6 +12,9 @@ export default createGlobalStyle`
   body {
     margin: 0;
     font-family: system-ui;
+    width: min(90vw, 600px);
+  margin-inline: auto;
+  position: relative;
   }
 
   h1,

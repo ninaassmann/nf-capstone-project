@@ -29,13 +29,13 @@ export default function App({ Component, pageProps }) {
     defaultValue: initialPets,
   });
 
-  const [toast, setToast] = useState(false);
+  const [toast, setToast] = useState(true);
 
-  if (toast === true) {
+  /* if (toast === true) {
     setTimeout(() => {
       setToast(false);
     }, 3000);
-  }
+  } */
 
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
