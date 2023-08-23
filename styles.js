@@ -18,4 +18,5 @@ export default createGlobalStyle`
   h2 {
     margin: 0 0 0.5rem 0;
   }
+  p:has(small) {padding-top: 0.5rem;}
 `;

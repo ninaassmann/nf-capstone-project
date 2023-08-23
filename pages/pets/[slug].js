@@ -1,7 +1,6 @@
 import Container from "@/components/Container";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import styled, { css } from "styled-components";
 import { calculateAge } from "@/utils/calculateAge";
 import Label from "@/components/Label";
 import { useState } from "react";

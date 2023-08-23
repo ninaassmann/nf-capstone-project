@@ -1,21 +1,31 @@
 import { styled } from "styled-components";
 import Section from "./Section.styled";
 import Label from "@/components/Label";
-import Button from "../Button";
-import { useState } from "react";
-import Input from "../Form/Input.styled";
+import { useEffect, useState } from "react";
 import FoodForm from "./FoodForm";
+import { checkFeedingTime } from "@/utils/checkFeedingTime";
+import { calculatePricePerDay } from "@/utils/calculatePricePerDay";
 
 export default function FoodSection({ pet, updatePets }) {
   const [foodStock, setFoodStock] = useState(pet.food.stock);
+  const [itsFeedingTime, setItsFeedingTime] = useState();
 
-  const size = pet.food.size;
-  const price = pet.food.price;
-  const dailyNeed = pet.food.dailyNeed;
+  const pricePerDay = calculatePricePerDay(pet);
 
-  const pricePerGram = price / size;
+  setInterval(() => {
+    setItsFeedingTime(checkFeedingTime());
+  }, 3600000);
 
-  const result = Math.round(pricePerGram * dailyNeed * 100) / 100;
+  if (itsFeedingTime) {
+    const updatedStock = Number(foodStock) - Number(dailyNeed);
+
+    setFoodStock(updatedStock);
+
+    const updatedPet = pet;
+    updatedPet.food.stock = updatedStock;
+    updatePets(updatedPet);
+    setItsFeedingTime(false);
+  }
 
   function handleAddFood(event) {
     event.preventDefault();
@@ -25,7 +35,7 @@ export default function FoodSection({ pet, updatePets }) {
     setFoodStock(updatedStock);
 
     const updatedPet = pet;
-    pet.food.stock = updatedStock;
+    updatedPet.food.stock = updatedStock;
     updatePets(updatedPet);
   }
 
@@ -38,21 +48,27 @@ export default function FoodSection({ pet, updatePets }) {
       <p>
         <span>{pet.food.type} Food</span> -{" "}
         <span>
-          {size / 1000}kg {pet.food.type === "Dry" ? "Bag" : "Can"}
+          {pet.food.size / 1000}kg {pet.food.type === "Dry" ? "Bag" : "Can"}
         </span>
       </p>
       <StyledList>
-        <li key={price}>
-          price per bag <span>{price}€</span>
+        <li key={pet.food.price}>
+          price per bag <span>{pet.food.price}€</span>
         </li>
-        <li key={dailyNeed}>
-          daily need <span>{dailyNeed}g</span>
+        <li key={pet.food.dailyNeed}>
+          daily need <span>{pet.food.dailyNeed}g</span>
         </li>
-        <li key={result}>
-          price per day <span>{result}€</span>
+        <li key={pricePerDay}>
+          price per day <span>{pricePerDay}€</span>
         </li>
       </StyledList>
-      <p>Current Stock: {foodStock / 1000}kg</p>
+      <h4>Current Stock: {foodStock}g</h4>
+      <p>
+        <small>
+          Your stock updates every day (20:30) depending on the daily need.
+        </small>
+      </p>
+
       <FoodForm handleAddFood={handleAddFood} />
     </Section>
   );
