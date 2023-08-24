@@ -2,6 +2,7 @@ import Image from "next/image";
 import { styled } from "styled-components";
 
 export default function Hero({ breed, data }) {
+  if (!data) return <p>is loading</p>;
   return (
     <ImageWrapper>
       <StyledImage src={data.url} alt={breed.name} fill={true} />

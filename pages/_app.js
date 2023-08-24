@@ -6,6 +6,7 @@ import { uid } from "uid";
 import { useEffect, useState } from "react";
 import initialPets from "@/data/pets";
 import slugify from "slugify";
+import Layout from "@/components/Layout";
 
 const API_KEY = process.env.API_KEY;
 
@@ -85,16 +86,18 @@ export default function App({ Component, pageProps }) {
     <>
       <GlobalStyle />
       <SWRConfig value={{ fetcher }}>
-        <Component
-          {...pageProps}
-          addNewPet={handleNewPet}
-          updatePets={handleUpdate}
-          handleDelete={handleDelete}
-          pets={pets}
-          dogData={dogBreeds}
-          toast={toast}
-          setToast={setToast}
-        />
+        <Layout>
+          <Component
+            {...pageProps}
+            addNewPet={handleNewPet}
+            updatePets={handleUpdate}
+            handleDelete={handleDelete}
+            pets={pets}
+            dogData={dogBreeds}
+            toast={toast}
+            setToast={setToast}
+          />
+        </Layout>
       </SWRConfig>
     </>
   );

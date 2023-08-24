@@ -5,27 +5,24 @@ import { styled } from "styled-components";
 
 export default function BreedList({ dogData }) {
   return (
-    <main>
-      <Container>
-        <List>
-          {dogData &&
-            dogData.map((breed) => (
-              <li key={breed.id}>
-                <StyledLink href={`/breeds/${breed.slug}`}>
-                  <Thumbnail breed={breed} />
-                  <h3>{breed.name}</h3>
-                </StyledLink>
-              </li>
-            ))}
-        </List>
-      </Container>
-    </main>
+    <Container>
+      <List>
+        {dogData &&
+          dogData.map((breed) => (
+            <li key={breed.id}>
+              <StyledLink href={`/breeds/${breed.slug}`}>
+                <Thumbnail breed={breed} />
+                <h3>{breed.name}</h3>
+              </StyledLink>
+            </li>
+          ))}
+      </List>
+    </Container>
   );
 }
 
 const List = styled.ul`
   width: 100%;
-  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;

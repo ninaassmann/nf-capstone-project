@@ -12,10 +12,13 @@ export default createGlobalStyle`
   body {
     margin: 0;
     font-family: system-ui;
+  }
+  ::-webkit-scrollbar {display: none}
+
+  main {
     width: min(90vw, 600px);
   margin-inline: auto;
-  position: relative;
-  }
+  position: relative;}
 
   h1,
   h2 {

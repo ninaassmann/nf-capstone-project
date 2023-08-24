@@ -1,7 +1,7 @@
 const { styled } = require("styled-components");
 
 const Container = styled.div`
-  padding: 2rem 0;
+  padding: 5rem 0 7rem 0;
 
   display: flex;
   flex-direction: column;
