@@ -1,5 +1,5 @@
 import Container from "@/components/Container.styled";
-import Thumbnail from "@/components/Thumbnail";
+import Thumbnail from "@/components/Breeds/Thumbnail";
 import Link from "next/link";
 import { styled } from "styled-components";
 
