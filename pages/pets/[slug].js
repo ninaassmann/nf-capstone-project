@@ -42,37 +42,35 @@ export default function Pet({
 
   return (
     <>
-      <main>
-        <Container>
-          <Link href="/">back to overview</Link>
+      <Container>
+        <Link href="/">back to overview</Link>
 
-          <Section>
-            {pet.mixed && <Label>Mixed</Label>}
-            <h1>{pet.petName}</h1>
-            <p>{pet.petBreed.join(", ")}</p>
-            <p>{age}</p>
-          </Section>
+        <Section>
+          {pet.mixed && <Label>Mixed</Label>}
+          <h1>{pet.petName}</h1>
+          <p>{pet.petBreed.join(", ")}</p>
+          <p>{age}</p>
+        </Section>
 
-          <VetSection pet={pet} />
+        <VetSection pet={pet} />
 
-          <FoodSection
-            pet={pet}
-            updateFoodStock={updateFoodStock}
-            updatePets={updatePets}
-          />
+        <FoodSection
+          pet={pet}
+          updateFoodStock={updateFoodStock}
+          updatePets={updatePets}
+        />
 
-          <BreedInfoSection petBreeds={petBreeds} dogData={dogData} />
+        <BreedInfoSection petBreeds={petBreeds} dogData={dogData} />
 
-          <Button
-            type="button"
-            buttonText="Delete"
-            $variant="danger"
-            onClick={() => setModal(true)}
-          />
+        <Button
+          type="button"
+          buttonText="Delete"
+          $variant="danger"
+          onClick={() => setModal(true)}
+        />
 
-          <Link href={`/pets/update/${pet.slug}`}>Update</Link>
-        </Container>
-      </main>
+        <Link href={`/pets/update/${pet.slug}`}>Update</Link>
+      </Container>
 
       {toast === true && (
         <Toast text={"Congratulation! You updated your pet."} />

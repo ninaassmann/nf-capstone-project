@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import ListItem from "./ListItem";
 
-export default function List({ pets, calculateAge }) {
+export default function List({ pets }) {
   return (
     <StyledList>
       {pets &&
