@@ -36,3 +36,5 @@ export const dogBreedTemperament = [
   "Receptive",
   "Trainable",
 ];
+
+export const dogBreedHeight = ["small", "medium", "large"];

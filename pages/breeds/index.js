@@ -4,11 +4,17 @@ import Link from "next/link";
 import { styled } from "styled-components";
 
 import { useEffect, useState } from "react";
-import { dogBreedGroups, dogBreedTemperament } from "@/data/dogBreedFilter";
+import {
+  dogBreedGroups,
+  dogBreedHeight,
+  dogBreedTemperament,
+} from "@/data/dogBreedFilter";
+import { filterDogBreeds } from "@/utils/filterDogBreeds";
 
 const initialFilter = {
   group: "all",
   temperament: "all",
+  size: "all",
 };
 
 export default function BreedList({ dogData }) {
@@ -16,32 +22,7 @@ export default function BreedList({ dogData }) {
   const [showBreeds, setShowBreeds] = useState(dogData);
 
   useEffect(() => {
-    if (filter.group !== "all" && filter.temperament !== "all") {
-      const filteredBreeds =
-        dogData &&
-        dogData.filter(
-          (breed) =>
-            breed.breed_group === filter.group &&
-            breed.temperament &&
-            breed.temperament.includes(filter.temperament)
-        );
-      setShowBreeds(filteredBreeds);
-    } else if (filter.group !== "all" && filter.temperament === "all") {
-      let filteredBreeds =
-        dogData &&
-        dogData.filter((breed) => breed.breed_group === filter.group);
-      setShowBreeds(filteredBreeds && filteredBreeds);
-    } else if (filter.temperament !== "all" && filter.group === "all") {
-      const filteredBreeds =
-        dogData &&
-        dogData.filter(
-          (breed) =>
-            breed.temperament && breed.temperament.includes(filter.temperament)
-        );
-      setShowBreeds(filteredBreeds && filteredBreeds);
-    } else {
-      setShowBreeds(dogData && dogData);
-    }
+    filterDogBreeds(filter, dogData, setShowBreeds);
   }, [filter, dogData]);
 
   return (
@@ -80,6 +61,24 @@ export default function BreedList({ dogData }) {
           {dogBreedTemperament.map((temperament) => (
             <option key={temperament} value={temperament}>
               {temperament}
+            </option>
+          ))}
+        </select>
+        <label htmlFor="breedSize">Temperament</label>
+        <select
+          name="breedSize"
+          id="breedSize"
+          onChange={(event) =>
+            setFilter({ ...filter, size: event.target.value })
+          }
+          defaultValue="all"
+        >
+          <option key="all" value="all">
+            All
+          </option>
+          {dogBreedHeight.map((height) => (
+            <option key={height} value={height}>
+              {height}
             </option>
           ))}
         </select>
