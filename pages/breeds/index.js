@@ -2,13 +2,46 @@ import Container from "@/components/Container.styled";
 import Thumbnail from "@/components/Breeds/Thumbnail";
 import Link from "next/link";
 import { styled } from "styled-components";
+import { dogBreedGroups } from "@/data/dogBreedGroups";
+import { useEffect, useState } from "react";
 
 export default function BreedList({ dogData }) {
+  const [filter, setFilter] = useState("all");
+  const [showBreeds, setShowBreeds] = useState(dogData);
+
+  useEffect(() => {
+    if (filter !== "all") {
+      const filteredBreeds =
+        dogData && dogData.filter((breed) => breed.breed_group === filter);
+      setShowBreeds(filteredBreeds && filteredBreeds);
+    } else {
+      setShowBreeds(dogData);
+    }
+  }, [filter, dogData]);
+
   return (
     <Container>
+      <form>
+        <label htmlFor="breedGroup">Breed Group</label>
+        <select
+          name="breedGroup"
+          id="breedGroup"
+          onChange={(event) => setFilter(event.target.value)}
+          defaultValue="all"
+        >
+          <option key="all" value="all">
+            All
+          </option>
+          {dogBreedGroups.map((group) => (
+            <option key={group} value={group}>
+              {group}
+            </option>
+          ))}
+        </select>
+      </form>
       <List>
-        {dogData &&
-          dogData.map((breed) => (
+        {showBreeds &&
+          showBreeds.map((breed) => (
             <li key={breed.id}>
               <StyledLink href={`/breeds/${breed.slug}`}>
                 <Thumbnail breed={breed} />

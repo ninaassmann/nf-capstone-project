@@ -32,8 +32,6 @@ export default function BreedFieldset({
     setPetBreeds(updatedPetBreeds);
   }
 
-  console.log(petBreeds);
-
   return (
     <Fieldset>
       <legend>Breed</legend>
