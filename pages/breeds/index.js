@@ -64,7 +64,7 @@ export default function BreedList({ dogData }) {
             </option>
           ))}
         </select>
-        <label htmlFor="breedSize">Temperament</label>
+        <label htmlFor="breedSize">Size</label>
         <select
           name="breedSize"
           id="breedSize"
