@@ -22,13 +22,13 @@ const initialFilter = {
   size: "all",
 };
 
-export default function BreedList({ dogData }) {
+export default function BreedList({ dogBreeds }) {
   const [filter, setFilter] = useState(initialFilter);
-  const [showBreeds, setShowBreeds] = useState(dogData);
+  const [breedsToShow, setBreedsToShow] = useState(dogBreeds);
 
   useEffect(() => {
-    filterDogBreeds(filter, dogData, setShowBreeds);
-  }, [filter, dogData]);
+    filterDogBreeds(filter, dogBreeds, setBreedsToShow);
+  }, [filter, dogBreeds]);
 
   return (
     <Container>
@@ -95,8 +95,8 @@ export default function BreedList({ dogData }) {
         </Wrapper>
       </FilterForm>
       <StyledList>
-        {showBreeds ? (
-          showBreeds.map((breed) => (
+        {breedsToShow.length > 0 ? (
+          breedsToShow.map((breed) => (
             <li key={breed.id}>
               <StyledLink href={`/breeds/${breed.slug}`} $variant="breed">
                 <Thumbnail breed={breed} />

@@ -3,15 +3,6 @@ import css from "styled-jsx/css";
 const { default: Link } = require("next/link");
 const { styled } = require("styled-components");
 
-const listVariants = {
-  breed: css`
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 0.5rem;
-  `,
-};
-
 const StyledLink = styled(Link)`
   position: relative;
   display: block;
@@ -25,7 +16,14 @@ const StyledLink = styled(Link)`
     filter: brightness(0.85);
   }
 
-  ${({ $variant }) => listVariants[$variant] || ""};
+  ${({ $variant }) =>
+    $variant == "breed" &&
+    css`
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.5rem;
+    `};
 `;
 
 export default StyledLink;

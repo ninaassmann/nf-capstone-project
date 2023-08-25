@@ -5,11 +5,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 
-export default function BreedDetail({ dogData }) {
+export default function BreedDetail({ dogBreeds }) {
   const router = useRouter();
   const { slug } = router.query;
 
-  const breed = dogData && dogData.find((breed) => slug === breed.slug);
+  const breed = dogBreeds && dogBreeds.find((breed) => slug === breed.slug);
 
   const { data, isLoading, error } = useSWR(
     `https://api.thedogapi.com/v1/images/${breed && breed.reference_image_id}`

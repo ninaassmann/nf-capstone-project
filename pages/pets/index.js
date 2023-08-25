@@ -2,7 +2,7 @@ import Container from "@/components/Container.styled";
 import Link from "next/link";
 import Form from "@/components/Form";
 
-export default function FormPage({ addNewPet, dogData, pets, setToast }) {
+export default function FormPage({ addNewPet, dogBreeds, pets, setToast }) {
   if (!pets) {
     return <p>...loading</p>;
   }
@@ -11,7 +11,7 @@ export default function FormPage({ addNewPet, dogData, pets, setToast }) {
       <h1>Create a new Dog</h1>
       <Form
         addNewPet={addNewPet}
-        dogData={dogData}
+        dogBreeds={dogBreeds}
         pets={pets}
         setToast={setToast}
       />
