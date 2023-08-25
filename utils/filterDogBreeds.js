@@ -1,130 +1,99 @@
-import { dogBreedHeight } from "@/data/dogBreedFilter";
+// got some help from chatGPT to optimize my functions, check older commits for the process
+// it's still a lot of code, that's why I added some comments to explain the single functions
 
 export function filterDogBreeds(filter, dogData, setShowBreeds) {
-  const groupOnly =
-    filter.group !== "all" &&
-    filter.temperament === "all" &&
-    filter.size === "all";
-  const temperamentOnly =
-    filter.temperament !== "all" &&
-    filter.group === "all" &&
-    filter.size === "all";
-  const sizeOnly =
-    filter.size !== "all" &&
-    filter.group === "all" &&
-    filter.temperament === "all";
+  let filteredBreeds = [];
 
-  const groupAndTemperament =
-    filter.group !== "all" &&
-    filter.temperament !== "all" &&
-    filter.size === "all";
-  const groupAndSize =
-    filter.group !== "all" &&
-    filter.temperament === "all" &&
-    filter.size !== "all";
-  const temperamentAndSize =
-    filter.group === "all" &&
-    filter.temperament !== "all" &&
-    filter.size !== "all";
-
-  const allFilter =
-    filter.group !== "all" &&
-    filter.temperament !== "all" &&
-    filter.size !== "all";
-  // check if both group and temperament are set but not size
-  if (allFilter) {
-    const filteredBreeds =
-      dogData &&
-      dogData.filter(
-        (breed) =>
-          breed.breed_group === filter.group &&
-          breed.temperament &&
-          breed.temperament.includes(filter.temperament) &&
-          ((filter.size === "small" && getHeight(breed) < 4) ||
-            (filter.size === "medium" &&
-              getHeight(breed) < 6 &&
-              getHeight(breed) >= 4) ||
-            (filter.size === "large" && getHeight(breed) >= 6))
+  // check if the group filter is set
+  if (filter.group !== "all") {
+    // check if the group and temperament filter is set
+    if (filter.temperament !== "all") {
+      filteredBreeds = dogData.filter((breed) =>
+        handleGroupAndTemperament(breed, filter)
       );
-    setShowBreeds(filteredBreeds);
-  } else if (groupAndTemperament) {
-    const filteredBreeds =
-      dogData &&
-      dogData.filter(
-        (breed) =>
-          breed.breed_group === filter.group &&
-          breed.temperament &&
-          breed.temperament.includes(filter.temperament)
+    }
+    // check if the group and size filter is set
+    else if (filter.size !== "all") {
+      filteredBreeds = dogData.filter((breed) =>
+        handleGroupAndSize(breed, filter)
       );
-    setShowBreeds(filteredBreeds);
-  }
-  // check if both group and size are set but not temperament
-  else if (groupAndSize) {
-    const filteredBreeds =
-      dogData &&
-      dogData.filter(
-        (breed) =>
-          breed.breed_group === filter.group &&
-          ((filter.size === "small" && getHeight(breed) < 4) ||
-            (filter.size === "medium" &&
-              getHeight(breed) < 6 &&
-              getHeight(breed) >= 4) ||
-            (filter.size === "large" && getHeight(breed) >= 6))
+    }
+    // check if ONLY the group filter is set
+    else {
+      filteredBreeds = dogData.filter(
+        (breed) => breed.breed_group === filter.group
       );
-    setShowBreeds(filteredBreeds);
+    }
   }
-  // check if both temperament and size are set but not size
-  else if (temperamentAndSize) {
-    const filteredBreeds =
-      dogData &&
-      dogData.filter(
-        (breed) =>
-          breed.temperament &&
-          breed.temperament.includes(filter.temperament) &&
-          ((filter.size === "small" && getHeight(breed) < 4) ||
-            (filter.size === "medium" &&
-              getHeight(breed) < 6 &&
-              getHeight(breed) >= 4) ||
-            (filter.size === "large" && getHeight(breed) >= 6))
+  // check if the temperament filter is set
+  else if (filter.temperament !== "all") {
+    // check if the temperament and size filter is set
+    if (filter.size !== "all") {
+      filteredBreeds = dogData.filter((breed) =>
+        handleTemperamentAndSize(breed, filter)
       );
-    setShowBreeds(filteredBreeds);
-  }
-  // check if only the group filter is set
-  else if (groupOnly) {
-    let filteredBreeds =
-      dogData && dogData.filter((breed) => breed.breed_group === filter.group);
-    setShowBreeds(filteredBreeds && filteredBreeds);
-  }
-  // check if only the temperament filter is set
-  else if (temperamentOnly) {
-    const filteredBreeds =
-      dogData &&
-      dogData.filter(
+    }
+    // check if ONLY the temperament filter is set
+    else {
+      filteredBreeds = dogData.filter(
         (breed) =>
           breed.temperament && breed.temperament.includes(filter.temperament)
       );
-    setShowBreeds(filteredBreeds && filteredBreeds);
+    }
   }
-  // check if only the height is set
-  else if (sizeOnly) {
-    const filteredBreeds =
-      dogData &&
-      dogData.filter(
-        (breed) =>
-          (filter.size === "small" && getHeight(breed) < 4) ||
-          (filter.size === "medium" &&
-            getHeight(breed) < 6 &&
-            getHeight(breed) >= 4) ||
-          (filter.size === "large" && getHeight(breed) >= 6)
-      );
-    setShowBreeds(filteredBreeds);
+  // check if only the size filter is set
+  else if (filter.size !== "all") {
+    filteredBreeds = dogData.filter(
+      (breed) =>
+        (filter.size === "small" && getHeight(breed) < 4) ||
+        (filter.size === "medium" &&
+          getHeight(breed) < 6 &&
+          getHeight(breed) >= 4) ||
+        (filter.size === "large" && getHeight(breed) >= 6)
+    );
   } else {
-    setShowBreeds(dogData && dogData);
+    filteredBreeds = dogData;
   }
+
+  setShowBreeds(filteredBreeds);
 }
 
 function getHeight(breed) {
   const secondLastCharacter = breed.height.metric.length - 2;
   const height = breed.height.metric.charAt(secondLastCharacter);
   return height;
+}
+
+// group and temperament filter
+function handleGroupAndTemperament(breed, filter) {
+  return (
+    breed.breed_group === filter.group &&
+    breed.temperament &&
+    breed.temperament.includes(filter.temperament)
+  );
+}
+
+// group and size filter
+function handleGroupAndSize(breed, filter) {
+  return breed.breed_group === filter.group && handleSize(breed, filter);
+}
+
+// temperament and size filter
+function handleTemperamentAndSize(breed, filter) {
+  return (
+    breed.temperament &&
+    breed.temperament.includes(filter.temperament) &&
+    handleSize(breed, filter)
+  );
+}
+
+// size filter
+function handleSize(breed, filter) {
+  return (
+    (filter.size === "small" && getHeight(breed) < 4) ||
+    (filter.size === "medium" &&
+      getHeight(breed) < 6 &&
+      getHeight(breed) >= 4) ||
+    (filter.size === "large" && getHeight(breed) >= 6)
+  );
 }

@@ -11,7 +11,6 @@ export const dogBreedGroups = [
 
 export const dogBreedTemperament = [
   "Active",
-  "Adventurous",
   "Alert",
   "Athletic",
   "Brave",
