@@ -10,6 +10,11 @@ import {
   dogBreedTemperament,
 } from "@/data/dogBreedFilter";
 import { filterDogBreeds } from "@/utils/filterDogBreeds";
+import Wrapper from "@/components/Form/Wrapper.styled";
+import StyledForm from "@/components/Form/Form.styled";
+import StyledList from "@/components/List.styled";
+import StyledLink from "@/components/ListLink.styled";
+import Select from "@/components/Form/Select.styled";
 
 const initialFilter = {
   group: "all",
@@ -27,97 +32,89 @@ export default function BreedList({ dogData }) {
 
   return (
     <Container>
-      <form>
-        <label htmlFor="breedGroup">Breed Group</label>
-        <select
-          name="breedGroup"
-          id="breedGroup"
-          onChange={(event) =>
-            setFilter({ ...filter, group: event.target.value })
-          }
-          defaultValue="all"
-        >
-          <option key="all" value="all">
-            All
-          </option>
-          {dogBreedGroups.map((group) => (
-            <option key={group} value={group}>
-              {group}
+      <FilterForm $isRow>
+        <Wrapper>
+          <label htmlFor="breedGroup">Breed Group</label>
+          <Select
+            name="breedGroup"
+            id="breedGroup"
+            onChange={(event) =>
+              setFilter({ ...filter, group: event.target.value })
+            }
+            defaultValue="all"
+          >
+            <option key="all" value="all">
+              All
             </option>
-          ))}
-        </select>
-        <label htmlFor="breedTemperament">Temperament</label>
-        <select
-          name="breedTemperament"
-          id="breedTemperament"
-          onChange={(event) =>
-            setFilter({ ...filter, temperament: event.target.value })
-          }
-          defaultValue="all"
-        >
-          <option key="all" value="all">
-            All
-          </option>
-          {dogBreedTemperament.map((temperament) => (
-            <option key={temperament} value={temperament}>
-              {temperament}
+            {dogBreedGroups.map((group) => (
+              <option key={group} value={group}>
+                {group}
+              </option>
+            ))}
+          </Select>
+        </Wrapper>
+        <Wrapper>
+          <label htmlFor="breedTemperament">Temperament</label>
+          <Select
+            name="breedTemperament"
+            id="breedTemperament"
+            onChange={(event) =>
+              setFilter({ ...filter, temperament: event.target.value })
+            }
+            defaultValue="all"
+          >
+            <option key="all" value="all">
+              All
             </option>
-          ))}
-        </select>
-        <label htmlFor="breedSize">Size</label>
-        <select
-          name="breedSize"
-          id="breedSize"
-          onChange={(event) =>
-            setFilter({ ...filter, size: event.target.value })
-          }
-          defaultValue="all"
-        >
-          <option key="all" value="all">
-            All
-          </option>
-          {dogBreedHeight.map((height) => (
-            <option key={height} value={height}>
-              {height}
+            {dogBreedTemperament.map((temperament) => (
+              <option key={temperament} value={temperament}>
+                {temperament}
+              </option>
+            ))}
+          </Select>
+        </Wrapper>
+        <Wrapper>
+          <label htmlFor="breedSize">Size</label>
+          <Select
+            name="breedSize"
+            id="breedSize"
+            onChange={(event) =>
+              setFilter({ ...filter, size: event.target.value })
+            }
+            defaultValue="all"
+          >
+            <option key="all" value="all">
+              All
             </option>
-          ))}
-        </select>
-      </form>
-      <List>
-        {showBreeds &&
+            {dogBreedHeight.map((height) => (
+              <option key={height} value={height}>
+                {height}
+              </option>
+            ))}
+          </Select>
+        </Wrapper>
+      </FilterForm>
+      <StyledList>
+        {showBreeds ? (
           showBreeds.map((breed) => (
             <li key={breed.id}>
-              <StyledLink href={`/breeds/${breed.slug}`}>
+              <StyledLink href={`/breeds/${breed.slug}`} $variant="breed">
                 <Thumbnail breed={breed} />
                 <h3>{breed.name}</h3>
               </StyledLink>
             </li>
-          ))}
-      </List>
+          ))
+        ) : (
+          <p>There is no matching breed. Please try another combination</p>
+        )}
+      </StyledList>
     </Container>
   );
 }
 
-const List = styled.ul`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  list-style: none;
-`;
-
-const StyledLink = styled(Link)`
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  background-color: lightgray;
-  color: black;
-  text-decoration: none;
-
-  &:hover {
-    filter: brightness(0.85);
+const FilterForm = styled(StyledForm)`
+  justify-content: space-between;
+  & div {
+    width: 100%;
   }
 `;

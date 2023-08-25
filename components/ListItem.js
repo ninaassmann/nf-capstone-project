@@ -1,7 +1,6 @@
 import { calculateAge } from "@/utils/calculateAge";
-import Link from "next/link";
-import { styled } from "styled-components";
 import Label from "./Label.styled";
+import StyledLink from "./ListLink.styled";
 
 export default function ListItem({ mixed, name, breed, birthday, slug }) {
   const age = calculateAge(birthday);
@@ -19,17 +18,3 @@ export default function ListItem({ mixed, name, breed, birthday, slug }) {
     </li>
   );
 }
-
-const StyledLink = styled(Link)`
-  position: relative;
-  display: block;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  background-color: lightgray;
-  color: black;
-  text-decoration: none;
-
-  &:hover {
-    filter: brightness(0.85);
-  }
-`;

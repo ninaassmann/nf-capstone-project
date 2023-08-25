@@ -4,8 +4,12 @@
 export function filterDogBreeds(filter, dogData, setShowBreeds) {
   let filteredBreeds = [];
 
+  if (filter.temperament !== "all" && filter.size !== "all") {
+    filteredBreeds = dogData.filter((breed) => handleAllFilters(breed, filter));
+  }
+
   // check if the group filter is set
-  if (filter.group !== "all") {
+  else if (filter.group !== "all") {
     // check if the group and temperament filter is set
     if (filter.temperament !== "all") {
       filteredBreeds = dogData.filter((breed) =>
@@ -62,6 +66,11 @@ function getHeight(breed) {
   const secondLastCharacter = breed.height.metric.length - 2;
   const height = breed.height.metric.charAt(secondLastCharacter);
   return height;
+}
+
+// all filter are set
+function handleAllFilters(breed, filter) {
+  return handleGroupAndTemperament(breed, filter) && handleSize(breed, filter);
 }
 
 // group and temperament filter
