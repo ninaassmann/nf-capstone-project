@@ -2,20 +2,45 @@ import Container from "@/components/Container.styled";
 import Thumbnail from "@/components/Breeds/Thumbnail";
 import Link from "next/link";
 import { styled } from "styled-components";
-import { dogBreedGroups } from "@/data/dogBreedGroups";
+
 import { useEffect, useState } from "react";
+import { dogBreedGroups, dogBreedTemperament } from "@/data/dogBreedFilter";
+
+const initialFilter = {
+  group: "all",
+  temperament: "all",
+};
 
 export default function BreedList({ dogData }) {
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState(initialFilter);
   const [showBreeds, setShowBreeds] = useState(dogData);
 
   useEffect(() => {
-    if (filter !== "all") {
+    if (filter.group !== "all" && filter.temperament !== "all") {
       const filteredBreeds =
-        dogData && dogData.filter((breed) => breed.breed_group === filter);
+        dogData &&
+        dogData.filter(
+          (breed) =>
+            breed.breed_group === filter.group &&
+            breed.temperament &&
+            breed.temperament.includes(filter.temperament)
+        );
+      setShowBreeds(filteredBreeds);
+    } else if (filter.group !== "all" && filter.temperament === "all") {
+      let filteredBreeds =
+        dogData &&
+        dogData.filter((breed) => breed.breed_group === filter.group);
+      setShowBreeds(filteredBreeds && filteredBreeds);
+    } else if (filter.temperament !== "all" && filter.group === "all") {
+      const filteredBreeds =
+        dogData &&
+        dogData.filter(
+          (breed) =>
+            breed.temperament && breed.temperament.includes(filter.temperament)
+        );
       setShowBreeds(filteredBreeds && filteredBreeds);
     } else {
-      setShowBreeds(dogData);
+      setShowBreeds(dogData && dogData);
     }
   }, [filter, dogData]);
 
@@ -26,7 +51,9 @@ export default function BreedList({ dogData }) {
         <select
           name="breedGroup"
           id="breedGroup"
-          onChange={(event) => setFilter(event.target.value)}
+          onChange={(event) =>
+            setFilter({ ...filter, group: event.target.value })
+          }
           defaultValue="all"
         >
           <option key="all" value="all">
@@ -35,6 +62,24 @@ export default function BreedList({ dogData }) {
           {dogBreedGroups.map((group) => (
             <option key={group} value={group}>
               {group}
+            </option>
+          ))}
+        </select>
+        <label htmlFor="breedTemperament">Temperament</label>
+        <select
+          name="breedTemperament"
+          id="breedTemperament"
+          onChange={(event) =>
+            setFilter({ ...filter, temperament: event.target.value })
+          }
+          defaultValue="all"
+        >
+          <option key="all" value="all">
+            All
+          </option>
+          {dogBreedTemperament.map((temperament) => (
+            <option key={temperament} value={temperament}>
+              {temperament}
             </option>
           ))}
         </select>
