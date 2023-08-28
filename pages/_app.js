@@ -93,7 +93,7 @@ export default function App({ Component, pageProps }) {
             updatePets={handleUpdate}
             handleDelete={handleDelete}
             pets={pets}
-            dogData={dogBreeds}
+            dogBreeds={dogBreeds}
             toast={toast}
             setToast={setToast}
           />

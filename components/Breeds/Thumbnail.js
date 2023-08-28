@@ -4,15 +4,18 @@ import useSWR from "swr";
 
 export default function Thumbnail({ breed }) {
   const { data, isLoading, error } = useSWR(
-    `https://api.thedogapi.com/v1/images/${breed.reference_image_id}`
+    `/api/dogBreeds/${breed.reference_image_id}`
   );
-
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
-
   return (
     <ImageWrapper>
-      <StyledImage src={data.url} alt={breed.name} fill={true} />
+      <StyledImage
+        src={data.results.url}
+        alt={breed.name}
+        width={data.results.width}
+        height={data.results.height}
+      />
     </ImageWrapper>
   );
 }
@@ -29,4 +32,6 @@ const StyledImage = styled(Image)`
   object-fit: cover;
   aspect-ratio: 1 / 1;
   background: lightblue;
+  width: 100%;
+  height: 100%;
 `;

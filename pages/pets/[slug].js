@@ -15,7 +15,7 @@ import VetSection from "@/components/PetDetails/VetSection";
 export default function Pet({
   pets,
   updateFoodStock,
-  dogData,
+  dogBreeds,
   handleDelete,
   toast,
   updatePets,
@@ -60,7 +60,7 @@ export default function Pet({
           updatePets={updatePets}
         />
 
-        <BreedInfoSection petBreeds={petBreeds} dogData={dogData} />
+        <BreedInfoSection petBreeds={petBreeds} dogBreeds={dogBreeds} />
 
         <Button
           type="button"

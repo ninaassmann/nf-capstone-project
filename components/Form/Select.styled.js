@@ -5,19 +5,16 @@ const Select = styled.select`
   padding: 1rem;
   border-radius: 0.5rem;
   border: 1px solid grey;
+  position: relative;
 
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
 
-  &::after {
-    content: "↓";
-    position: absolute;
-    font-size: 1rem;
-    right: 1rem;
-    top: 0.95rem;
-    color: black;
-  }
+  background: url("/arrow.svg");
+  background-size: 2rem;
+  background-repeat: no-repeat;
+  background-position: calc(100% - 0.5rem);
 `;
 
 export default Select;

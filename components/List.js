@@ -1,5 +1,6 @@
 import { styled } from "styled-components";
 import ListItem from "./ListItem";
+import StyledList from "./List.styled";
 
 export default function List({ pets }) {
   return (
@@ -20,12 +21,3 @@ export default function List({ pets }) {
     </StyledList>
   );
 }
-
-const StyledList = styled.ul`
-  width: 100%;
-  margin-top: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  list-style: none;
-`;

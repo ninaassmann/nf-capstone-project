@@ -16,7 +16,7 @@ var today = new Date().toISOString().split("T")[0];
 export default function Form({
   addNewPet,
   updatePets,
-  dogData,
+  dogBreeds,
   pets,
   pet,
   setToast,
@@ -81,7 +81,7 @@ export default function Form({
       <BreedFieldset
         pet={pet}
         petBreeds={petBreeds}
-        dogData={dogData}
+        dogBreeds={dogBreeds}
         setPetBreeds={setPetBreeds}
       />
 

@@ -157,7 +157,7 @@ const StyledLabel = styled.label`
   width: 100%;
   text-align: center;
   background: white;
-  padding: 1rem 2rem;
+  padding: 1rem 1rem;
   border-radius: 0.5rem;
 `;
 

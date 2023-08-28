@@ -6,7 +6,7 @@ import Wrapper from "./Wrapper.styled";
 export default function BreedFieldset({
   pet,
   petBreeds,
-  dogData,
+  dogBreeds,
   setPetBreeds,
 }) {
   function handleAddBreed() {
@@ -32,8 +32,6 @@ export default function BreedFieldset({
     setPetBreeds(updatedPetBreeds);
   }
 
-  console.log(petBreeds);
-
   return (
     <Fieldset>
       <legend>Breed</legend>
@@ -52,8 +50,8 @@ export default function BreedFieldset({
             <option key="unknown" value="Breed Unknown">
               {"I don't know the breed"}
             </option>
-            {dogData &&
-              dogData.map((breed) => (
+            {dogBreeds &&
+              dogBreeds.map((breed) => (
                 <option
                   key={breed.id}
                   value={breed.name}

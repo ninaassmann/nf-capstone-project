@@ -1,11 +1,11 @@
 import Section from "./Section.styled";
 
-export default function BreedInfoSection({ petBreeds, dogData }) {
+export default function BreedInfoSection({ petBreeds, dogBreeds }) {
   return (
     <>
       {petBreeds.map((petBreed) => {
         const dataBreed =
-          dogData && dogData.find((breed) => breed.name === petBreed);
+          dogBreeds && dogBreeds.find((breed) => breed.name === petBreed);
         if (dataBreed) {
           return (
             <>
