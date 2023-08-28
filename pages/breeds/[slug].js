@@ -12,7 +12,7 @@ export default function BreedDetail({ dogBreeds }) {
   const breed = dogBreeds && dogBreeds.find((breed) => slug === breed.slug);
 
   const { data, isLoading, error } = useSWR(
-    `/api/dogBreeds/${breed.reference_image_id}`
+    `/api/dogBreeds/${breed && breed.reference_image_id}`
   );
 
   if (error) return <div>failed to load</div>;

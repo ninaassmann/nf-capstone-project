@@ -8,8 +8,8 @@ export default function Hero({ breed, data }) {
       <StyledImage
         src={data.results.url}
         alt={breed.name}
-        fill={true}
-        sizes="100vw"
+        width={data.results.width}
+        height={data.results.height}
       />
       <h1>{breed.name}</h1>
     </ImageWrapper>
@@ -19,7 +19,7 @@ export default function Hero({ breed, data }) {
 const ImageWrapper = styled.div`
   position: relative;
   width: 100%;
-  height: 20rem;
+  height: 18rem;
   border-radius: 0.25rem;
   overflow: hidden;
 
@@ -35,6 +35,8 @@ const ImageWrapper = styled.div`
 `;
 
 const StyledImage = styled(Image)`
-  object-fit: cover;
+  width: 100%;
+  height: 100%;
   background: lightblue;
+  object-fit: cover;
 `;

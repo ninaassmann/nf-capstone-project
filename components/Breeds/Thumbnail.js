@@ -8,7 +8,6 @@ export default function Thumbnail({ breed }) {
   );
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
-  console.log(process.env.API_KEY);
   return (
     <ImageWrapper>
       <StyledImage
