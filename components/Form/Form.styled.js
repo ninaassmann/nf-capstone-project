@@ -4,7 +4,7 @@ const StyledForm = styled.form`
   width: 100%;
   display: flex;
   flex-direction: ${(props) => (props.$isRow ? "row" : "column")};
-  gap: 2rem;
+  gap: 1rem;
 `;
 
 export default StyledForm;

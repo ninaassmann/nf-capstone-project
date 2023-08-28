@@ -1,20 +1,19 @@
 import Container from "@/components/Container.styled";
 import Thumbnail from "@/components/Breeds/Thumbnail";
-import Link from "next/link";
 import { styled } from "styled-components";
 
-import { useEffect, useState } from "react";
 import {
   dogBreedGroups,
   dogBreedHeight,
   dogBreedTemperament,
 } from "@/data/dogBreedFilter";
-import { filterDogBreeds } from "@/utils/filterDogBreeds";
 import Wrapper from "@/components/Form/Wrapper.styled";
 import StyledForm from "@/components/Form/Form.styled";
 import StyledList from "@/components/List.styled";
 import StyledLink from "@/components/ListLink.styled";
 import Select from "@/components/Form/Select.styled";
+import { dogBreedFilter } from "@/utils/dogBreedFilter";
+import { useState } from "react";
 
 const initialFilter = {
   group: "all",
@@ -24,11 +23,8 @@ const initialFilter = {
 
 export default function BreedList({ dogBreeds }) {
   const [filter, setFilter] = useState(initialFilter);
-  const [breedsToShow, setBreedsToShow] = useState(dogBreeds);
 
-  useEffect(() => {
-    filterDogBreeds(filter, dogBreeds, setBreedsToShow);
-  }, [filter, dogBreeds]);
+  const breedsToShow = dogBreedFilter(filter, dogBreeds);
 
   return (
     <Container>
@@ -95,7 +91,7 @@ export default function BreedList({ dogBreeds }) {
         </Wrapper>
       </FilterForm>
       <StyledList>
-        {breedsToShow.length > 0 ? (
+        {breedsToShow && breedsToShow.length > 0 ? (
           breedsToShow.map((breed) => (
             <li key={breed.id}>
               <StyledLink href={`/breeds/${breed.slug}`} $variant="breed">

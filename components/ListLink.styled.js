@@ -1,7 +1,5 @@
-import css from "styled-jsx/css";
-
-const { default: Link } = require("next/link");
-const { styled } = require("styled-components");
+import Link from "next/link";
+import { css, styled } from "styled-components";
 
 const StyledLink = styled(Link)`
   position: relative;

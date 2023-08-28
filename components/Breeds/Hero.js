@@ -5,7 +5,12 @@ export default function Hero({ breed, data }) {
   if (!data) return <p>is loading</p>;
   return (
     <ImageWrapper>
-      <StyledImage src={data.url} alt={breed.name} fill={true} />
+      <StyledImage
+        src={data.results.url}
+        alt={breed.name}
+        fill={true}
+        sizes="100vw"
+      />
       <h1>{breed.name}</h1>
     </ImageWrapper>
   );

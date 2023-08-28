@@ -16,6 +16,9 @@ const nextConfig = {
   images: {
     domains: ["cdn2.thedogapi.com"],
   },
+  env: {
+    API_KEY: process.env.API_KEY,
+  },
 };
 
 module.exports = nextConfig;

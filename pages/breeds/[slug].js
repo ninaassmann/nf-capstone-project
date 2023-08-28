@@ -12,7 +12,7 @@ export default function BreedDetail({ dogBreeds }) {
   const breed = dogBreeds && dogBreeds.find((breed) => slug === breed.slug);
 
   const { data, isLoading, error } = useSWR(
-    `https://api.thedogapi.com/v1/images/${breed && breed.reference_image_id}`
+    `/api/dogBreeds/${breed.reference_image_id}`
   );
 
   if (error) return <div>failed to load</div>;
@@ -22,6 +22,7 @@ export default function BreedDetail({ dogBreeds }) {
     <Container>
       <Link href="/breeds">back to overview</Link>
       <Hero breed={breed} data={data} />
+      <h1>{breed.name}</h1>
       <h2>General Breed Information:</h2>
       <h3>Origin</h3>
       <p>{breed.origin}</p>

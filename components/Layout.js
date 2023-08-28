@@ -7,11 +7,12 @@ export default function Layout({ children }) {
     <>
       <StyledHeader>
         <ImageWrapper>
-          <Image
+          <StyledImage
             src="/pawconnect-logo.png"
             alt="Logo"
-            fill={true}
-            objectFit="contain"
+            width={640 / 3}
+            height={109 / 3}
+            priority
           />
         </ImageWrapper>
       </StyledHeader>
@@ -42,7 +43,7 @@ const ImageWrapper = styled.div`
   position: relative;
   width: 100%;
   margin-inline: auto;
-  height: 100%;
+  height: calc(60px - 2rem);
 `;
 
 const StyledFooter = styled.footer`
@@ -55,6 +56,11 @@ const StyledFooter = styled.footer`
   background-color: lightblue;
   text-align: center;
   border-top: 2px solid;
+`;
+
+const StyledImage = styled(Image)`
+  height: 28px;
+  width: fit-content;
 `;
 
 const StyledNav = styled.nav`
