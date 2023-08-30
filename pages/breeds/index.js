@@ -38,12 +38,22 @@ export default function BreedList({ dogBreeds }) {
     defaultValue: initialSliceOptions,
   });
 
-  const breedsToShow = dogBreedFilter(filter, dogBreeds && dogBreeds);
+  const breedsToShow = dogBreedFilter(
+    filter,
+    dogBreeds && dogBreeds,
+    setSliceOptions,
+    initialSliceOptions
+  );
   const breedsToShowCount = breedsToShow?.length;
 
-  useEffect(() => {
+  function handleOnChange(event, key) {
+    const newFilter = {
+      ...filter,
+    };
+    newFilter[key] = event.target.value;
+    setFilter(newFilter);
     setSliceOptions(initialSliceOptions);
-  }, [setSliceOptions, filter]);
+  }
 
   return (
     <Container>
@@ -53,9 +63,7 @@ export default function BreedList({ dogBreeds }) {
           <Select
             name="breedGroup"
             id="breedGroup"
-            onChange={(event) =>
-              setFilter({ ...filter, group: event.target.value })
-            }
+            onChange={(event) => handleOnChange(event, "group")}
             defaultValue={filter.group}
           >
             <option key="all" value="all">
@@ -73,9 +81,7 @@ export default function BreedList({ dogBreeds }) {
           <Select
             name="breedTemperament"
             id="breedTemperament"
-            onChange={(event) =>
-              setFilter({ ...filter, temperament: event.target.value })
-            }
+            onChange={(event) => handleOnChange(event, "temperament")}
             defaultValue={filter.temperament}
           >
             <option key="all" value="all">
@@ -93,9 +99,7 @@ export default function BreedList({ dogBreeds }) {
           <Select
             name="breedSize"
             id="breedSize"
-            onChange={(event) =>
-              setFilter({ ...filter, size: event.target.value })
-            }
+            onChange={(event) => handleOnChange(event, "size")}
             defaultValue={filter.size}
           >
             <option key="all" value="all">

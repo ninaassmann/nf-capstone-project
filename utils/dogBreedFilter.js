@@ -7,7 +7,7 @@ export function dogBreedFilter(filter, dogBreeds) {
             breed.temperament && breed.temperament.includes(filter.temperament)
           );
         });
-  console.log(filter, filteredByTemperatment);
+
   const filteredByBreedGroup =
     filter.group === "all"
       ? filteredByTemperatment

@@ -14,7 +14,7 @@ function checkRange(newSliceOptions, setSliceOptions, breedsToShowCount) {
   if (newSliceOptions.end > breedsToShowCount) {
     newSliceOptions = {
       start: newSliceOptions.start,
-      end: newSliceOptions.end,
+      end: newSliceOptions.start + 10,
       prevDisabled: false,
       nextDisabled: true,
     };
