@@ -38,12 +38,7 @@ export default function BreedList({ dogBreeds }) {
     defaultValue: initialSliceOptions,
   });
 
-  const breedsToShow = dogBreedFilter(
-    filter,
-    dogBreeds && dogBreeds,
-    setSliceOptions,
-    initialSliceOptions
-  );
+  const breedsToShow = dogBreedFilter(filter, dogBreeds && dogBreeds);
   const breedsToShowCount = breedsToShow?.length;
 
   function handleOnChange(event, key) {
