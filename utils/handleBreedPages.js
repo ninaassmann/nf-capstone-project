@@ -1,6 +1,6 @@
 let newSliceOptions = {};
 
-function checkRange(newSliceOptions) {
+function checkRange(newSliceOptions, setSliceOptions, breedsToShowCount) {
   if (newSliceOptions.start === 0) {
     newSliceOptions = {
       start: 0,
@@ -23,22 +23,26 @@ function checkRange(newSliceOptions) {
   setSliceOptions(newSliceOptions);
 }
 
-export function handlePrevious() {
+export function handlePrevious(
+  sliceOptions,
+  setSliceOptions,
+  breedsToShowCount
+) {
   newSliceOptions = {
     start: sliceOptions.start - 10,
     end: sliceOptions.end - 10,
     prevDisabled: false,
     nextDisabled: false,
   };
-  checkRange(newSliceOptions);
+  checkRange(newSliceOptions, setSliceOptions, breedsToShowCount);
 }
 
-export function handleNext() {
+export function handleNext(sliceOptions, setSliceOptions, breedsToShowCount) {
   newSliceOptions = {
     start: sliceOptions.start + 10,
     end: sliceOptions.end + 10,
     prevDisabled: false,
     nextDisabled: false,
   };
-  checkRange(newSliceOptions);
+  checkRange(newSliceOptions, setSliceOptions, breedsToShowCount);
 }

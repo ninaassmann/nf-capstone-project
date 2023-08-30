@@ -11,7 +11,7 @@ import StyledForm from "@/components/Form/Form.styled";
 import StyledList from "@/components/List.styled";
 import Select from "@/components/Form/Select.styled";
 import { dogBreedFilter } from "@/utils/dogBreedFilter";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ListItemWithImg from "@/components/ListItemWithImg";
 import Button from "@/components/Button";
 import useLocalStorageState from "use-local-storage-state";
@@ -43,7 +43,8 @@ export default function BreedList({ dogBreeds }) {
 
   useEffect(() => {
     setSliceOptions(initialSliceOptions);
-  }, [setSliceOptions, breedsToShowCount]);
+  }, [setSliceOptions, filter]);
+
   return (
     <Container>
       <FilterForm $isRow>
@@ -122,13 +123,17 @@ export default function BreedList({ dogBreeds }) {
         <ButtonWrapper>
           <Button
             type="button"
-            onClick={handlePrevious}
+            onClick={() =>
+              handlePrevious(sliceOptions, setSliceOptions, breedsToShowCount)
+            }
             buttonText="Previous"
             disabled={sliceOptions.prevDisabled}
           />
           <Button
             type="button"
-            onClick={handleNext}
+            onClick={() =>
+              handleNext(sliceOptions, setSliceOptions, breedsToShowCount)
+            }
             buttonText="Next"
             disabled={sliceOptions.nextDisabled}
           />
