@@ -21,6 +21,7 @@ const StyledLink = styled(Link)`
       align-items: center;
       gap: 1rem;
       padding: 0.5rem;
+      height: 96px;
     `};
 `;
 

@@ -13,7 +13,9 @@ import StyledList from "@/components/List.styled";
 import StyledLink from "@/components/ListLink.styled";
 import Select from "@/components/Form/Select.styled";
 import { dogBreedFilter } from "@/utils/dogBreedFilter";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import ListItemWithImg from "@/components/ListItemWithImg";
+import Button from "@/components/Button";
 
 const initialFilter = {
   group: "all",
@@ -23,8 +25,60 @@ const initialFilter = {
 
 export default function BreedList({ dogBreeds }) {
   const [filter, setFilter] = useState(initialFilter);
+  const [sliceOptions, setSliceOptions] = useState({
+    start: 0,
+    end: 10,
+    prevDisabled: true,
+    nextDisabled: false,
+  });
 
   const breedsToShow = dogBreedFilter(filter, dogBreeds);
+  const breedsToShowCount = breedsToShow?.length;
+
+  let newSliceOptions = {};
+
+  function checkRange(newSliceOptions) {
+    if (newSliceOptions.start === 0) {
+      newSliceOptions = {
+        start: 0,
+        end: 10,
+        prevDisabled: true,
+        nextDisabled: false,
+      };
+      setSliceOptions(newSliceOptions);
+    }
+
+    if (newSliceOptions.end > breedsToShowCount) {
+      newSliceOptions = {
+        start: newSliceOptions.start,
+        end: newSliceOptions.end,
+        prevDisabled: false,
+        nextDisabled: true,
+      };
+      setSliceOptions(newSliceOptions);
+    }
+    setSliceOptions(newSliceOptions);
+  }
+
+  function handlePrevious() {
+    newSliceOptions = {
+      start: sliceOptions.start - 10,
+      end: sliceOptions.end - 10,
+      prevDisabled: false,
+      nextDisabled: false,
+    };
+    checkRange(newSliceOptions);
+  }
+
+  function handleNext() {
+    newSliceOptions = {
+      start: sliceOptions.start + 10,
+      end: sliceOptions.end + 10,
+      prevDisabled: false,
+      nextDisabled: false,
+    };
+    checkRange(newSliceOptions);
+  }
 
   return (
     <Container>
@@ -90,16 +144,25 @@ export default function BreedList({ dogBreeds }) {
           </Select>
         </Wrapper>
       </FilterForm>
+      <ButtonWrapper>
+        <Button
+          type="button"
+          onClick={handlePrevious}
+          buttonText="Previous"
+          disabled={sliceOptions.prevDisabled}
+        />
+        <Button
+          type="button"
+          onClick={handleNext}
+          buttonText="Next"
+          disabled={sliceOptions.nextDisabled}
+        />
+      </ButtonWrapper>
       <StyledList>
         {breedsToShow && breedsToShow.length > 0 ? (
-          breedsToShow.map((breed) => (
-            <li key={breed.id}>
-              <StyledLink href={`/breeds/${breed.slug}`} $variant="breed">
-                <Thumbnail breed={breed} />
-                <h3>{breed.name}</h3>
-              </StyledLink>
-            </li>
-          ))
+          breedsToShow
+            .slice(sliceOptions.start, sliceOptions.end)
+            .map((breed) => <ListItemWithImg breed={breed} key={breed.id} />)
         ) : (
           <p>There is no matching breed. Please try another combination</p>
         )}
@@ -113,4 +176,13 @@ const FilterForm = styled(StyledForm)`
   & div {
     width: 100%;
   }
+`;
+
+const ButtonWrapper = styled.div`
+  width: 100%;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
 `;
