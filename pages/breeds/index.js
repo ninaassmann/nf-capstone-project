@@ -1,5 +1,4 @@
 import Container from "@/components/Container.styled";
-import Thumbnail from "@/components/Breeds/Thumbnail";
 import { styled } from "styled-components";
 
 import {
@@ -10,12 +9,13 @@ import {
 import Wrapper from "@/components/Form/Wrapper.styled";
 import StyledForm from "@/components/Form/Form.styled";
 import StyledList from "@/components/List.styled";
-import StyledLink from "@/components/ListLink.styled";
 import Select from "@/components/Form/Select.styled";
 import { dogBreedFilter } from "@/utils/dogBreedFilter";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ListItemWithImg from "@/components/ListItemWithImg";
 import Button from "@/components/Button";
+import useLocalStorageState from "use-local-storage-state";
+import { handleNext, handlePrevious } from "@/utils/handleBreedPages";
 
 const initialFilter = {
   group: "all",
@@ -23,63 +23,27 @@ const initialFilter = {
   size: "all",
 };
 
+const initialSliceOptions = {
+  start: 0,
+  end: 10,
+  prevDisabled: true,
+  nextDisabled: false,
+};
+
 export default function BreedList({ dogBreeds }) {
-  const [filter, setFilter] = useState(initialFilter);
-  const [sliceOptions, setSliceOptions] = useState({
-    start: 0,
-    end: 10,
-    prevDisabled: true,
-    nextDisabled: false,
+  const [filter, setFilter] = useLocalStorageState("breedFilter", {
+    defaultValue: initialFilter,
+  });
+  const [sliceOptions, setSliceOptions] = useLocalStorageState("sliceOptions", {
+    defaultValue: initialSliceOptions,
   });
 
-  const breedsToShow = dogBreedFilter(filter, dogBreeds);
+  const breedsToShow = dogBreedFilter(filter, dogBreeds && dogBreeds);
   const breedsToShowCount = breedsToShow?.length;
 
-  let newSliceOptions = {};
-
-  function checkRange(newSliceOptions) {
-    if (newSliceOptions.start === 0) {
-      newSliceOptions = {
-        start: 0,
-        end: 10,
-        prevDisabled: true,
-        nextDisabled: false,
-      };
-      setSliceOptions(newSliceOptions);
-    }
-
-    if (newSliceOptions.end > breedsToShowCount) {
-      newSliceOptions = {
-        start: newSliceOptions.start,
-        end: newSliceOptions.end,
-        prevDisabled: false,
-        nextDisabled: true,
-      };
-      setSliceOptions(newSliceOptions);
-    }
-    setSliceOptions(newSliceOptions);
-  }
-
-  function handlePrevious() {
-    newSliceOptions = {
-      start: sliceOptions.start - 10,
-      end: sliceOptions.end - 10,
-      prevDisabled: false,
-      nextDisabled: false,
-    };
-    checkRange(newSliceOptions);
-  }
-
-  function handleNext() {
-    newSliceOptions = {
-      start: sliceOptions.start + 10,
-      end: sliceOptions.end + 10,
-      prevDisabled: false,
-      nextDisabled: false,
-    };
-    checkRange(newSliceOptions);
-  }
-
+  useEffect(() => {
+    setSliceOptions(initialSliceOptions);
+  }, [setSliceOptions, breedsToShowCount]);
   return (
     <Container>
       <FilterForm $isRow>
@@ -91,7 +55,7 @@ export default function BreedList({ dogBreeds }) {
             onChange={(event) =>
               setFilter({ ...filter, group: event.target.value })
             }
-            defaultValue="all"
+            defaultValue={filter.group}
           >
             <option key="all" value="all">
               All
@@ -111,7 +75,7 @@ export default function BreedList({ dogBreeds }) {
             onChange={(event) =>
               setFilter({ ...filter, temperament: event.target.value })
             }
-            defaultValue="all"
+            defaultValue={filter.temperament}
           >
             <option key="all" value="all">
               All
@@ -131,7 +95,7 @@ export default function BreedList({ dogBreeds }) {
             onChange={(event) =>
               setFilter({ ...filter, size: event.target.value })
             }
-            defaultValue="all"
+            defaultValue={filter.size}
           >
             <option key="all" value="all">
               All
@@ -144,20 +108,7 @@ export default function BreedList({ dogBreeds }) {
           </Select>
         </Wrapper>
       </FilterForm>
-      <ButtonWrapper>
-        <Button
-          type="button"
-          onClick={handlePrevious}
-          buttonText="Previous"
-          disabled={sliceOptions.prevDisabled}
-        />
-        <Button
-          type="button"
-          onClick={handleNext}
-          buttonText="Next"
-          disabled={sliceOptions.nextDisabled}
-        />
-      </ButtonWrapper>
+
       <StyledList>
         {breedsToShow && breedsToShow.length > 0 ? (
           breedsToShow
@@ -167,6 +118,22 @@ export default function BreedList({ dogBreeds }) {
           <p>There is no matching breed. Please try another combination</p>
         )}
       </StyledList>
+      {breedsToShowCount > 10 && (
+        <ButtonWrapper>
+          <Button
+            type="button"
+            onClick={handlePrevious}
+            buttonText="Previous"
+            disabled={sliceOptions.prevDisabled}
+          />
+          <Button
+            type="button"
+            onClick={handleNext}
+            buttonText="Next"
+            disabled={sliceOptions.nextDisabled}
+          />
+        </ButtonWrapper>
+      )}
     </Container>
   );
 }
@@ -180,7 +147,6 @@ const FilterForm = styled(StyledForm)`
 
 const ButtonWrapper = styled.div`
   width: 100%;
-  margin-bottom: 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;

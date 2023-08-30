@@ -2,23 +2,23 @@ export function dogBreedFilter(filter, dogBreeds) {
   const filteredByTemperatment =
     filter.temperament === "all"
       ? dogBreeds
-      : dogBreeds.filter((breed) => {
+      : dogBreeds?.filter((breed) => {
           return (
             breed.temperament && breed.temperament.includes(filter.temperament)
           );
         });
-
+  console.log(filter, filteredByTemperatment);
   const filteredByBreedGroup =
     filter.group === "all"
       ? filteredByTemperatment
-      : filteredByTemperatment.filter(
+      : filteredByTemperatment?.filter(
           (breed) => breed.breed_group === filter.group
         );
 
   const filteredBySize =
     filter.size === "all"
       ? filteredByBreedGroup
-      : filteredByBreedGroup.filter((breed) => {
+      : filteredByBreedGroup?.filter((breed) => {
           return (
             (filter.size === "small" && getHeight(breed) < 4) ||
             (filter.size === "medium" &&
@@ -28,7 +28,6 @@ export function dogBreedFilter(filter, dogBreeds) {
           );
         });
 
-  /* setBreedsToShow(filteredBySize); */
   return filteredBySize;
 }
 
