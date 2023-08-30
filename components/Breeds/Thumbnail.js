@@ -5,28 +5,32 @@ import { keyframes, styled } from "styled-components";
 import { useState } from "react";
 
 export default function Thumbnail({ breed }) {
-  const [loader, setLoader] = useState(true);
-
   const { data, isLoading, error } = useSWR(
     `/api/dogBreeds/${breed && breed.reference_image_id}`
   );
-  if (error) return <div>failed to load</div>;
-  if (isLoading) return <div>loading...</div>;
-
-  return (
-    <ImageWrapper $variant="thumbnail">
-      {loader && (
+  if (error)
+    return (
+      <ImageWrapper $variant="thumbnail">
+        <div>failed</div>
+      </ImageWrapper>
+    );
+  if (isLoading)
+    return (
+      <ImageWrapper $variant="thumbnail">
         <LoaderWrapper>
           <Loader />
         </LoaderWrapper>
-      )}
+      </ImageWrapper>
+    );
+
+  return (
+    <ImageWrapper $variant="thumbnail">
       {data && (
         <StyledImage
           src={data.results.url}
           alt={breed.name}
           width={data.results.width}
           height={data.results.height}
-          onLoadingComplete={() => setLoader(false)}
         />
       )}
     </ImageWrapper>
