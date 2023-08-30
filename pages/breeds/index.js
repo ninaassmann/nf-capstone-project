@@ -1,5 +1,4 @@
 import Container from "@/components/Container.styled";
-import Thumbnail from "@/components/Breeds/Thumbnail";
 import { styled } from "styled-components";
 
 import {
@@ -10,10 +9,13 @@ import {
 import Wrapper from "@/components/Form/Wrapper.styled";
 import StyledForm from "@/components/Form/Form.styled";
 import StyledList from "@/components/List.styled";
-import StyledLink from "@/components/ListLink.styled";
 import Select from "@/components/Form/Select.styled";
 import { dogBreedFilter } from "@/utils/dogBreedFilter";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import ListItemWithImg from "@/components/ListItemWithImg";
+import Button from "@/components/Button";
+import useLocalStorageState from "use-local-storage-state";
+import { handleNext, handlePrevious } from "@/utils/handleBreedPages";
 
 const initialFilter = {
   group: "all",
@@ -21,10 +23,32 @@ const initialFilter = {
   size: "all",
 };
 
-export default function BreedList({ dogBreeds }) {
-  const [filter, setFilter] = useState(initialFilter);
+const initialSliceOptions = {
+  start: 0,
+  end: 10,
+  prevDisabled: true,
+  nextDisabled: false,
+};
 
-  const breedsToShow = dogBreedFilter(filter, dogBreeds);
+export default function BreedList({ dogBreeds }) {
+  const [filter, setFilter] = useLocalStorageState("breedFilter", {
+    defaultValue: initialFilter,
+  });
+  const [sliceOptions, setSliceOptions] = useLocalStorageState("sliceOptions", {
+    defaultValue: initialSliceOptions,
+  });
+
+  const breedsToShow = dogBreedFilter(filter, dogBreeds && dogBreeds);
+  const breedsToShowCount = breedsToShow?.length;
+
+  function handleOnChange(event, key) {
+    const newFilter = {
+      ...filter,
+    };
+    newFilter[key] = event.target.value;
+    setFilter(newFilter);
+    setSliceOptions(initialSliceOptions);
+  }
 
   return (
     <Container>
@@ -34,10 +58,8 @@ export default function BreedList({ dogBreeds }) {
           <Select
             name="breedGroup"
             id="breedGroup"
-            onChange={(event) =>
-              setFilter({ ...filter, group: event.target.value })
-            }
-            defaultValue="all"
+            onChange={(event) => handleOnChange(event, "group")}
+            defaultValue={filter.group}
           >
             <option key="all" value="all">
               All
@@ -54,10 +76,8 @@ export default function BreedList({ dogBreeds }) {
           <Select
             name="breedTemperament"
             id="breedTemperament"
-            onChange={(event) =>
-              setFilter({ ...filter, temperament: event.target.value })
-            }
-            defaultValue="all"
+            onChange={(event) => handleOnChange(event, "temperament")}
+            defaultValue={filter.temperament}
           >
             <option key="all" value="all">
               All
@@ -74,10 +94,8 @@ export default function BreedList({ dogBreeds }) {
           <Select
             name="breedSize"
             id="breedSize"
-            onChange={(event) =>
-              setFilter({ ...filter, size: event.target.value })
-            }
-            defaultValue="all"
+            onChange={(event) => handleOnChange(event, "size")}
+            defaultValue={filter.size}
           >
             <option key="all" value="all">
               All
@@ -90,20 +108,36 @@ export default function BreedList({ dogBreeds }) {
           </Select>
         </Wrapper>
       </FilterForm>
+
       <StyledList>
         {breedsToShow && breedsToShow.length > 0 ? (
-          breedsToShow.map((breed) => (
-            <li key={breed.id}>
-              <StyledLink href={`/breeds/${breed.slug}`} $variant="breed">
-                <Thumbnail breed={breed} />
-                <h3>{breed.name}</h3>
-              </StyledLink>
-            </li>
-          ))
+          breedsToShow
+            .slice(sliceOptions.start, sliceOptions.end)
+            .map((breed) => <ListItemWithImg breed={breed} key={breed.id} />)
         ) : (
           <p>There is no matching breed. Please try another combination</p>
         )}
       </StyledList>
+      {breedsToShowCount > 10 && (
+        <ButtonWrapper>
+          <Button
+            type="button"
+            onClick={() =>
+              handlePrevious(sliceOptions, setSliceOptions, breedsToShowCount)
+            }
+            buttonText="Previous"
+            disabled={sliceOptions.prevDisabled}
+          />
+          <Button
+            type="button"
+            onClick={() =>
+              handleNext(sliceOptions, setSliceOptions, breedsToShowCount)
+            }
+            buttonText="Next"
+            disabled={sliceOptions.nextDisabled}
+          />
+        </ButtonWrapper>
+      )}
     </Container>
   );
 }
@@ -113,4 +147,12 @@ const FilterForm = styled(StyledForm)`
   & div {
     width: 100%;
   }
+`;
+
+const ButtonWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
 `;
