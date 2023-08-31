@@ -1,22 +1,21 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { styled } from "styled-components";
 
-import FoodFieldset from "./FoodFieldset";
+import Link from "next/link";
+
 import Button from "../Button";
+import ButtonWrapper from "../ButtonWrapper.styled";
 
 import StyledForm from "./Form.styled";
 import Wrapper from "./Wrapper.styled";
 import Input from "./Input.styled";
 import VetFieldset from "./VetFieldset";
 import BreedFieldset from "./BreedFieldset";
+import FoodFieldset from "./FoodFieldset";
+
 import { createPet } from "@/utils/createPet";
-import ButtonWrapper from "../ButtonWrapper.styled";
-import Link from "next/link";
-import { checkCustomRoutes } from "next/dist/lib/load-custom-routes";
-import Puppies from "../icons/Puppies";
-import { styled } from "styled-components";
 import initialPageOptions from "@/data/formStepsOptions";
-import Image from "next/image";
 
 var today = new Date().toISOString().split("T")[0];
 
@@ -31,14 +30,9 @@ export default function Form({
   const router = useRouter();
   const [formSteps, setFormSteps] = useState(initialPageOptions);
 
-  const newArrayPetBreeds = pet
-    ? pet.petBreed.map((breed, index) => ({
-        breed: breed,
-        formSelectName: `petBreed-${index + 1}`,
-      }))
-    : [{ formSelectName: `petBreed-1` }];
+  const initialPetBreeds = pet ? pet.petBreeds.map((breed) => breed) : [];
 
-  const [petBreeds, setPetBreeds] = useState(newArrayPetBreeds);
+  const [petBreeds, setPetBreeds] = useState(initialPetBreeds);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -140,7 +134,6 @@ export default function Form({
           {formSteps?.currentStep === 3 && (
             <Step>
               <BreedFieldset
-                pet={pet}
                 petBreeds={petBreeds}
                 dogBreeds={dogBreeds}
                 setPetBreeds={setPetBreeds}

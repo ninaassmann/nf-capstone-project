@@ -1,4 +1,4 @@
-import Form from "@/components/Form";
+import Form from "@/components/FormComponents";
 
 export default function FormPage({ addNewPet, dogBreeds, pets, setToast }) {
   if (!pets) {

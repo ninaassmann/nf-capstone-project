@@ -10,7 +10,7 @@ export default function Layout({ children }) {
 
   return (
     <>
-      {path !== "/pets" && (
+      {path !== "/pets" ? (
         <>
           <StyledHeader>
             <ImageWrapper>
@@ -31,8 +31,9 @@ export default function Layout({ children }) {
             </StyledNav>
           </StyledFooter>
         </>
+      ) : (
+        <main>{children}</main>
       )}
-      <main>{children}</main>
     </>
   );
 }

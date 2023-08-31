@@ -1,6 +1,6 @@
 import Container from "@/components/Container.styled";
 import Link from "next/link";
-import Form from "@/components/Form";
+import Form from "@/components/FormComponents";
 import { useRouter } from "next/router";
 
 export default function FormPage({ pets, dogBreeds, updatePets, setToast }) {
