@@ -16,6 +16,7 @@ import ListItemWithImg from "@/components/ListItemWithImg";
 import Button from "@/components/Button";
 import useLocalStorageState from "use-local-storage-state";
 import { handleNext, handlePrevious } from "@/utils/handleBreedPages";
+import ButtonWrapper from "@/components/ButtonWrapper.styled";
 
 const initialFilter = {
   group: "all",
@@ -147,12 +148,4 @@ const FilterForm = styled(StyledForm)`
   & div {
     width: 100%;
   }
-`;
-
-const ButtonWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
 `;
