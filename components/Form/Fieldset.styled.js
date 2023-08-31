@@ -1,6 +1,7 @@
 const { styled, css } = require("styled-components");
 
 const Fieldset = styled.fieldset`
+  width: 100%;
   position: relative;
   border: none;
   display: flex;
