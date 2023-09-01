@@ -27,7 +27,6 @@ export default function Pet({
 
   const pet = pets.find((pet) => slug === pet.slug);
   const age = calculateAge(pet && pet.petBirthday);
-  const petBreeds = pet && pet.petBreed;
 
   if (!pet) {
     return (
@@ -60,7 +59,10 @@ export default function Pet({
           updatePets={updatePets}
         />
 
-        <BreedInfoSection petBreeds={petBreeds} dogBreeds={dogBreeds} />
+        <BreedInfoSection
+          petBreeds={pet?.petBreed}
+          dogBreeds={dogBreeds && dogBreeds}
+        />
 
         <Button
           type="button"

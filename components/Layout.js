@@ -10,7 +10,7 @@ export default function Layout({ children }) {
 
   return (
     <>
-      {path !== "/pets" ? (
+      {path !== "/pets" && !path.includes("/pets/update/") ? (
         <>
           <StyledHeader>
             <ImageWrapper>

@@ -3,7 +3,7 @@ const initialPets = [
     id: "1",
     slug: "odin",
     petName: "Odin",
-    petBreed: ["Aktia"],
+    petBreed: ["Akita"],
     mixed: false,
     petBirthday: "2023-01-05",
     vet: {

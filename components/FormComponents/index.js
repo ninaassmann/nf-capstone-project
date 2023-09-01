@@ -37,7 +37,7 @@ export default function Form({
   pet,
   setToast,
 }) {
-  const initialPetBreeds = pet ? pet.petBreeds : [];
+  const initialPetBreeds = pet ? pet.petBreed : [];
 
   const router = useRouter();
 
@@ -45,10 +45,11 @@ export default function Form({
   const [errorMessages, setErrorMessages] = useState(initialErrorOptions);
 
   const [petBreeds, setPetBreeds] = useState(initialPetBreeds);
-  const [newPet, setNewPet] = useState({});
-  const [vet, setVet] = useState({});
-  const [food, setFood] = useState({});
+  const [newPet, setNewPet] = useState(pet ? pet : {});
+  const [vet, setVet] = useState(pet ? pet.vet : {});
+  const [food, setFood] = useState(pet ? pet.food : {});
 
+  // handle general input changes
   function handleChange(event) {
     setErrorMessages({ ...errorMessages, hidden: true });
     const fieldName = event.target.name;
@@ -56,17 +57,20 @@ export default function Form({
 
     const updatePet = {
       ...newPet,
-      vet: {},
-      food: {},
+      vet: vet,
+      food: food,
       petBreed: petBreeds,
     };
     updatePet[fieldName] = fieldValue;
     setNewPet(updatePet);
   }
 
+  // handle the form submit
   function handleSubmit(event) {
     event.preventDefault();
+
     const dataPet = newPet;
+
     dataPet.id = pet ? pet.id : uid();
     dataPet.slug = pet
       ? pet.slug
@@ -76,26 +80,27 @@ export default function Form({
     dataPet.food = food && food;
 
     setToast(true);
-
+    // update or new pet
     pet ? updatePets(dataPet) : addNewPet(dataPet);
-
     pet ? router.push(`/pets/${pet.slug}`) : router.push("/");
   }
 
+  // validate on step changes
   function validate() {
-    if (
+    if (pet && formSteps.currentStep === 1) {
+      return true;
+    } else if (
       (!newPet.petName && formSteps.currentStep === 1) ||
       (!newPet.petBirthday && formSteps.currentStep === 2) ||
       (petBreeds < 1 && formSteps.currentStep === 3)
     ) {
       setErrorMessages({ ...errorMessages, hidden: false });
       return false;
-    }
-    return true;
+    } else return true;
   }
 
+  // handle step changes
   let newFormSteps = {};
-
   function handleNext(no) {
     const validateForm = validate();
     if (validateForm) {
@@ -134,6 +139,7 @@ export default function Form({
     checkPage(newFormSteps);
   }
 
+  // disable next / prev button when needed
   function checkPage(newFormSteps) {
     if (newFormSteps?.currentStep === formSteps.end) {
       setFormSteps({ ...newFormSteps, nextDisabled: true });
@@ -145,160 +151,153 @@ export default function Form({
   }
 
   return (
-    <>
-      <StyledForm onSubmit={(event) => handleSubmit(event)} $isStepForm>
-        {formSteps && <h1>{formSteps.headlines[formSteps.currentStep]}</h1>}
+    <StyledForm onSubmit={(event) => handleSubmit(event)} $isStepForm>
+      {formSteps && <h1>{formSteps.headlines[formSteps.currentStep]}</h1>}
 
-        <Article>
-          {formSteps?.currentStep === 1 && (
-            <Step>
-              <Wrapper>
-                <label htmlFor="petName">Name</label>
-                <Input
-                  type="text"
-                  id="petName"
-                  name="petName"
-                  placeholder="Enter the name of your pet"
-                  defaultValue={pet?.petName || newPet?.petName}
-                  maxLength="20"
-                  pattern="^[A-Za-z ]+$"
-                  disabled={pet}
-                  onChange={(event) => handleChange(event)}
-                />
-                {pet && <small>You can not update the Name</small>}
-                <ErrorWrapper>
-                  {!pet && (
-                    <Errortext>
-                      {!errorMessages.hidden && errorMessages.name}
-                    </Errortext>
-                  )}
-                </ErrorWrapper>
-              </Wrapper>
-            </Step>
-          )}
-
-          {formSteps?.currentStep === 2 && (
-            <Step>
-              <Wrapper>
-                <label htmlFor="petBirthday">Birthday</label>
-                <Input
-                  type="date"
-                  id="petBirthday"
-                  name="petBirthday"
-                  min="2000-01-01"
-                  max={today}
-                  defaultValue={pet?.petBirthday || newPet?.petBirthday}
-                  onChange={(event) => handleChange(event)}
-                />
-                <ErrorWrapper>
-                  {!pet && (
-                    <Errortext>
-                      {!errorMessages.hidden && errorMessages.birthday}
-                    </Errortext>
-                  )}
-                </ErrorWrapper>
-              </Wrapper>
-            </Step>
-          )}
-
-          {formSteps?.currentStep === 3 && (
-            <Step>
-              <BreedFieldset
-                petBreeds={petBreeds}
-                dogBreeds={dogBreeds}
-                setPetBreeds={setPetBreeds}
-                errorMessages={errorMessages}
-                setErrorMessages={setErrorMessages}
+      <Article>
+        {formSteps?.currentStep === 1 && (
+          <Step>
+            <Wrapper>
+              <label htmlFor="petName">Name</label>
+              {pet && <small>You can not update the Name</small>}
+              <Input
+                type="text"
+                id="petName"
+                name="petName"
+                placeholder="Enter the name of your pet"
+                defaultValue={pet?.petName || newPet?.petName}
+                maxLength="20"
+                pattern="^[A-Za-z ]+$"
+                disabled={pet}
+                onChange={(event) => handleChange(event)}
               />
-            </Step>
-          )}
+              <ErrorWrapper>
+                {!pet && (
+                  <Errortext>
+                    {!errorMessages.hidden && errorMessages.name}
+                  </Errortext>
+                )}
+              </ErrorWrapper>
+            </Wrapper>
+          </Step>
+        )}
 
-          {formSteps?.currentStep === 4 && (
-            <Step>
-              <ButtonWrapper $isColumn>
-                <Button
-                  buttonText="Yes"
-                  $variant="primary"
-                  onClick={handleNext}
-                />
-                <Button
-                  buttonText="No"
-                  $variant="secondary"
-                  onClick={() => handleNext("no")}
-                />
-              </ButtonWrapper>
-            </Step>
-          )}
+        {formSteps?.currentStep === 2 && (
+          <Step>
+            <Wrapper>
+              <label htmlFor="petBirthday">Birthday</label>
+              <Input
+                type="date"
+                id="petBirthday"
+                name="petBirthday"
+                min="2000-01-01"
+                max={today}
+                defaultValue={pet?.petBirthday || newPet?.petBirthday}
+                onChange={(event) => handleChange(event)}
+              />
+              <ErrorWrapper>
+                {!pet && (
+                  <Errortext>
+                    {!errorMessages.hidden && errorMessages.birthday}
+                  </Errortext>
+                )}
+              </ErrorWrapper>
+            </Wrapper>
+          </Step>
+        )}
 
-          {formSteps?.currentStep === 5 && (
-            <Step>
-              <VetFieldset
-                pet={pet}
-                newPet={newPet}
-                vet={vet}
-                setVet={setVet}
-              />
-            </Step>
-          )}
-          {formSteps?.currentStep === 6 && (
-            <Step>
-              <ButtonWrapper $isColumn>
-                <Button
-                  buttonText="Yes"
-                  $variant="primary"
-                  onClick={handleNext}
-                />
-                <Button
-                  buttonText="No"
-                  $variant="secondary"
-                  onClick={() => handleNext("no")}
-                />
-              </ButtonWrapper>
-            </Step>
-          )}
-          {formSteps?.currentStep === 7 && (
-            <Step>
-              <FoodFieldset
-                pet={pet}
-                newPet={newPet}
-                food={food}
-                setFood={setFood}
-              />
-            </Step>
-          )}
-          <ButtonWrapper>
-            <Button
-              type="button"
-              buttonText="Previous"
-              $variant="secondary"
-              onClick={handlePrevious}
-              disabled={formSteps?.prevDisabled}
-              $isStepButton
+        {formSteps?.currentStep === 3 && (
+          <Step>
+            <BreedFieldset
+              petBreeds={petBreeds}
+              dogBreeds={dogBreeds}
+              setPetBreeds={setPetBreeds}
+              errorMessages={errorMessages}
+              setErrorMessages={setErrorMessages}
             />
+          </Step>
+        )}
 
-            {formSteps?.currentStep !== 8 ? (
+        {formSteps?.currentStep === 4 && (
+          <Step>
+            <ButtonWrapper $isColumn>
               <Button
-                type="button"
-                buttonText="Next"
+                buttonText="Yes"
                 $variant="primary"
                 onClick={handleNext}
-                disabled={formSteps?.questions.includes(formSteps.currentStep)}
-                $isStepButton
               />
-            ) : (
-              <Step>
-                <Button
-                  type="submit"
-                  buttonText={pet ? "Update" : "Create"}
-                  $variant="submit"
-                />
-              </Step>
-            )}
-          </ButtonWrapper>
-          <Link href="/">Cancel</Link>
-        </Article>
-      </StyledForm>
-    </>
+              <Button
+                buttonText="No"
+                $variant="secondary"
+                onClick={() => handleNext("no")}
+              />
+            </ButtonWrapper>
+          </Step>
+        )}
+
+        {formSteps?.currentStep === 5 && (
+          <Step>
+            <VetFieldset pet={pet} newPet={newPet} vet={vet} setVet={setVet} />
+          </Step>
+        )}
+        {formSteps?.currentStep === 6 && (
+          <Step>
+            <ButtonWrapper $isColumn>
+              <Button
+                buttonText="Yes"
+                $variant="primary"
+                onClick={handleNext}
+              />
+              <Button
+                buttonText="No"
+                $variant="secondary"
+                onClick={() => handleNext("no")}
+              />
+            </ButtonWrapper>
+          </Step>
+        )}
+        {formSteps?.currentStep === 7 && (
+          <Step>
+            <FoodFieldset
+              pet={pet}
+              newPet={newPet}
+              food={food}
+              setFood={setFood}
+            />
+          </Step>
+        )}
+        <ButtonWrapper>
+          <Button
+            type="button"
+            buttonText="Previous"
+            $variant="secondary"
+            onClick={handlePrevious}
+            disabled={formSteps?.prevDisabled}
+            $isStepButton
+          />
+
+          {formSteps?.currentStep !== 8 ? (
+            <Button
+              type="button"
+              buttonText="Next"
+              $variant="primary"
+              onClick={handleNext}
+              disabled={formSteps?.questions.includes(formSteps.currentStep)}
+              $isStepButton
+            />
+          ) : (
+            <Step>
+              <Button
+                type="submit"
+                buttonText={pet ? "Update" : "Create"}
+                $variant="submit"
+              />
+            </Step>
+          )}
+        </ButtonWrapper>
+        <Link href="/">Cancel</Link>
+      </Article>
+    </StyledForm>
   );
 }
 

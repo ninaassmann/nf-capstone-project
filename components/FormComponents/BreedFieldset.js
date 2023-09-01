@@ -56,7 +56,7 @@ export default function BreedFieldset({
                 <option
                   key={breed.id}
                   value={breed.name}
-                  disabled={petBreeds.includes(breed.name)}
+                  disabled={petBreeds?.includes(breed.name)}
                 >
                   {breed.name}
                 </option>

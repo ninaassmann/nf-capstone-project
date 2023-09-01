@@ -9,7 +9,7 @@ const Container = styled.div`
   align-items: start;
   gap: 1rem;
 
-  & section:first-of-type {
+  & > section:first-of-type {
     margin-top: 1rem;
   }
 `;
