@@ -1,14 +1,6 @@
 import { css, styled } from "styled-components";
 
-export default function StyledForm({ children, $isStepForm, $isRow }) {
-  return (
-    <Form $isStepForm={$isStepForm} $isRow={$isRow}>
-      {children}
-    </Form>
-  );
-}
-
-const Form = styled.form`
+const StyledForm = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -30,3 +22,5 @@ const Form = styled.form`
       flex-direction: row;
     `}
 `;
+
+export default StyledForm;

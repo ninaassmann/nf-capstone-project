@@ -4,7 +4,18 @@ import Wrapper from "./Wrapper.styled";
 import Input from "./Input.styled";
 import Description from "../Description";
 
-export default function FoodFieldset({ pet }) {
+export default function FoodFieldset({ pet, newPet, food, setFood }) {
+  function handleChange(event, key) {
+    const fieldName = key;
+    const fieldValue = event.target.value;
+
+    const updateFood = {
+      ...food,
+    };
+    updateFood[fieldName] = fieldValue;
+    setFood(updateFood);
+  }
+
   return (
     <Fieldset $isHighlight>
       <legend>Food Information</legend>
@@ -17,6 +28,7 @@ export default function FoodFieldset({ pet }) {
           name="foodName"
           placeholder="Enter the name of the food"
           defaultValue={pet && pet.food.name}
+          onChange={(event) => handleChange(event, "name")}
         />
       </Wrapper>
 
@@ -29,6 +41,7 @@ export default function FoodFieldset({ pet }) {
               value="Puppy"
               id="puppy"
               checked={pet && pet.food.petAge === "Puppy"}
+              onChange={(event) => handleChange(event, "petAge")}
             />
             Puppy
           </StyledLabel>
@@ -40,6 +53,7 @@ export default function FoodFieldset({ pet }) {
               value="Adult"
               id="adult"
               checked={pet && pet.food.petAge === "Adult"}
+              onChange={(event) => handleChange(event, "petAge")}
             />
             Adult
           </StyledLabel>
@@ -51,6 +65,7 @@ export default function FoodFieldset({ pet }) {
               value="Senior"
               id="senior"
               checked={pet && pet.food.petAge === "Senior"}
+              onChange={(event) => handleChange(event, "petAge")}
             />
             Senior
           </StyledLabel>
@@ -72,6 +87,7 @@ export default function FoodFieldset({ pet }) {
               value="Dry"
               id="dry"
               checked={pet && pet.food.type === "Dry"}
+              onChange={(event) => handleChange(event, "type")}
             />
             Dry
           </StyledLabel>
@@ -83,6 +99,7 @@ export default function FoodFieldset({ pet }) {
               value="Wet"
               id="wet"
               checked={pet && pet.food.type === "Wet"}
+              onChange={(event) => handleChange(event, "type")}
             />
             Wet
           </StyledLabel>
@@ -97,6 +114,7 @@ export default function FoodFieldset({ pet }) {
           name="foodNotes"
           placeholder="Do you want to add some Notes? (e.g. Diet, Alergies, ...)"
           defaultValue={pet && pet.food.notes}
+          onChange={(event) => handleChange(event, "notes")}
         />
       </Wrapper>
 
@@ -108,6 +126,7 @@ export default function FoodFieldset({ pet }) {
           id="foodPackageSize"
           name="foodPackageSize"
           defaultValue={pet && pet.food.size}
+          onChange={(event) => handleChange(event, "size")}
         />
       </Wrapper>
       <Wrapper>
@@ -119,6 +138,7 @@ export default function FoodFieldset({ pet }) {
           name="foodPackagePrice"
           step=".01"
           defaultValue={pet && pet.food.price}
+          onChange={(event) => handleChange(event, "price")}
         />
       </Wrapper>
 
@@ -130,6 +150,7 @@ export default function FoodFieldset({ pet }) {
           id="foodDailyNeed"
           name="foodDailyNeed"
           defaultValue={pet && pet.food.dailyNeed}
+          onChange={(event) => handleChange(event, "dailyNeed")}
         />
       </Wrapper>
 
@@ -141,6 +162,7 @@ export default function FoodFieldset({ pet }) {
           id="foodStock"
           name="foodStock"
           defaultValue={pet && pet.food.stock}
+          onChange={(event) => handleChange(event, "stock")}
         />
       </Wrapper>
     </Fieldset>

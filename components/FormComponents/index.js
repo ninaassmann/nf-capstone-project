@@ -14,10 +14,20 @@ import VetFieldset from "./VetFieldset";
 import BreedFieldset from "./BreedFieldset";
 import FoodFieldset from "./FoodFieldset";
 
-import { createPet } from "@/utils/createPet";
 import initialPageOptions from "@/data/formStepsOptions";
+import { uid } from "uid";
+import { handleExistingPetName } from "@/utils/handleExistingPetName";
+import { ErrorWrapper, Errortext } from "./Error.styled";
 
 var today = new Date().toISOString().split("T")[0];
+const slugify = require("slugify");
+
+const initialErrorOptions = {
+  hidden: true,
+  name: "Please insert a name.",
+  birthday: "Please insert a birthday.",
+  breed: "Please select a breed.",
+};
 
 export default function Form({
   addNewPet,
@@ -27,20 +37,43 @@ export default function Form({
   pet,
   setToast,
 }) {
-  const router = useRouter();
-  const [formSteps, setFormSteps] = useState(initialPageOptions);
+  const initialPetBreeds = pet ? pet.petBreeds : [];
 
-  const initialPetBreeds = pet ? pet.petBreeds.map((breed) => breed) : [];
+  const router = useRouter();
+
+  const [formSteps, setFormSteps] = useState(initialPageOptions);
+  const [errorMessages, setErrorMessages] = useState(initialErrorOptions);
 
   const [petBreeds, setPetBreeds] = useState(initialPetBreeds);
+  const [newPet, setNewPet] = useState({});
+  const [vet, setVet] = useState({});
+  const [food, setFood] = useState({});
+
+  function handleChange(event) {
+    setErrorMessages({ ...errorMessages, hidden: true });
+    const fieldName = event.target.name;
+    const fieldValue = event.target.value;
+
+    const updatePet = {
+      ...newPet,
+      vet: {},
+      food: {},
+      petBreed: petBreeds,
+    };
+    updatePet[fieldName] = fieldValue;
+    setNewPet(updatePet);
+  }
 
   function handleSubmit(event) {
     event.preventDefault();
-
-    const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData);
-
-    const dataPet = createPet(data, pet, pets, petBreeds);
+    const dataPet = newPet;
+    dataPet.id = pet ? pet.id : uid();
+    dataPet.slug = pet
+      ? pet.slug
+      : slugify(handleExistingPetName(dataPet.petName, pets), { lower: true });
+    dataPet.petBreed = petBreeds && petBreeds;
+    dataPet.vet = vet && vet;
+    dataPet.food = food && food;
 
     setToast(true);
 
@@ -48,26 +81,49 @@ export default function Form({
 
     pet ? router.push(`/pets/${pet.slug}`) : router.push("/");
   }
+
+  function validate() {
+    if (
+      (!newPet.petName && formSteps.currentStep === 1) ||
+      (!newPet.petBirthday && formSteps.currentStep === 2) ||
+      (petBreeds < 1 && formSteps.currentStep === 3)
+    ) {
+      setErrorMessages({ ...errorMessages, hidden: false });
+      return false;
+    }
+    return true;
+  }
+
   let newFormSteps = {};
 
-  function handleNext() {
-    if (formSteps.currentStep === 4 || formSteps.currentStep === 6) {
-      newFormSteps = {
-        ...formSteps,
-        currentStep: formSteps.currentStep + 2,
-        prevDisabled: false,
-      };
-    } else if (formSteps.currentStep < formSteps.end) {
-      newFormSteps = {
-        ...formSteps,
-        currentStep: formSteps.currentStep + 1,
-        prevDisabled: false,
-      };
+  function handleNext(no) {
+    const validateForm = validate();
+    if (validateForm) {
+      setErrorMessages({ ...errorMessages, hidden: true });
+      if (
+        (formSteps.currentStep === 4 && no === "no") ||
+        (formSteps.currentStep === 6 && no === "no")
+      ) {
+        newFormSteps = {
+          ...formSteps,
+          currentStep: formSteps.currentStep + 2,
+          prevDisabled: false,
+        };
+      } else if (formSteps.currentStep < formSteps.end) {
+        newFormSteps = {
+          ...formSteps,
+          currentStep: formSteps.currentStep + 1,
+          prevDisabled: false,
+        };
+      }
+      checkPage(newFormSteps);
+    } else {
+      return;
     }
-    checkPage(newFormSteps);
   }
 
   function handlePrevious() {
+    setErrorMessages({ ...errorMessages, hidden: true });
     if (formSteps.currentStep > formSteps.start) {
       newFormSteps = {
         ...formSteps,
@@ -90,7 +146,7 @@ export default function Form({
 
   return (
     <>
-      <StyledForm onSubmit={handleSubmit} $isStepForm>
+      <StyledForm onSubmit={(event) => handleSubmit(event)} $isStepForm>
         {formSteps && <h1>{formSteps.headlines[formSteps.currentStep]}</h1>}
 
         <Article>
@@ -103,13 +159,20 @@ export default function Form({
                   id="petName"
                   name="petName"
                   placeholder="Enter the name of your pet"
-                  defaultValue={pet && pet.petName}
+                  defaultValue={pet?.petName || newPet?.petName}
                   maxLength="20"
                   pattern="^[A-Za-z ]+$"
                   disabled={pet}
-                  required
+                  onChange={(event) => handleChange(event)}
                 />
                 {pet && <small>You can not update the Name</small>}
+                <ErrorWrapper>
+                  {!pet && (
+                    <Errortext>
+                      {!errorMessages.hidden && errorMessages.name}
+                    </Errortext>
+                  )}
+                </ErrorWrapper>
               </Wrapper>
             </Step>
           )}
@@ -124,9 +187,16 @@ export default function Form({
                   name="petBirthday"
                   min="2000-01-01"
                   max={today}
-                  defaultValue={pet && pet.petBirthday}
-                  required
+                  defaultValue={pet?.petBirthday || newPet?.petBirthday}
+                  onChange={(event) => handleChange(event)}
                 />
+                <ErrorWrapper>
+                  {!pet && (
+                    <Errortext>
+                      {!errorMessages.hidden && errorMessages.birthday}
+                    </Errortext>
+                  )}
+                </ErrorWrapper>
               </Wrapper>
             </Step>
           )}
@@ -137,6 +207,8 @@ export default function Form({
                 petBreeds={petBreeds}
                 dogBreeds={dogBreeds}
                 setPetBreeds={setPetBreeds}
+                errorMessages={errorMessages}
+                setErrorMessages={setErrorMessages}
               />
             </Step>
           )}
@@ -152,7 +224,7 @@ export default function Form({
                 <Button
                   buttonText="No"
                   $variant="secondary"
-                  onClick={handleNext}
+                  onClick={() => handleNext("no")}
                 />
               </ButtonWrapper>
             </Step>
@@ -160,7 +232,12 @@ export default function Form({
 
           {formSteps?.currentStep === 5 && (
             <Step>
-              <VetFieldset pet={pet} />
+              <VetFieldset
+                pet={pet}
+                newPet={newPet}
+                vet={vet}
+                setVet={setVet}
+              />
             </Step>
           )}
           {formSteps?.currentStep === 6 && (
@@ -174,14 +251,19 @@ export default function Form({
                 <Button
                   buttonText="No"
                   $variant="secondary"
-                  onClick={handleNext}
+                  onClick={() => handleNext("no")}
                 />
               </ButtonWrapper>
             </Step>
           )}
           {formSteps?.currentStep === 7 && (
             <Step>
-              <FoodFieldset pet={pet} />
+              <FoodFieldset
+                pet={pet}
+                newPet={newPet}
+                food={food}
+                setFood={setFood}
+              />
             </Step>
           )}
           <ButtonWrapper>
@@ -194,15 +276,7 @@ export default function Form({
               $isStepButton
             />
 
-            {formSteps?.currentStep === 8 ? (
-              <Step>
-                <Button
-                  type="submit"
-                  buttonText={pet ? "Update Dog" : "Create my Dog"}
-                  $variant="submit"
-                />
-              </Step>
-            ) : (
+            {formSteps?.currentStep !== 8 ? (
               <Button
                 type="button"
                 buttonText="Next"
@@ -211,6 +285,14 @@ export default function Form({
                 disabled={formSteps?.questions.includes(formSteps.currentStep)}
                 $isStepButton
               />
+            ) : (
+              <Step>
+                <Button
+                  type="submit"
+                  buttonText={pet ? "Update" : "Create"}
+                  $variant="submit"
+                />
+              </Step>
             )}
           </ButtonWrapper>
           <Link href="/">Cancel</Link>

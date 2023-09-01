@@ -4,24 +4,25 @@ import Fieldset from "./Fieldset.styled";
 import Select from "./Select.styled";
 import Wrapper from "./Wrapper.styled";
 import { styled } from "styled-components";
+import { ErrorWrapper, Errortext } from "./Error.styled";
 
-export default function BreedFieldset({ dogBreeds, setPetBreeds, petBreeds }) {
+export default function BreedFieldset({
+  dogBreeds,
+  setPetBreeds,
+  petBreeds,
+  errorMessages,
+  setErrorMessages,
+}) {
   const [selectedBreed, setSelectedBreed] = useState("");
-
-  function handleAddBreed() {
-    const index = petBreeds.length + 1;
-    const newBreedSelect = { formSelectName: `petBreed-${index}` };
-    setPetBreeds([...petBreeds, newBreedSelect]);
-  }
 
   function handleChange(event) {
     const newBreed = event.target.value;
-    console.log(newBreed);
     setSelectedBreed(newBreed);
   }
 
   function handleAddBreed() {
     if (selectedBreed) {
+      setErrorMessages({ ...errorMessages, hidden: true });
       setPetBreeds([...petBreeds, selectedBreed]);
       setSelectedBreed("");
     }
@@ -66,6 +67,13 @@ export default function BreedFieldset({ dogBreeds, setPetBreeds, petBreeds }) {
             buttonText="Add breed"
             onClick={handleAddBreed}
           />
+          <ErrorWrapper>
+            {
+              <Errortext>
+                {!errorMessages.hidden && errorMessages.breed}
+              </Errortext>
+            }
+          </ErrorWrapper>
         </Wrapper>
       </Fieldset>
     </>

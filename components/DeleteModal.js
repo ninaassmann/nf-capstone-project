@@ -7,13 +7,12 @@ export default function DeleteModal({ pet, setModal, handleDelete }) {
       <Container>
         <h3>You are about to delete the following profile</h3>
         <p>This can not be undone.</p>
-        <StyledText isHighlight>{pet.petName}</StyledText>
-        <span>{pet.petBreed.join(", ")}</span>
+        <StyledText>{pet.petName}</StyledText>
         <Wrapper>
           <Button
             type="button"
             buttonText="Stop, I changed my mind"
-            onClick={() => setModal()}
+            onClick={() => setModal(false)}
           />
           <Button
             type="button"
@@ -37,7 +36,7 @@ const Modal = styled.div`
   justify-content: center;
   align-items: center;
 
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.85);
 `;
 
 const Container = styled.div`

@@ -48,7 +48,7 @@ export default function Pet({
         <Section>
           {pet.mixed && <Label>Mixed</Label>}
           <h1>{pet.petName}</h1>
-          <p>{pet.petBreed.join(", ")}</p>
+          <p>{pet.petBreed?.join(", ")}</p>
           <p>{age}</p>
         </Section>
 
@@ -66,7 +66,10 @@ export default function Pet({
           type="button"
           buttonText="Delete"
           $variant="danger"
-          onClick={() => setModal(true)}
+          onClick={() => {
+            setModal(true);
+            window.scrollTo({ top: 0, left: 0 });
+          }}
         />
 
         <Link href={`/pets/update/${pet.slug}`}>Update</Link>

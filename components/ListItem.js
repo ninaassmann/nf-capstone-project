@@ -5,7 +5,7 @@ import StyledLink from "./ListLink.styled";
 export default function ListItem({ mixed, name, breed, birthday, slug }) {
   const age = calculateAge(birthday);
 
-  const petBreeds = breed.join(", ");
+  const petBreeds = breed?.join(", ");
 
   return (
     <li>

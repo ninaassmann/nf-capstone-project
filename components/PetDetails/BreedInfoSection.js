@@ -3,7 +3,7 @@ import Section from "./Section.styled";
 export default function BreedInfoSection({ petBreeds, dogBreeds }) {
   return (
     <>
-      {petBreeds.map((petBreed) => {
+      {petBreeds?.map((petBreed) => {
         const dataBreed =
           dogBreeds && dogBreeds.find((breed) => breed.name === petBreed);
         if (dataBreed) {

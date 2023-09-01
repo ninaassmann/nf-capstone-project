@@ -5,11 +5,11 @@ import Link from "next/link";
 export default function VetSection({ pet }) {
   return (
     <>
-      {pet.vet.name && (
-        <CTA href={`tel:${pet.vet.phone}`}>
+      {pet.vet?.name && (
+        <CTA href={`tel:${pet.vet?.phone}`}>
           <div>
-            <h3>{pet.vet.name}</h3>
-            <p>{pet.vet.address}</p>
+            <h3>{pet.vet?.name}</h3>
+            <p>{pet.vet?.address}</p>
           </div>
           <Phone />
         </CTA>
