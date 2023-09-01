@@ -1,28 +1,39 @@
 import { styled } from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function Layout({ children }) {
+  const router = useRouter();
+  const path = router.pathname;
+
   return (
     <>
-      <StyledHeader>
-        <ImageWrapper>
-          <StyledImage
-            src="/pawconnect-logo.png"
-            alt="Logo"
-            width={640 / 3}
-            height={109 / 3}
-            priority
-          />
-        </ImageWrapper>
-      </StyledHeader>
-      <main>{children}</main>
-      <StyledFooter>
-        <StyledNav>
-          <Link href="/">Pets</Link>
-          <Link href="/breeds">Breeds</Link>
-        </StyledNav>
-      </StyledFooter>
+      {path !== "/pets" && !path.includes("/pets/update/") ? (
+        <>
+          <StyledHeader>
+            <ImageWrapper>
+              <StyledImage
+                src="/pawconnect-logo.png"
+                alt="Logo"
+                width={640 / 3}
+                height={109 / 3}
+                priority
+              />
+            </ImageWrapper>
+          </StyledHeader>
+          <main>{children}</main>
+          <StyledFooter>
+            <StyledNav>
+              <Link href="/">Pets</Link>
+              <Link href="/breeds">Breeds</Link>
+            </StyledNav>
+          </StyledFooter>
+        </>
+      ) : (
+        <main>{children}</main>
+      )}
     </>
   );
 }

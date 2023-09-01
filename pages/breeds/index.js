@@ -6,16 +6,16 @@ import {
   dogBreedHeight,
   dogBreedTemperament,
 } from "@/data/dogBreedFilter";
-import Wrapper from "@/components/Form/Wrapper.styled";
-import StyledForm from "@/components/Form/Form.styled";
+import Wrapper from "@/components/FormComponents/Wrapper.styled";
+import StyledForm from "@/components/FormComponents/Form.styled";
 import StyledList from "@/components/List.styled";
-import Select from "@/components/Form/Select.styled";
+import Select from "@/components/FormComponents/Select.styled";
 import { dogBreedFilter } from "@/utils/dogBreedFilter";
-import { useEffect, useState } from "react";
 import ListItemWithImg from "@/components/ListItemWithImg";
 import Button from "@/components/Button";
 import useLocalStorageState from "use-local-storage-state";
 import { handleNext, handlePrevious } from "@/utils/handleBreedPages";
+import ButtonWrapper from "@/components/ButtonWrapper.styled";
 
 const initialFilter = {
   group: "all",
@@ -52,7 +52,7 @@ export default function BreedList({ dogBreeds }) {
 
   return (
     <Container>
-      <FilterForm $isRow>
+      <StyledForm $isRow>
         <Wrapper>
           <label htmlFor="breedGroup">Breed Group</label>
           <Select
@@ -107,7 +107,7 @@ export default function BreedList({ dogBreeds }) {
             ))}
           </Select>
         </Wrapper>
-      </FilterForm>
+      </StyledForm>
 
       <StyledList>
         {breedsToShow && breedsToShow.length > 0 ? (
@@ -141,18 +141,3 @@ export default function BreedList({ dogBreeds }) {
     </Container>
   );
 }
-
-const FilterForm = styled(StyledForm)`
-  justify-content: space-between;
-  & div {
-    width: 100%;
-  }
-`;
-
-const ButtonWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-`;

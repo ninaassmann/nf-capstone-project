@@ -7,7 +7,7 @@ import { checkFeedingTime } from "@/utils/checkFeedingTime";
 import { calculatePricePerDay } from "@/utils/calculatePricePerDay";
 
 export default function FoodSection({ pet, updatePets }) {
-  const [foodStock, setFoodStock] = useState(pet.food.stock);
+  const [foodStock, setFoodStock] = useState(pet.food?.stock);
   const [itsFeedingTime, setItsFeedingTime] = useState();
 
   const pricePerDay = calculatePricePerDay(pet);
@@ -41,37 +41,42 @@ export default function FoodSection({ pet, updatePets }) {
   }
 
   return (
-    <Section>
-      <h2>Food</h2>
-      <p>{pet.food.name}</p>
-      {pet.food.petAge === "Puppy" && <Label>Puppy</Label>}
-      {pet.food.petAge === "Senior" && <Label>Senior</Label>}
-      <p>
-        <span>{pet.food.type} Food</span> -{" "}
-        <span>
-          {pet.food.size / 1000}kg {pet.food.type === "Dry" ? "Bag" : "Can"}
-        </span>
-      </p>
-      <StyledList>
-        <li key={pet.food.price}>
-          price per bag <span>{pet.food.price}€</span>
-        </li>
-        <li key={pet.food.dailyNeed}>
-          daily need <span>{pet.food.dailyNeed}g</span>
-        </li>
-        <li key={pricePerDay}>
-          price per day <span>{pricePerDay}€</span>
-        </li>
-      </StyledList>
-      <h4>Current Stock: {foodStock}g</h4>
-      <p>
-        <small>
-          Your stock updates every day (20:30) depending on the daily need.
-        </small>
-      </p>
+    <>
+      {pet.food.name && (
+        <Section>
+          <h2>Food</h2>
+          <p>{pet.food?.name}</p>
+          {pet.food?.petAge === "Puppy" && <Label>Puppy</Label>}
+          {pet.food?.petAge === "Senior" && <Label>Senior</Label>}
+          <p>
+            <span>{pet.food?.type} Food</span> -{" "}
+            <span>
+              {pet.food?.size / 1000}kg{" "}
+              {pet.food?.type === "Dry" ? "Bag" : "Can"}
+            </span>
+          </p>
+          <StyledList>
+            <li key={pet.food?.price}>
+              price per bag <span>{pet.food?.price}€</span>
+            </li>
+            <li key={pet.food?.dailyNeed}>
+              daily need <span>{pet.food?.dailyNeed}g</span>
+            </li>
+            <li key={pricePerDay}>
+              price per day <span>{pricePerDay}€</span>
+            </li>
+          </StyledList>
+          <h4>Current Stock: {foodStock}g</h4>
+          <p>
+            <small>
+              Your stock updates every day (20:30) depending on the daily need.
+            </small>
+          </p>
 
-      <FoodForm handleAddFood={handleAddFood} />
-    </Section>
+          <FoodForm handleAddFood={handleAddFood} />
+        </Section>
+      )}
+    </>
   );
 }
 

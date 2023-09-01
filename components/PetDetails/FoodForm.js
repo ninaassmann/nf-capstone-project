@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import Input from "../Form/Input.styled";
+import Input from "../FormComponents/Input.styled";
 import Button from "../Button";
 
 export default function FoodForm({ handleAddFood }) {

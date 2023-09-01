@@ -1,6 +1,6 @@
 import Container from "@/components/Container.styled";
 import Link from "next/link";
-import Form from "@/components/Form";
+import Form from "@/components/FormComponents";
 import { useRouter } from "next/router";
 
 export default function FormPage({ pets, dogBreeds, updatePets, setToast }) {
@@ -9,8 +9,7 @@ export default function FormPage({ pets, dogBreeds, updatePets, setToast }) {
 
   const pet = pets.find((pet) => slug === pet.slug);
   return (
-    <Container>
-      <h1>Update {pet.petName}</h1>
+    <>
       <Form
         pet={pet}
         dogBreeds={dogBreeds}
@@ -19,6 +18,6 @@ export default function FormPage({ pets, dogBreeds, updatePets, setToast }) {
         setToast={setToast}
       />
       <Link href={`/pets/${pet.slug}`}>back</Link>
-    </Container>
+    </>
   );
 }

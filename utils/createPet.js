@@ -4,14 +4,13 @@ import { uid } from "uid";
 const slugify = require("slugify");
 
 export function createPet(data, pet, pets, petBreeds) {
-  console.log(petBreeds);
   const dataPet = {
     id: pet ? pet.id : uid(),
     slug: pet
       ? pet.slug
       : slugify(handleExistingPetName(data.petName, pets), { lower: true }),
     petName: pet ? pet.petName : data.petName,
-    petBreed: petBreeds.map((breed) => breed.breed),
+    petBreed: petBreeds,
     petBirthday: data.petBirthday,
     vet: {
       name: data.vetName,
@@ -32,7 +31,7 @@ export function createPet(data, pet, pets, petBreeds) {
 
   if (
     dataPet.petBreed.length > 1 ||
-    dataPet.petBreed.includes("breed unknown")
+    dataPet.petBreed.includes("Breed Unknown")
   ) {
     dataPet.mixed = true;
   } else {

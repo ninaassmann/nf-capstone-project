@@ -6,6 +6,7 @@ export default function Button({
   buttonText,
   $variant,
   disabled,
+  $isStepButton,
 }) {
   return (
     <StyledButton
@@ -13,6 +14,7 @@ export default function Button({
       onClick={onClick}
       $variant={$variant}
       disabled={disabled}
+      $isStepButton={$isStepButton}
     >
       {buttonText}
     </StyledButton>
@@ -23,7 +25,6 @@ const StyledButton = styled.button`
   cursor: pointer;
   width: 100%;
   padding: 1rem;
-  margin-top: 2rem;
   border-radius: 0.5rem;
   border: none;
   background-color: lightgray;
@@ -32,6 +33,11 @@ const StyledButton = styled.button`
   }
 
   ${({ $variant }) =>
+    $variant == "submit" &&
+    css`
+      background-color: lightgreen;
+    `};
+  ${({ $variant }) =>
     $variant == "primary" &&
     css`
       background-color: lightblue;
@@ -39,7 +45,7 @@ const StyledButton = styled.button`
   ${({ $variant }) =>
     $variant == "secondary" &&
     css`
-      background-color: white;
+      background-color: lightgrey;
     `};
   ${({ $variant }) =>
     $variant == "danger" &&
@@ -55,5 +61,10 @@ const StyledButton = styled.button`
       &:hover {
         filter: unset;
       }
+    `}
+    ${({ $isStepButton }) =>
+    $isStepButton &&
+    css`
+      margin-top: 0;
     `}
 `;
