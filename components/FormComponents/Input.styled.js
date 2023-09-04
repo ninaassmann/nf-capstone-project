@@ -5,7 +5,9 @@ const Input = styled.input`
   min-height: 3.5rem;
   padding: 1rem;
   border-radius: var(--border-radius);
-  background: var(--white);
+
+  background: ${(props) =>
+    props.$isHighlight ? "var(--light-blue-grey)" : "var(--white)"};
   border: none;
 
   -webkit-appearance: none;

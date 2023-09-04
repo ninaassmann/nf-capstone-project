@@ -9,19 +9,27 @@ export default function BreedInfoSection({ petBreeds, dogBreeds }) {
     <ul>
       {matchingBreeds.map((breed) => (
         <ListItem key={breed.id}>
-          <h2>{breed.name}:</h2>
+          <h2>{breed.name}</h2>
           <Section>
-            <h4>{breed.name} temperament</h4>
-            <p>{breed.temperament}</p>
+            <dl>
+              <dt>{breed.name} temperament:</dt>
+              <dd>{breed.temperament}</dd>
+            </dl>
           </Section>
           <Section $isRow>
             <dl>
               <dt>weight:</dt>
-              <dd>{breed.weight.metric}</dd>
+              <dd>
+                {breed.weight.metric} <br />
+                kg
+              </dd>
             </dl>
             <dl>
               <dt>height:</dt>
-              <dd>{breed.height.metric}</dd>
+              <dd>
+                {breed.height.metric} <br />
+                cm
+              </dd>
             </dl>
             <dl>
               <dt>lifespan:</dt>

@@ -19,7 +19,7 @@ const ToastContainer = styled.div`
   position: fixed;
   bottom: 6rem;
   background: hsl(127, 84%, 45%);
-  width: min(90vw, 600px);
+  width: min(calc(100vw - 2rem), 600px);
   margin-inline: auto;
   padding: 1.5rem;
   border-radius: 1rem;

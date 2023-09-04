@@ -5,8 +5,8 @@ const Section = styled.section`
   width: 100%;
   display: block;
   padding: 1rem;
-  border-radius: 0.5rem;
-  background-color: lightgrey;
+  border-radius: var(--border-radius);
+  background: var(--white);
 
   & dt {
     margin-bottom: 0.5rem;
@@ -25,8 +25,8 @@ const Section = styled.section`
         width: 100%;
         display: block;
         padding: 1rem;
-        border-radius: 0.5rem;
-        background-color: lightgrey;
+        border-radius: var(--border-radius);
+        background: var(--white);
         text-align: center;
       }
     `}

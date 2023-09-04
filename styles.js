@@ -51,7 +51,9 @@ export default createGlobalStyle`
     color: var(--dark-blue);
   }
 
-  a {text-decoration: none;}
+  a {text-decoration: none;     display: flex;
+    gap: 0.5rem;
+    align-items: center;}
 
   ::-webkit-scrollbar {display: none}
 

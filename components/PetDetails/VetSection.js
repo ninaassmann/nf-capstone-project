@@ -21,15 +21,17 @@ export default function VetSection({ pet }) {
 const CTA = styled(Link)`
   width: 100%;
   padding: 1rem;
-  border-radius: 0.5rem;
+  border-radius: var(--border-radius);
 
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: white;
   text-decoration: none;
 
-  background-color: rgb(100, 200, 100);
+  background: var(--sky);
+  & * {
+    color: var(--white);
+  }
 
   &:hover {
     filter: brightness(0.85);
