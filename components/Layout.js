@@ -2,7 +2,6 @@ import { styled } from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 export default function Layout({ children }) {
   const router = useRouter();
@@ -13,15 +12,7 @@ export default function Layout({ children }) {
       {path !== "/pets" && !path.includes("/pets/update/") ? (
         <>
           <StyledHeader>
-            <ImageWrapper>
-              <StyledImage
-                src="/pawconnect-logo.png"
-                alt="Logo"
-                width={640 / 3}
-                height={109 / 3}
-                priority
-              />
-            </ImageWrapper>
+            <span>PawConnect</span>
           </StyledHeader>
           <main>{children}</main>
           <StyledFooter>
@@ -43,11 +34,16 @@ const StyledHeader = styled.header`
   z-index: 10;
   top: 0;
   width: 100%;
-  height: 60px;
-  padding: 1rem 0;
-  background-color: lightblue;
-  text-align: center;
-  border-bottom: 2px solid;
+  height: var(--menu-height);
+  padding-left: 1rem;
+  background-color: var(--blue-grey);
+  display: grid;
+  place-items: center start;
+
+  & span {
+    font-size: var(--font-big);
+    font-weight: 300;
+  }
 `;
 
 const ImageWrapper = styled.div`
@@ -62,16 +58,10 @@ const StyledFooter = styled.footer`
   z-index: 10;
   bottom: 0;
   width: 100%;
-  height: 80px;
+  height: var(--menu-height);
   padding: 1rem 0;
-  background-color: lightblue;
+  background-color: var(--blue-grey);
   text-align: center;
-  border-top: 2px solid;
-`;
-
-const StyledImage = styled(Image)`
-  height: 28px;
-  width: fit-content;
 `;
 
 const StyledNav = styled.nav`
@@ -80,15 +70,11 @@ const StyledNav = styled.nav`
   display: flex;
   justify-content: space-around;
   align-items: center;
+
   & a {
-    font-weight: 700;
     text-transform: uppercase;
     padding: 0.25rem;
     text-decoration: none;
-    color: black;
-
-    &:hover {
-      color: blue;
-    }
+    font-size: var(--font-medium);
   }
 `;
