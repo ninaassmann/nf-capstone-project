@@ -8,11 +8,6 @@ const Section = styled.section`
   border-radius: var(--border-radius);
   background: var(--white);
 
-  & dt {
-    margin-bottom: 0.5rem;
-    font-weight: 700;
-  }
-
   ${({ $isRow }) =>
     $isRow &&
     css`
@@ -21,7 +16,7 @@ const Section = styled.section`
       gap: 1rem;
       background-color: transparent;
       padding: 0;
-      & dl {
+      dl {
         width: 100%;
         display: block;
         padding: 1rem;

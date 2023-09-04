@@ -127,6 +127,7 @@ export default function BreedList({ dogBreeds }) {
             }
             buttonText="Previous"
             disabled={sliceOptions.prevDisabled}
+            $variant="primary"
           />
           <Button
             type="button"
@@ -135,6 +136,7 @@ export default function BreedList({ dogBreeds }) {
             }
             buttonText="Next"
             disabled={sliceOptions.nextDisabled}
+            $variant="primary"
           />
         </ButtonWrapper>
       )}

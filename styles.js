@@ -78,5 +78,10 @@ export default createGlobalStyle`
 
   label:has(:checked) {
    background: hsl(107, 65%, 69%);
-}
+  }
+  
+  dt {
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+  }
 `;

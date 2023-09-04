@@ -44,7 +44,7 @@ export default function Pet({
   return (
     <>
       <Container>
-        <BackLink />
+        <BackLink link="/" />
 
         <Section>
           {pet.mixed && <Label>Mixed</Label>}

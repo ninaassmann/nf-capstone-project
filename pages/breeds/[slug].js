@@ -1,3 +1,4 @@
+import BackLink from "@/components/BackLink";
 import Hero from "@/components/Breeds/Hero";
 import Container from "@/components/Container.styled";
 import Link from "next/link";
@@ -20,24 +21,44 @@ export default function BreedDetail({ dogBreeds }) {
 
   return (
     <Container>
-      <Link href="/breeds">back to overview</Link>
+      <BackLink link="/breeds" />
       <Hero breed={breed} data={data} />
       <h1>{breed.name}</h1>
-      <h2>General Breed Information:</h2>
-      <h3>Origin</h3>
-      <p>{breed.origin}</p>
-      <h3>Bred for</h3>
-      <p>{breed.bred_for}</p>
-      <h3>Breed Group</h3>
-      <p>{breed.breed_group}</p>
-      <h3>Temperament</h3>
-      <p>{breed.temperament}</p>
-      <h3>Weight</h3>
-      <p>{breed.weight.metric} kg</p>
-      <h3>Height</h3>
-      <p>{breed.height.metric} cm</p>
-      <h3>Lifespan</h3>
-      <p>{breed.life_span}</p>
+      <h3>General Breed Information:</h3>
+      <dl>
+        <dt>Origin</dt>
+        <dd>{breed.origin}</dd>
+      </dl>
+
+      <dl>
+        <dt>Bred for</dt>
+        <dd>{breed.bred_for}</dd>
+      </dl>
+
+      <dl>
+        <dt>Breed Group</dt>
+        <dd>{breed.breed_group}</dd>
+      </dl>
+
+      <dl>
+        <dt>Temperament</dt>
+        <dd>{breed.temperament}</dd>
+      </dl>
+
+      <dl>
+        <dt>Weight</dt>
+        <dd>{breed.weight.metric} kg</dd>
+      </dl>
+
+      <dl>
+        <dt>Height</dt>
+        <dd>{breed.height.metric} cm</dd>
+      </dl>
+
+      <dl>
+        <dt>Life Span</dt>
+        <dd>{breed.life_span} kg</dd>
+      </dl>
     </Container>
   );
 }
