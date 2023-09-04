@@ -3,6 +3,8 @@ import Fieldset from "./Fieldset.styled";
 import Wrapper from "./Wrapper.styled";
 import Input from "./Input.styled";
 import Description from "../Description";
+import StyledLabel from "./Label.styled";
+import StyledRadio from "./Radio.styled";
 
 export default function FoodFieldset({ pet, newPet, food, setFood }) {
   function handleChange(event, key) {
@@ -172,23 +174,4 @@ export default function FoodFieldset({ pet, newPet, food, setFood }) {
 const StyledFieldset = styled.fieldset`
   border: none;
   width: 100%;
-`;
-
-const StyledLabel = styled.label`
-  position: relative;
-  width: 100%;
-  text-align: center;
-  background: white;
-  padding: 1rem 1rem;
-  border-radius: 0.5rem;
-`;
-
-const StyledRadio = styled.input`
-  /* appearance: none; */
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: -1;
 `;

@@ -3,8 +3,9 @@ const { styled } = require("styled-components");
 const Select = styled.select`
   width: 100%;
   padding: 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid grey;
+  border-radius: var(--border-radius);
+  background-color: var(--white);
+  border: none;
   position: relative;
 
   -webkit-appearance: none;
@@ -15,6 +16,7 @@ const Select = styled.select`
   background-size: 2rem;
   background-repeat: no-repeat;
   background-position: calc(100% - 0.5rem);
+  background-color: var(--white);
 `;
 
 export default Select;

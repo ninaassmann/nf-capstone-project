@@ -2,10 +2,11 @@ const { styled, css } = require("styled-components");
 
 const Input = styled.input`
   width: 100%;
-  min-height: 52px;
+  min-height: 3.5rem;
   padding: 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid grey;
+  border-radius: var(--border-radius);
+  background: var(--white);
+  border: none;
 
   -webkit-appearance: none;
   -moz-appearance: none;

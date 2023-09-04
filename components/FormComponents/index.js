@@ -18,6 +18,9 @@ import initialPageOptions from "@/data/formStepsOptions";
 import { uid } from "uid";
 import { handleExistingPetName } from "@/utils/handleExistingPetName";
 import { ErrorWrapper, Errortext } from "./Error.styled";
+import Fieldset from "./Fieldset.styled";
+import StyledLabel from "./Label.styled";
+import StyledRadio from "./Radio.styled";
 
 var today = new Date().toISOString().split("T")[0];
 const slugify = require("slugify");
@@ -25,6 +28,7 @@ const slugify = require("slugify");
 const initialErrorOptions = {
   hidden: true,
   name: "Please insert a name.",
+  gender: "Please select the gender.",
   birthday: "Please insert a birthday.",
   breed: "Please select a breed.",
 };
@@ -62,6 +66,7 @@ export default function Form({
       petBreed: petBreeds,
     };
     updatePet[fieldName] = fieldValue;
+    console.log(updatePet);
     setNewPet(updatePet);
   }
 
@@ -91,6 +96,7 @@ export default function Form({
       return true;
     } else if (
       (!newPet.petName && formSteps.currentStep === 1) ||
+      (!newPet.gender && formSteps.currentStep === 1) ||
       (!newPet.petBirthday && formSteps.currentStep === 2) ||
       (petBreeds < 1 && formSteps.currentStep === 3)
     ) {
@@ -158,7 +164,7 @@ export default function Form({
         {formSteps?.currentStep === 1 && (
           <Step>
             <Wrapper>
-              <label htmlFor="petName">Name</label>
+              <label htmlFor="petName">What is the name of your dog?</label>
               {pet && <small>You can not update the Name</small>}
               <Input
                 type="text"
@@ -171,11 +177,51 @@ export default function Form({
                 disabled={pet}
                 onChange={(event) => handleChange(event)}
               />
+              <Fieldset>
+                <Wrapper $isRow>
+                  <StyledLabel htmlFor="male">
+                    <StyledRadio
+                      type="radio"
+                      name="gender"
+                      value="Male"
+                      id="male"
+                      onChange={(event) => handleChange(event)}
+                      checked={
+                        pet?.gender === "Male" || newPet?.gender === "Male"
+                      }
+                    />
+                    Male
+                  </StyledLabel>
+
+                  <StyledLabel htmlFor="female">
+                    <StyledRadio
+                      type="radio"
+                      name="gender"
+                      value="Female"
+                      id="female"
+                      onChange={(event) => handleChange(event)}
+                      checked={
+                        pet?.gender === "Female" || newPet?.gender === "Female"
+                      }
+                    />
+                    Female
+                  </StyledLabel>
+                </Wrapper>
+              </Fieldset>
               <ErrorWrapper>
                 {!pet && (
-                  <Errortext>
-                    {!errorMessages.hidden && errorMessages.name}
-                  </Errortext>
+                  <>
+                    <Errortext>
+                      {!errorMessages.hidden &&
+                        !newPet.petName &&
+                        errorMessages.name}
+                    </Errortext>
+                    <Errortext>
+                      {!errorMessages.hidden &&
+                        !newPet.gender &&
+                        errorMessages.gender}
+                    </Errortext>
+                  </>
                 )}
               </ErrorWrapper>
             </Wrapper>

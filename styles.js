@@ -60,16 +60,16 @@ export default createGlobalStyle`
   margin-inline: auto;
   position: relative;}
 
+  h1, h2, h3, h4, h5 {
+    font-family: ${roboto.style.fontFamily};
+    font-weight: 300;
+    font-size: var(--font-medium);
+  }
+
   h1,
   h2 {
     margin: 0 0 0.5rem 0;
-  }
-
-  h1, h2, h3, h4, h5 {
-
-    font-family: ${roboto.style.fontFamily};
     font-size: var(--font-big);
-    font-weight: 300;
   }
   
   p:has(small) {padding: 0.5rem 0;}
