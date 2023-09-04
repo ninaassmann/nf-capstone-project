@@ -5,10 +5,8 @@ const StyledLink = styled(Link)`
   position: relative;
   display: block;
   padding: 1rem;
-  border-radius: 0.5rem;
-  background-color: lightgray;
-  color: black;
-  text-decoration: none;
+  border-radius: var(--border-radius);
+  background-color: var(--white);
 
   &:hover {
     filter: brightness(0.85);

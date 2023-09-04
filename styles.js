@@ -51,10 +51,12 @@ export default createGlobalStyle`
     color: var(--dark-blue);
   }
 
+  a {text-decoration: none;}
+
   ::-webkit-scrollbar {display: none}
 
   main {
-    width: min(calc(100vw - 2rem), 600px);
+  width: min(calc(100vw - 2rem), 600px);
   margin-inline: auto;
   position: relative;}
 
