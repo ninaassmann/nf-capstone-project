@@ -16,7 +16,7 @@ const ImageWrapper = styled.div`
     $variant == "hero" &&
     css`
       width: 100%;
-      height: 18rem;
+      height: 24rem;
       border-radius: var(--border-radius);
     `}
 `;

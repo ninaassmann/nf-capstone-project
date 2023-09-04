@@ -25,40 +25,54 @@ export default function BreedDetail({ dogBreeds }) {
       <Hero breed={breed} data={data} />
       <h1>{breed.name}</h1>
       <h3>General Breed Information:</h3>
-      <dl>
-        <dt>Origin</dt>
-        <dd>{breed.origin}</dd>
-      </dl>
+      {breed.origin && (
+        <dl>
+          <dt>Origin</dt>
+          <dd>{breed.origin}</dd>
+        </dl>
+      )}
 
-      <dl>
-        <dt>Bred for</dt>
-        <dd>{breed.bred_for}</dd>
-      </dl>
+      {breed.bred_for && (
+        <dl>
+          <dt>Bred for</dt>
+          <dd>{breed.bred_for}</dd>
+        </dl>
+      )}
 
-      <dl>
-        <dt>Breed Group</dt>
-        <dd>{breed.breed_group}</dd>
-      </dl>
+      {breed.breed_group && (
+        <dl>
+          <dt>Breed Group</dt>
+          <dd>{breed.breed_group}</dd>
+        </dl>
+      )}
 
-      <dl>
-        <dt>Temperament</dt>
-        <dd>{breed.temperament}</dd>
-      </dl>
+      {breed.temperament && (
+        <dl>
+          <dt>Temperament</dt>
+          <dd>{breed.temperament}</dd>
+        </dl>
+      )}
 
-      <dl>
-        <dt>Weight</dt>
-        <dd>{breed.weight.metric} kg</dd>
-      </dl>
+      {breed.weight.metric && (
+        <dl>
+          <dt>Weight</dt>
+          <dd>{breed.weight.metric} kg</dd>
+        </dl>
+      )}
 
-      <dl>
-        <dt>Height</dt>
-        <dd>{breed.height.metric} cm</dd>
-      </dl>
+      {breed.height.metric && (
+        <dl>
+          <dt>Height</dt>
+          <dd>{breed.height.metric} cm</dd>
+        </dl>
+      )}
 
-      <dl>
-        <dt>Life Span</dt>
-        <dd>{breed.life_span} kg</dd>
-      </dl>
+      {breed.life_span && (
+        <dl>
+          <dt>Life Span</dt>
+          <dd>{breed.life_span} kg</dd>
+        </dl>
+      )}
     </Container>
   );
 }
