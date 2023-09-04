@@ -66,6 +66,7 @@ export default function BreedFieldset({
             type="button"
             buttonText="Add breed"
             onClick={handleAddBreed}
+            $variant="secondary"
           />
           <ErrorWrapper>
             {

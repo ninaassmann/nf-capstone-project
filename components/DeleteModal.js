@@ -29,7 +29,7 @@ export default function DeleteModal({ pet, setModal, handleDelete }) {
 const Modal = styled.div`
   position: absolute;
   top: 0;
-  left: -5vw;
+  left: -1rem;
   width: 100vw;
   height: 100vh;
   display: flex;

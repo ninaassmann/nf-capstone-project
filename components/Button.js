@@ -25,7 +25,7 @@ const StyledButton = styled.button`
   cursor: pointer;
   width: 100%;
   padding: 1rem;
-  border-radius: 0.5rem;
+  border-radius: var(--border-radius);
   border: none;
   background-color: lightgray;
   &:hover {
@@ -35,29 +35,31 @@ const StyledButton = styled.button`
   ${({ $variant }) =>
     $variant == "submit" &&
     css`
-      background-color: lightgreen;
+      background: var(--success);
+      color: var(--white);
     `};
   ${({ $variant }) =>
     $variant == "primary" &&
     css`
-      background-color: lightblue;
+      background: var(--sky);
+      color: var(--white);
     `};
   ${({ $variant }) =>
     $variant == "secondary" &&
     css`
-      background-color: lightgrey;
+      background: var(--blue-grey);
     `};
   ${({ $variant }) =>
     $variant == "danger" &&
     css`
-      background-color: rgb(200, 100, 100);
-      color: white;
+      background: var(--danger);
+      color: var(--white);
     `}
   ${({ disabled }) =>
     disabled &&
     css`
       cursor: default;
-      background-color: #f1f1f1;
+      background: var(--blue-grey);
       &:hover {
         filter: unset;
       }
