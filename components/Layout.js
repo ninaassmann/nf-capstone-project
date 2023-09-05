@@ -14,7 +14,7 @@ export default function Layout({ children, theme, toggleTheme }) {
         <>
           <StyledHeader>
             <span>PawConnect</span>
-            <ThemeToggler onClick={toggleTheme}>
+            <ThemeToggler onClick={toggleTheme} aria-label="Toggle theme">
               {theme === "light" ? <Moon /> : <Sun />}
             </ThemeToggler>
           </StyledHeader>

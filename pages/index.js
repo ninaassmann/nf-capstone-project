@@ -7,7 +7,9 @@ import { styled } from "styled-components";
 export default function HomePage({ pets, calculateAge, toast }) {
   return (
     <Container>
-      <StyledLink href="/pets">+</StyledLink>
+      <StyledLink href="/pets" aria-label="Add another pet">
+        +
+      </StyledLink>
       <List pets={pets} calculateAge={calculateAge} />
 
       {toast === true && (

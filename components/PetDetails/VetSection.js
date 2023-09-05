@@ -6,7 +6,7 @@ export default function VetSection({ pet }) {
   return (
     <>
       {pet.vet?.name && (
-        <CTA href={`tel:${pet.vet?.phone}`}>
+        <CTA href={`tel:${pet.vet?.phone}`} aria-label="Call your vet">
           <div>
             <h3>{pet.vet?.name}</h3>
             <p>{pet.vet?.address}</p>
