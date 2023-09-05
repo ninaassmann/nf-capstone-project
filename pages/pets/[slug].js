@@ -11,6 +11,8 @@ import BreedInfoSection from "@/components/PetDetails/BreedInfoSection";
 import Section from "@/components/PetDetails/Section.styled";
 import FoodSection from "@/components/PetDetails/FoodSection";
 import VetSection from "@/components/PetDetails/VetSection";
+import LinkButton from "@/components/LinkButton.styled";
+import BackLink from "@/components/BackLink";
 
 export default function Pet({
   pets,
@@ -42,7 +44,7 @@ export default function Pet({
   return (
     <>
       <Container>
-        <Link href="/">back to overview</Link>
+        <BackLink link="/" />
 
         <Section>
           {pet.mixed && <Label>Mixed</Label>}
@@ -64,6 +66,7 @@ export default function Pet({
           dogBreeds={dogBreeds && dogBreeds}
         />
 
+        <LinkButton href={`/pets/update/${pet.slug}`}>Update</LinkButton>
         <Button
           type="button"
           buttonText="Delete"
@@ -73,8 +76,6 @@ export default function Pet({
             window.scrollTo({ top: 0, left: 0 });
           }}
         />
-
-        <Link href={`/pets/update/${pet.slug}`}>Update</Link>
       </Container>
 
       {toast === true && (

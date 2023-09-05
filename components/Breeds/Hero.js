@@ -13,7 +13,6 @@ export default function Hero({ breed, data }) {
         width={data.results.width}
         height={data.results.height}
       />
-      <h1>{breed.name}</h1>
     </ImageWrapper>
   );
 }

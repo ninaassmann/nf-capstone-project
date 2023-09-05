@@ -16,9 +16,10 @@ const Fieldset = styled.fieldset`
   ${({ $isHighlight }) =>
     $isHighlight &&
     css`
-      background-color: #f1f1f1;
+      background-color: var(--blue-grey);
       padding: 3rem 1rem 1rem;
-      border-radius: 1rem;
+      border-radius: var(--border-radius);
+      margin-bottom: 1rem;
 
       & > legend {
         position: absolute;

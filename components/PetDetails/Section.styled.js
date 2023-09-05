@@ -5,13 +5,8 @@ const Section = styled.section`
   width: 100%;
   display: block;
   padding: 1rem;
-  border-radius: 0.5rem;
-  background-color: lightgrey;
-
-  & dt {
-    margin-bottom: 0.5rem;
-    font-weight: 700;
-  }
+  border-radius: var(--border-radius);
+  background: var(--white);
 
   ${({ $isRow }) =>
     $isRow &&
@@ -21,12 +16,12 @@ const Section = styled.section`
       gap: 1rem;
       background-color: transparent;
       padding: 0;
-      & dl {
+      dl {
         width: 100%;
         display: block;
         padding: 1rem;
-        border-radius: 0.5rem;
-        background-color: lightgrey;
+        border-radius: var(--border-radius);
+        background: var(--white);
         text-align: center;
       }
     `}

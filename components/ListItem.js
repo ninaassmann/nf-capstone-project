@@ -10,7 +10,7 @@ export default function ListItem({ mixed, name, breed, birthday, slug }) {
   return (
     <li>
       <StyledLink href={`/pets/${slug}`}>
-        {mixed && <Label>Mixed</Label>}
+        {mixed && <Label>mixed</Label>}
         <h3>{name}</h3>
         <p>{petBreeds}</p>
         <p>{age}</p>

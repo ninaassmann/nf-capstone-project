@@ -66,6 +66,7 @@ export default function BreedFieldset({
             type="button"
             buttonText="Add breed"
             onClick={handleAddBreed}
+            $variant="secondary"
           />
           <ErrorWrapper>
             {
@@ -89,7 +90,7 @@ const StyledList = styled.ul`
   gap: 0.5rem;
 
   & li {
-    background: lightgrey;
+    background: var(--white);
     padding: 0.25rem 0.75rem;
     border-radius: 1rem;
   }

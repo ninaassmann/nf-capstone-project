@@ -7,7 +7,7 @@ import { styled } from "styled-components";
 export default function HomePage({ pets, calculateAge, toast }) {
   return (
     <Container>
-      <StyledLink href="/pets">Create a new dog</StyledLink>
+      <StyledLink href="/pets">+</StyledLink>
       <List pets={pets} calculateAge={calculateAge} />
 
       {toast === true && (
@@ -18,14 +18,13 @@ export default function HomePage({ pets, calculateAge, toast }) {
 }
 
 const StyledLink = styled(Link)`
-  display: inline-block;
-  padding: 1rem 2rem;
-  border-radius: 0.5rem;
-  background-color: lightblue;
-  color: black;
+  width: 100%;
+  height: var(--menu-height);
+  border: 1px dashed;
+  border-radius: var(--border-radius);
   text-decoration: none;
-
-  &:hover {
-    filter: brightness(0.85);
-  }
+  display: grid;
+  place-items: center;
+  font-size: var(--font-big);
+  font-weight: 300;
 `;
