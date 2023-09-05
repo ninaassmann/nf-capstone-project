@@ -5,7 +5,13 @@ import Button from "../Button";
 export default function FoodForm({ handleAddFood }) {
   return (
     <StyledForm onSubmit={handleAddFood}>
-      <StyledInput type="number" name="count" defaultValue="1" $isHighlight />
+      <StyledInput
+        type="number"
+        name="count"
+        defaultValue="1"
+        $isHighlight
+        aria-label={`How many do you want to add?`}
+      />
       <Button buttonText="refill" type="submit" $variant="secondary" />
     </StyledForm>
   );

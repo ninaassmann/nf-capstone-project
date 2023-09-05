@@ -158,11 +158,13 @@ export default function Form({
 
   return (
     <StyledForm onSubmit={(event) => handleSubmit(event)} $isStepForm>
-      {formSteps && <h1>{formSteps.headlines[formSteps.currentStep]}</h1>}
+      {formSteps && (
+        <h1 id="title">{formSteps.headlines[formSteps.currentStep]}</h1>
+      )}
 
       <Article>
         {formSteps?.currentStep === 1 && (
-          <Step>
+          <Step aria-labelledby="title">
             <Wrapper>
               <label htmlFor="petName">What is the name of your dog?</label>
               {pet && <small>You can not update the Name</small>}
@@ -229,7 +231,7 @@ export default function Form({
         )}
 
         {formSteps?.currentStep === 2 && (
-          <Step>
+          <Step aria-labelledby="title">
             <Wrapper>
               <label htmlFor="petBirthday">Birthday</label>
               <Input
@@ -253,7 +255,7 @@ export default function Form({
         )}
 
         {formSteps?.currentStep === 3 && (
-          <Step>
+          <Step aria-labelledby="title">
             <BreedFieldset
               petBreeds={petBreeds}
               dogBreeds={dogBreeds}
@@ -265,7 +267,7 @@ export default function Form({
         )}
 
         {formSteps?.currentStep === 4 && (
-          <Step>
+          <Step aria-labelledby="title">
             <ButtonWrapper $isColumn>
               <Button
                 buttonText="Yes"
@@ -282,12 +284,12 @@ export default function Form({
         )}
 
         {formSteps?.currentStep === 5 && (
-          <Step>
+          <Step aria-labelledby="title">
             <VetFieldset pet={pet} newPet={newPet} vet={vet} setVet={setVet} />
           </Step>
         )}
         {formSteps?.currentStep === 6 && (
-          <Step>
+          <Step aria-labelledby="title">
             <ButtonWrapper $isColumn>
               <Button
                 buttonText="Yes"
@@ -303,7 +305,7 @@ export default function Form({
           </Step>
         )}
         {formSteps?.currentStep === 7 && (
-          <Step>
+          <Step aria-labelledby="title">
             <FoodFieldset
               pet={pet}
               newPet={newPet}
@@ -332,7 +334,7 @@ export default function Form({
               $isStepButton
             />
           ) : (
-            <Step>
+            <Step aria-labelledby="title">
               <Button
                 type="submit"
                 buttonText={pet ? "Update" : "Create"}

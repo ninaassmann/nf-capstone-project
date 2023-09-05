@@ -1,4 +1,5 @@
 import GlobalStyle from "../styles";
+import Head from "next/head";
 import { lightTheme, darkTheme } from "@/components/Theme";
 import useLocalStorageState from "use-local-storage-state";
 import useSWR, { SWRConfig } from "swr";
@@ -92,6 +93,16 @@ export default function App({ Component, pageProps }) {
       <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
         <GlobalStyle />
         <SWRConfig value={{ fetcher }}>
+          <Head>
+            <meta name="keywords" content="pawconnect, pets, manager, breeds" />
+            <meta name="author" content="Nina Assmann" />
+            <title>PawConnect</title>
+            <meta
+              name="description"
+              content="This is a management App for your pets."
+            />
+            <meta property="og:image" content="/pawconnect.jpg" />
+          </Head>
           <Layout theme={theme} toggleTheme={toggleTheme}>
             <Component
               {...pageProps}

@@ -9,7 +9,7 @@ export default function ListItem({ mixed, name, breed, birthday, slug }) {
 
   return (
     <li>
-      <StyledLink href={`/pets/${slug}`}>
+      <StyledLink href={`/pets/${slug}`} aria-label={`Open ${name}`}>
         {mixed && <Label>mixed</Label>}
         <h3>{name}</h3>
         <p>{petBreeds}</p>
