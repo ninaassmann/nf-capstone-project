@@ -66,7 +66,6 @@ export default function Form({
       petBreed: petBreeds,
     };
     updatePet[fieldName] = fieldValue;
-    console.log(updatePet);
     setNewPet(updatePet);
   }
 
