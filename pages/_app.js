@@ -24,9 +24,9 @@ const fetcher = async (url) => {
 
 export default function App({ Component, pageProps }) {
   const [theme, setTheme] = useState("light");
-  const themeToggler = () => {
+  function toggleTheme() {
     theme === "light" ? setTheme("dark") : setTheme("light");
-  };
+  }
 
   const router = useRouter();
   const { data, isLoading, error } = useSWR(
@@ -92,7 +92,7 @@ export default function App({ Component, pageProps }) {
       <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
         <GlobalStyle />
         <SWRConfig value={{ fetcher }}>
-          <Layout>
+          <Layout theme={theme} toggleTheme={toggleTheme}>
             <Component
               {...pageProps}
               addNewPet={handleNewPet}

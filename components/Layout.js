@@ -1,9 +1,10 @@
 import { styled } from "styled-components";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Sun from "./icons/Sun";
+import Moon from "./icons/Moon";
 
-export default function Layout({ children }) {
+export default function Layout({ children, theme, toggleTheme }) {
   const router = useRouter();
   const path = router.pathname;
 
@@ -13,6 +14,9 @@ export default function Layout({ children }) {
         <>
           <StyledHeader>
             <span>PawConnect</span>
+            <ThemeToggler onClick={toggleTheme}>
+              {theme === "light" ? <Moon /> : <Sun />}
+            </ThemeToggler>
           </StyledHeader>
           <main>{children}</main>
           <StyledFooter>
@@ -35,10 +39,11 @@ const StyledHeader = styled.header`
   top: 0;
   width: 100%;
   height: var(--menu-height);
-  padding-left: 1rem;
+  padding: 0 1rem;
   background: ${({ theme }) => theme.darkBackground};
-  display: grid;
-  place-items: center start;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   & span {
     font-size: var(--font-big);
@@ -77,4 +82,9 @@ const StyledNav = styled.nav`
     text-decoration: none;
     font-size: var(--font-medium);
   }
+`;
+
+const ThemeToggler = styled.button`
+  background: none;
+  border: none;
 `;
