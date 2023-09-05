@@ -1,4 +1,5 @@
 import GlobalStyle from "../styles";
+import { lightTheme, darkTheme } from "@/components/Theme";
 import useLocalStorageState from "use-local-storage-state";
 import useSWR, { SWRConfig } from "swr";
 import { useRouter } from "next/router";
@@ -7,8 +8,7 @@ import { useEffect, useState } from "react";
 import initialPets from "@/data/pets";
 import slugify from "slugify";
 import Layout from "@/components/Layout";
-
-const API_KEY = process.env.API_KEY;
+import { ThemeProvider } from "styled-components";
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -23,6 +23,11 @@ const fetcher = async (url) => {
 };
 
 export default function App({ Component, pageProps }) {
+  const [theme, setTheme] = useState("light");
+  const themeToggler = () => {
+    theme === "light" ? setTheme("dark") : setTheme("light");
+  };
+
   const router = useRouter();
   const { data, isLoading, error } = useSWR(
     "https://api.thedogapi.com/v1/breeds",
@@ -84,21 +89,23 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
-      <GlobalStyle />
-      <SWRConfig value={{ fetcher }}>
-        <Layout>
-          <Component
-            {...pageProps}
-            addNewPet={handleNewPet}
-            updatePets={handleUpdate}
-            handleDelete={handleDelete}
-            pets={pets}
-            dogBreeds={dogBreeds}
-            toast={toast}
-            setToast={setToast}
-          />
-        </Layout>
-      </SWRConfig>
+      <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+        <GlobalStyle />
+        <SWRConfig value={{ fetcher }}>
+          <Layout>
+            <Component
+              {...pageProps}
+              addNewPet={handleNewPet}
+              updatePets={handleUpdate}
+              handleDelete={handleDelete}
+              pets={pets}
+              dogBreeds={dogBreeds}
+              toast={toast}
+              setToast={setToast}
+            />
+          </Layout>
+        </SWRConfig>
+      </ThemeProvider>
     </>
   );
 }

@@ -6,7 +6,7 @@ export default function BreedInfoSection({ petBreeds, dogBreeds }) {
     petBreeds.includes(breed.name)
   );
   return (
-    <ul>
+    <StyledList>
       {matchingBreeds?.map((breed) => (
         <ListItem key={breed.id}>
           <h2>{breed.name}</h2>
@@ -38,9 +38,13 @@ export default function BreedInfoSection({ petBreeds, dogBreeds }) {
           </Section>
         </ListItem>
       ))}
-    </ul>
+    </StyledList>
   );
 }
+
+const StyledList = styled.ul`
+  width: 100%;
+`;
 
 const ListItem = styled.li`
   all: unset;

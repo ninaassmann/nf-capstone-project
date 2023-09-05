@@ -16,7 +16,7 @@ const Fieldset = styled.fieldset`
   ${({ $isHighlight }) =>
     $isHighlight &&
     css`
-      background-color: var(--blue-grey);
+      background: ${({ theme }) => theme.darkBackground};
       padding: 3rem 1rem 1rem;
       border-radius: var(--border-radius);
       margin-bottom: 1rem;

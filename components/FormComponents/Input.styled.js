@@ -6,8 +6,7 @@ const Input = styled.input`
   padding: 1rem;
   border-radius: var(--border-radius);
 
-  background: ${(props) =>
-    props.$isHighlight ? "var(--light-blue-grey)" : "var(--white)"};
+  background: ${({ theme }) => theme.lightBackground};
   border: none;
 
   -webkit-appearance: none;
@@ -18,7 +17,12 @@ const Input = styled.input`
     disabled &&
     css`
       border: none;
-      background-color: #f1f1f1;
+      background: ${({ theme }) => theme.darkBackground};
+    `}
+  ${({ $isHighlight }) =>
+    $isHighlight &&
+    css`
+      background: ${({ theme }) => theme.background};
     `}
 `;
 

@@ -6,7 +6,7 @@ const Section = styled.section`
   display: block;
   padding: 1rem;
   border-radius: var(--border-radius);
-  background: var(--white);
+  background: ${({ theme }) => theme.lightBackground};
 
   ${({ $isRow }) =>
     $isRow &&
@@ -21,7 +21,7 @@ const Section = styled.section`
         display: block;
         padding: 1rem;
         border-radius: var(--border-radius);
-        background: var(--white);
+        background: ${({ theme }) => theme.lightBackground};
         text-align: center;
       }
     `}

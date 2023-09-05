@@ -17,19 +17,6 @@ export default createGlobalStyle`
   }
 
   body {
-    --sky: hsla(225, 87%, 65%, 1);
-    --danger: hsla(346, 80%, 62%, 1);
-    --success: hsla(104, 50%, 44%, 1);
-    --blue-grey: hsla(225, 25%, 85%, 1);
-    --dark-blue-grey: hsla(225, 30%, 24%, 1);
-
-    --black-blue: hsla(225, 60%, 6%, 1);
-    --dark-blue: hsla(227, 53%, 9%, 1);
-    
-    --blue: hsla(225, 53%, 17%, 1);
-    --white: hsla(0, 0%, 100%, 1);
-    --light-blue-grey: hsla(225, 25%, 95%, 1);
-
     --menu-height: 60px;
 
     --font-small: 0.75rem;
@@ -44,11 +31,11 @@ export default createGlobalStyle`
     margin: 0;
     font-family: ${raleway.style.fontFamily};
     font-size: var(--font-regular);
-    background: var(--light-blue-grey);
+    background: ${({ theme }) => theme.background};
   }
 
   body * {
-    color: var(--dark-blue);
+    color: ${({ theme }) => theme.text};
   }
 
   a {text-decoration: none;     display: flex;
@@ -77,7 +64,8 @@ export default createGlobalStyle`
   p:has(small) {padding: 0.5rem 0;}
 
   label:has(:checked) {
-   background: hsl(107, 65%, 69%);
+   background: ${({ theme }) => theme.primary};
+   color: #eff1f5;
   }
   
   dt {

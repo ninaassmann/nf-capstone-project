@@ -36,7 +36,7 @@ const StyledHeader = styled.header`
   width: 100%;
   height: var(--menu-height);
   padding-left: 1rem;
-  background-color: var(--blue-grey);
+  background: ${({ theme }) => theme.darkBackground};
   display: grid;
   place-items: center start;
 
@@ -60,7 +60,7 @@ const StyledFooter = styled.footer`
   width: 100%;
   height: var(--menu-height);
   padding: 1rem 0;
-  background-color: var(--blue-grey);
+  background: ${({ theme }) => theme.darkBackground};
   text-align: center;
 `;
 

@@ -20,7 +20,7 @@ export default function VetSection({ pet }) {
 
 const CTA = styled(Link)`
   width: 100%;
-  padding: 1rem;
+  padding: 1rem 1.5rem 1rem 1rem;
   border-radius: var(--border-radius);
 
   display: flex;
@@ -28,9 +28,9 @@ const CTA = styled(Link)`
   align-items: center;
   text-decoration: none;
 
-  background: var(--sky);
+  background: ${({ theme }) => theme.primary};
   & * {
-    color: var(--white);
+    color: #eff1f5;
   }
 
   &:hover {
@@ -39,5 +39,6 @@ const CTA = styled(Link)`
 
   & svg {
     fill: white;
+    margin-bottom: 0.25rem;
   }
 `;

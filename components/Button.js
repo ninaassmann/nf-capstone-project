@@ -27,7 +27,8 @@ const StyledButton = styled.button`
   padding: 1rem;
   border-radius: var(--border-radius);
   border: none;
-  background-color: lightgray;
+  background: ${({ theme }) => theme.secondary};
+  color: #eff1f5;
   &:hover {
     filter: brightness(0.95);
   }
@@ -35,31 +36,30 @@ const StyledButton = styled.button`
   ${({ $variant }) =>
     $variant == "submit" &&
     css`
-      background: var(--success);
-      color: var(--white);
+      background: ${({ theme }) => theme.success};
     `};
   ${({ $variant }) =>
     $variant == "primary" &&
     css`
-      background: var(--sky);
-      color: var(--white);
+      background: ${({ theme }) => theme.primary};
     `};
   ${({ $variant }) =>
     $variant == "secondary" &&
     css`
-      background: var(--blue-grey);
+      background: ${({ theme }) => theme.secondary};
+      color: ${({ theme }) => theme.text};
     `};
   ${({ $variant }) =>
     $variant == "danger" &&
     css`
-      background: var(--danger);
-      color: var(--white);
+      background: ${({ theme }) => theme.danger};
     `}
   ${({ disabled }) =>
     disabled &&
     css`
       cursor: default;
-      background: var(--blue-grey);
+      background: ${({ theme }) => theme.secondary};
+      opacity: 0.5;
       &:hover {
         filter: unset;
       }

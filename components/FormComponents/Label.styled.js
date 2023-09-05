@@ -6,7 +6,7 @@ const StyledLabel = styled.label`
   text-align: center;
   background: white;
   padding: 1rem 1rem;
-  border-radius: 0.5rem;
+  border-radius: var(--border-radius);
 `;
 
 export default StyledLabel;

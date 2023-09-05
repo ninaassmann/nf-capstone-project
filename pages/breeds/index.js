@@ -56,6 +56,7 @@ export default function BreedList({ dogBreeds }) {
         <Wrapper>
           <label htmlFor="breedGroup">Breed Group</label>
           <Select
+            $isRow
             name="breedGroup"
             id="breedGroup"
             onChange={(event) => handleOnChange(event, "group")}
@@ -74,6 +75,7 @@ export default function BreedList({ dogBreeds }) {
         <Wrapper>
           <label htmlFor="breedTemperament">Temperament</label>
           <Select
+            $isRow
             name="breedTemperament"
             id="breedTemperament"
             onChange={(event) => handleOnChange(event, "temperament")}
@@ -92,6 +94,7 @@ export default function BreedList({ dogBreeds }) {
         <Wrapper>
           <label htmlFor="breedSize">Size</label>
           <Select
+            $isRow
             name="breedSize"
             id="breedSize"
             onChange={(event) => handleOnChange(event, "size")}
