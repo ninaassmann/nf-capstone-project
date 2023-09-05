@@ -101,6 +101,7 @@ export default function App({ Component, pageProps }) {
               name="description"
               content="This is a management App for your pets."
             />
+            <meta property="og:image" content="/pawconnect.jpg" />
           </Head>
           <Layout theme={theme} toggleTheme={toggleTheme}>
             <Component
