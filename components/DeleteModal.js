@@ -12,6 +12,7 @@ export default function DeleteModal({ pet, setModal, handleDelete }) {
           <Button
             type="button"
             buttonText="Stop, I changed my mind"
+            $variant="secondary"
             onClick={() => setModal(false)}
           />
           <Button
@@ -35,6 +36,7 @@ const Modal = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 99;
 
   background: rgba(0, 0, 0, 0.85);
 `;
@@ -43,9 +45,9 @@ const Container = styled.div`
   width: min(90vw, 600px);
   margin-inline: auto;
   padding: 1rem;
-  border-radius: 1rem;
+  border-radius: var(--border-radius);
 
-  background-color: white;
+  background: ${({ theme }) => theme.lightBackground};
 
   & h3 {
     max-width: 60%;

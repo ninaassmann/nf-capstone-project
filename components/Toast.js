@@ -18,11 +18,11 @@ const toastAnimation = keyframes`
 const ToastContainer = styled.div`
   position: fixed;
   bottom: 6rem;
-  background: hsl(127, 84%, 45%);
   width: min(calc(100vw - 2rem), 600px);
   margin-inline: auto;
   padding: 1.5rem;
-  border-radius: 1rem;
+  border-radius: var(--border-radius);
+  background: ${({ theme }) => theme.success};
   box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.3);
   transform: translateY(200%);
   animation: ${toastAnimation} 3s ease;

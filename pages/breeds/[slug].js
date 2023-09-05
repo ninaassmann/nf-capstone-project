@@ -21,7 +21,7 @@ export default function BreedDetail({ dogBreeds }) {
 
   return (
     <Container>
-      <BackLink link="/breeds" />
+      <BackLink link="/breeds" linkText="back to overview" />
       <Hero breed={breed} data={data} />
       <h1>{breed.name}</h1>
       <h3>General Breed Information:</h3>

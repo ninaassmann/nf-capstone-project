@@ -21,6 +21,7 @@ import { ErrorWrapper, Errortext } from "./Error.styled";
 import Fieldset from "./Fieldset.styled";
 import StyledLabel from "./Label.styled";
 import StyledRadio from "./Radio.styled";
+import BackLink from "../BackLink";
 
 var today = new Date().toISOString().split("T")[0];
 const slugify = require("slugify");
@@ -340,7 +341,11 @@ export default function Form({
             </Step>
           )}
         </ButtonWrapper>
-        <Link href="/">Cancel</Link>
+        {pet ? (
+          <BackLink link={`/pets/${pet.slug}`} linkText="Cancel" />
+        ) : (
+          <BackLink link="/" linkText="back to overview" />
+        )}
       </Article>
     </StyledForm>
   );

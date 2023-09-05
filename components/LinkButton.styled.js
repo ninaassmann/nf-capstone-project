@@ -8,7 +8,7 @@ const LinkButton = styled(Link)`
   padding: 1rem;
   border-radius: var(--border-radius);
   border: none;
-  background-color: var(--blue-grey);
+  background: ${({ theme }) => theme.secondary};
   text-align: center;
   &:hover {
     filter: brightness(0.95);

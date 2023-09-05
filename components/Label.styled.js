@@ -4,7 +4,7 @@ export default styled.span`
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: var(--light-blue-grey);
+  background: ${({ theme }) => theme.background};
   padding: 0.25rem 0.5rem;
   border-radius: 1rem;
   font-size: var(--font-small);

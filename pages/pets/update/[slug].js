@@ -2,6 +2,7 @@ import Container from "@/components/Container.styled";
 import Link from "next/link";
 import Form from "@/components/FormComponents";
 import { useRouter } from "next/router";
+import BackLink from "@/components/BackLink";
 
 export default function FormPage({ pets, dogBreeds, updatePets, setToast }) {
   const router = useRouter();
@@ -17,7 +18,6 @@ export default function FormPage({ pets, dogBreeds, updatePets, setToast }) {
         updatePets={updatePets}
         setToast={setToast}
       />
-      <Link href={`/pets/${pet.slug}`}>back</Link>
     </>
   );
 }

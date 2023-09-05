@@ -1,5 +1,4 @@
 import Container from "@/components/Container.styled";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { calculateAge } from "@/utils/calculateAge";
 import Label from "@/components/Label.styled";
@@ -35,7 +34,7 @@ export default function Pet({
       <main>
         <Container>
           <h1>page not found</h1>
-          <Link href="/">back to overview</Link>
+          <BackLink link="/" linkText="back to overview" />
         </Container>
       </main>
     );
@@ -44,7 +43,7 @@ export default function Pet({
   return (
     <>
       <Container>
-        <BackLink link="/" />
+        <BackLink link="/" linkText="back to overview" />
 
         <Section>
           {pet.mixed && <Label>Mixed</Label>}

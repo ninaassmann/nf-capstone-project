@@ -6,10 +6,10 @@ const StyledLink = styled(Link)`
   display: block;
   padding: 1rem;
   border-radius: var(--border-radius);
-  background-color: var(--white);
+  background: ${({ theme }) => theme.lightBackground};
 
   &:hover {
-    filter: brightness(0.85);
+    box-shadow: 0 0 0.25rem 0 rgba(0, 0, 0, 0.125);
   }
 
   ${({ $variant }) =>
