@@ -76,7 +76,6 @@ export default function Form({
 
     const dataPet = newPet;
 
-    dataPet.id = pet ? pet.id : uid();
     dataPet.slug = pet
       ? pet.slug
       : slugify(handleExistingPetName(dataPet.petName, pets), { lower: true });

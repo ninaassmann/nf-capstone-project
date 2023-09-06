@@ -1,15 +1,15 @@
 import GlobalStyle from "../styles";
-import Head from "next/head";
-import { lightTheme, darkTheme } from "@/components/Theme";
-import useLocalStorageState from "use-local-storage-state";
+import slugify from "slugify";
+
 import useSWR, { SWRConfig } from "swr";
 import { useRouter } from "next/router";
-import { uid } from "uid";
 import { useEffect, useState } from "react";
-import initialPets from "@/data/pets";
-import slugify from "slugify";
-import Layout from "@/components/Layout";
+
+import Head from "next/head";
 import { ThemeProvider } from "styled-components";
+
+import { lightTheme, darkTheme } from "@/components/Theme";
+import Layout from "@/components/Layout";
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -24,7 +24,7 @@ const fetcher = async (url) => {
 };
 
 export default function App({ Component, pageProps }) {
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState("dark");
   function toggleTheme() {
     theme === "light" ? setTheme("dark") : setTheme("light");
   }
@@ -35,8 +35,9 @@ export default function App({ Component, pageProps }) {
     fetcher
   );
   const [dogBreeds, setDogBreeds] = useState([]);
-  const [pets, setPets] = useLocalStorageState("pets", {
-    defaultValue: initialPets,
+
+  const { data: pets, mutate } = useSWR("/api/pets", fetcher, {
+    fallbackData: [],
   });
 
   const [toast, setToast] = useState(false);
@@ -63,29 +64,64 @@ export default function App({ Component, pageProps }) {
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
 
-  function handleNewPet(newPet) {
-    newPet.id = uid();
-    const petsWithNewPet = [newPet, ...pets];
-    setPets(petsWithNewPet);
-  }
+  // add new pet
+  async function handleNewPet(newPet) {
+    try {
+      const response = await fetch(`/api/pets`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newPet),
+      });
 
-  function handleUpdate(updatedPet) {
-    const updatedPets = pets.map((pet) => {
-      if (updatedPet.id !== pet.id) {
-        return pet;
+      if (response.ok) {
+        mutate();
+      } else {
+        console.error("Failed to create pet");
       }
-      return updatedPet;
-    });
-    setPets(updatedPets);
+    } catch (error) {
+      console.error("Error creating pet:", error);
+    }
   }
 
-  function handleDelete(petToDelete) {
-    const petsWithoutDeletedPet = pets.filter(
-      (pet) => pet.slug !== petToDelete.slug
-    );
+  // update existing pet
+  async function handleUpdate(updatedPet) {
+    try {
+      const response = await fetch(`/api/pets/${updatedPet._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedPet),
+      });
 
-    router.push("/");
-    setPets(petsWithoutDeletedPet);
+      if (response.ok) {
+        mutate();
+      } else {
+        console.error(`Failed to update ${pet.petName}:`);
+      }
+    } catch (error) {
+      console.error(`Error updating ${pet.petName}:`, error);
+    }
+  }
+
+  // delete existing pet
+  async function handleDelete(petToDelete) {
+    try {
+      const response = await fetch(`/api/pets/${petToDelete._id}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        mutate();
+        router.push("/");
+        console.log("success");
+      } else {
+        console.error(`Failed to delete ${petToDelete.petName}`);
+      }
+    } catch (error) {
+      console.error(`Error deleting ${petToDelete.petName}:`, error);
+    }
   }
 
   return (

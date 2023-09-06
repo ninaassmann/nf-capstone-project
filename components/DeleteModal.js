@@ -42,7 +42,7 @@ const Modal = styled.div`
 `;
 
 const Container = styled.div`
-  width: min(90vw, 600px);
+  width: min(calc(100vw - 2rem), 600px);
   margin-inline: auto;
   padding: 1rem;
   border-radius: var(--border-radius);

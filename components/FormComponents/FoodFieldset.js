@@ -8,6 +8,9 @@ import StyledRadio from "./Radio.styled";
 
 export default function FoodFieldset({ pet, newPet, food, setFood }) {
   function handleChange(event, key) {
+    if (event.target.type === "number" && event.target.value < 0) {
+      event.target.value = 0;
+    }
     const fieldName = key;
     const fieldValue = event.target.value;
 
@@ -127,6 +130,7 @@ export default function FoodFieldset({ pet, newPet, food, setFood }) {
           type="number"
           id="foodPackageSize"
           name="foodPackageSize"
+          min="0"
           defaultValue={pet && pet.food.size}
           onChange={(event) => handleChange(event, "size")}
         />
@@ -138,6 +142,7 @@ export default function FoodFieldset({ pet, newPet, food, setFood }) {
           type="number"
           id="foodPackagePrice"
           name="foodPackagePrice"
+          min="0"
           step=".01"
           defaultValue={pet && pet.food.price}
           onChange={(event) => handleChange(event, "price")}
@@ -151,6 +156,7 @@ export default function FoodFieldset({ pet, newPet, food, setFood }) {
           type="number"
           id="foodDailyNeed"
           name="foodDailyNeed"
+          min="0"
           defaultValue={pet && pet.food.dailyNeed}
           onChange={(event) => handleChange(event, "dailyNeed")}
         />
@@ -163,6 +169,7 @@ export default function FoodFieldset({ pet, newPet, food, setFood }) {
           type="number"
           id="foodStock"
           name="foodStock"
+          min="0"
           defaultValue={pet && pet.food.stock}
           onChange={(event) => handleChange(event, "stock")}
         />
