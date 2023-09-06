@@ -13,4 +13,5 @@ export default function LongArrow() {
 
 const SVG = styled.svg`
   width: 1rem;
+  fill: ${({ theme }) => theme.text};
 `;

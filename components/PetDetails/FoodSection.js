@@ -42,7 +42,7 @@ export default function FoodSection({ pet, updatePets }) {
 
   return (
     <>
-      {pet.food.name && (
+      {pet.food?.name && (
         <Section>
           <h2>Food</h2>
           <p>{pet.food?.name}</p>
