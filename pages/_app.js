@@ -1,15 +1,15 @@
 import GlobalStyle from "../styles";
-import Head from "next/head";
-import { lightTheme, darkTheme } from "@/components/Theme";
-import useLocalStorageState from "use-local-storage-state";
+import slugify from "slugify";
+
 import useSWR, { SWRConfig, mutate } from "swr";
 import { useRouter } from "next/router";
-import { uid } from "uid";
 import { useEffect, useState } from "react";
-import initialPets from "@/data/pets";
-import slugify from "slugify";
-import Layout from "@/components/Layout";
+
+import Head from "next/head";
 import { ThemeProvider } from "styled-components";
+
+import { lightTheme, darkTheme } from "@/components/Theme";
+import Layout from "@/components/Layout";
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -35,9 +35,6 @@ export default function App({ Component, pageProps }) {
     fetcher
   );
   const [dogBreeds, setDogBreeds] = useState([]);
-  /*   const [pets, setPets] = useLocalStorageState("pets", {
-    defaultValue: initialPets,
-  }); */
 
   const { data: pets, mutate } = useSWR("/api/pets", fetcher, {
     fallbackData: [],
@@ -67,6 +64,7 @@ export default function App({ Component, pageProps }) {
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
 
+  // add new pet
   async function handleNewPet(newPet) {
     try {
       const response = await fetch(`/api/pets`, {
@@ -87,6 +85,7 @@ export default function App({ Component, pageProps }) {
     }
   }
 
+  // update existing pet
   async function handleUpdate(updatedPet) {
     try {
       const response = await fetch(`/api/pets/${updatedPet._id}`, {
@@ -108,6 +107,7 @@ export default function App({ Component, pageProps }) {
     }
   }
 
+  // delete existing pet
   async function handleDelete(petToDelete) {
     try {
       const response = await fetch(`/api/pets/${petToDelete._id}`, {
