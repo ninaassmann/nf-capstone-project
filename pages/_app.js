@@ -24,7 +24,7 @@ const fetcher = async (url) => {
 };
 
 export default function App({ Component, pageProps }) {
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState("dark");
   function toggleTheme() {
     theme === "light" ? setTheme("dark") : setTheme("light");
   }
@@ -39,7 +39,9 @@ export default function App({ Component, pageProps }) {
     defaultValue: initialPets,
   }); */
 
-  const { data: pets } = useSWR("/api/pets", fetcher, { fallbackData: [] });
+  const { data: pets, mutate } = useSWR("/api/pets", fetcher, {
+    fallbackData: [],
+  });
 
   const [toast, setToast] = useState(false);
 
@@ -76,7 +78,7 @@ export default function App({ Component, pageProps }) {
       });
 
       if (response.ok) {
-        mutate(`/api/pets`);
+        mutate();
       } else {
         console.error("Failed to create pet");
       }
@@ -96,22 +98,31 @@ export default function App({ Component, pageProps }) {
       });
 
       if (response.ok) {
-        mutate(`/api/pets/${updatedPet._id}`);
+        mutate();
+        console.log("success");
       } else {
-        console.error("Failed to update pet");
+        console.error(`Failed to update ${pet.petName}:`);
       }
     } catch (error) {
-      console.error("Error updating interview:", error);
+      console.error(`Error updating ${pet.petName}:`, error);
     }
   }
 
-  function handleDelete(petToDelete) {
-    const petsWithoutDeletedPet = pets.filter(
-      (pet) => pet.slug !== petToDelete.slug
-    );
-
-    router.push("/");
-    setPets(petsWithoutDeletedPet);
+  async function handleDelete(petToDelete) {
+    try {
+      const response = await fetch(`/api/pets/${petToDelete._id}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        mutate();
+        router.push("/");
+        console.log("success");
+      } else {
+        console.error(`Failed to delete ${petToDelete.petName}`);
+      }
+    } catch (error) {
+      console.error(`Error deleting ${petToDelete.petName}:`, error);
+    }
   }
 
   return (
