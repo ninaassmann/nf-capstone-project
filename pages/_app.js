@@ -1,7 +1,7 @@
 import GlobalStyle from "../styles";
 import slugify from "slugify";
 
-import useSWR, { SWRConfig, mutate } from "swr";
+import useSWR, { SWRConfig } from "swr";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -98,7 +98,6 @@ export default function App({ Component, pageProps }) {
 
       if (response.ok) {
         mutate();
-        console.log("success");
       } else {
         console.error(`Failed to update ${pet.petName}:`);
       }
