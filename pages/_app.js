@@ -2,7 +2,7 @@ import GlobalStyle from "../styles";
 import Head from "next/head";
 import { lightTheme, darkTheme } from "@/components/Theme";
 import useLocalStorageState from "use-local-storage-state";
-import useSWR, { SWRConfig } from "swr";
+import useSWR, { SWRConfig, mutate } from "swr";
 import { useRouter } from "next/router";
 import { uid } from "uid";
 import { useEffect, useState } from "react";
@@ -35,9 +35,11 @@ export default function App({ Component, pageProps }) {
     fetcher
   );
   const [dogBreeds, setDogBreeds] = useState([]);
-  const [pets, setPets] = useLocalStorageState("pets", {
+  /*   const [pets, setPets] = useLocalStorageState("pets", {
     defaultValue: initialPets,
-  });
+  }); */
+
+  const { data: pets } = useSWR("/api/pets", fetcher, { fallbackData: [] });
 
   const [toast, setToast] = useState(false);
 
@@ -63,20 +65,44 @@ export default function App({ Component, pageProps }) {
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
 
-  function handleNewPet(newPet) {
-    newPet.id = uid();
-    const petsWithNewPet = [newPet, ...pets];
-    setPets(petsWithNewPet);
+  async function handleNewPet(newPet) {
+    try {
+      const response = await fetch(`/api/pets`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newPet),
+      });
+
+      if (response.ok) {
+        mutate(`/api/pets`);
+      } else {
+        console.error("Failed to create pet");
+      }
+    } catch (error) {
+      console.error("Error creating pet:", error);
+    }
   }
 
-  function handleUpdate(updatedPet) {
-    const updatedPets = pets.map((pet) => {
-      if (updatedPet.id !== pet.id) {
-        return pet;
+  async function handleUpdate(updatedPet) {
+    try {
+      const response = await fetch(`/api/pets/${updatedPet._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedPet),
+      });
+
+      if (response.ok) {
+        mutate(`/api/pets/${updatedPet._id}`);
+      } else {
+        console.error("Failed to update pet");
       }
-      return updatedPet;
-    });
-    setPets(updatedPets);
+    } catch (error) {
+      console.error("Error updating interview:", error);
+    }
   }
 
   function handleDelete(petToDelete) {

@@ -50,6 +50,7 @@ export default function Pet({
           <h1>{pet.petName}</h1>
           <p>{pet.petBreed?.join(", ")}</p>
           <p>{age}</p>
+          <p>{pet.gender}</p>
         </Section>
 
         <VetSection pet={pet} />

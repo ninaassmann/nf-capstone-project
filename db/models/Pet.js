@@ -2,13 +2,13 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
-const petSchema = new Schema({
-  slug: { type: String, required: true },
-  petName: { type: String, required: true },
-  gender: { type: String, required: true },
-  petBreed: { type: Array, required: true },
+const petSchema = new mongoose.Schema({
+  slug: { type: String },
+  petName: { type: String },
+  gender: { type: String },
+  petBreed: { type: Array },
   mixed: { type: Boolean },
-  petBirthday: { type: String, required: true },
+  petBirthday: { type: String },
   vet: {
     name: { type: String },
     address: { type: String },
