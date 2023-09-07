@@ -1,37 +1,74 @@
+import { useSession, signIn, signOut } from "next-auth/react";
+
 import { styled } from "styled-components";
-import Link from "next/link";
 import { useRouter } from "next/router";
+
+import Link from "next/link";
 import Sun from "./icons/Sun";
 import Moon from "./icons/Moon";
+import Button from "./Button";
+import Logout from "./icons/Logout";
+import Container from "./Container.styled";
 
 export default function Layout({ children, theme, toggleTheme }) {
   const router = useRouter();
   const path = router.pathname;
 
+  const { data: session } = useSession();
+
   return (
     <>
-      {path !== "/pets" && !path.includes("/pets/update/") ? (
-        <>
-          <StyledHeader>
-            <span>PawConnect</span>
-            <ThemeToggler onClick={toggleTheme} aria-label="Toggle theme">
-              {theme === "light" ? <Moon /> : <Sun />}
-            </ThemeToggler>
-          </StyledHeader>
-          <main>{children}</main>
-          <StyledFooter>
-            <StyledNav>
-              <Link href="/">Pets</Link>
-              <Link href="/breeds">Breeds</Link>
-            </StyledNav>
-          </StyledFooter>
-        </>
-      ) : (
-        <main>{children}</main>
-      )}
+      {
+        // check if we have session data (= user is already signed in => display a logout button)
+        session ? (
+          <>
+            {path !== "/pets/create" && !path.includes("/pets/update/") ? (
+              <>
+                <StyledHeader>
+                  <span>PawConnect</span>
+                  <IconButton onClick={toggleTheme} aria-label="Toggle theme">
+                    {theme === "light" ? <Moon /> : <Sun />}
+                  </IconButton>
+                  <IconButton onClick={signOut}>
+                    <Logout />
+                  </IconButton>
+                </StyledHeader>
+                <main>{children}</main>
+                <StyledFooter>
+                  <StyledNav>
+                    <Link href="/pets">Pets</Link>
+                    <Link href="/breeds">Breeds</Link>
+                  </StyledNav>
+                </StyledFooter>
+              </>
+            ) : (
+              <main>{children}</main>
+            )}
+          </>
+        ) : (
+          // no session data available yet, display a login button
+          <StyledContainer>
+            <Button
+              onClick={() => {
+                signIn();
+              }}
+              buttonText="Login with GitHub"
+              $variant="primary"
+            />
+          </StyledContainer>
+        )
+      }
     </>
   );
 }
+
+const StyledContainer = styled(Container)`
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+`;
 
 const StyledHeader = styled.header`
   position: fixed;
@@ -84,7 +121,7 @@ const StyledNav = styled.nav`
   }
 `;
 
-const ThemeToggler = styled.button`
+const IconButton = styled.button`
   background: none;
   border: none;
 `;

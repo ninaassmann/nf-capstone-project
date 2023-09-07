@@ -86,7 +86,7 @@ export default function Form({
     setToast(true);
     // update or new pet
     pet ? updatePets(dataPet) : addNewPet(dataPet);
-    pet ? router.push(`/pets/${pet.slug}`) : router.push("/");
+    pet ? router.push(`/pets/${pet.slug}`) : router.push("/pets");
   }
 
   // validate on step changes
@@ -345,7 +345,7 @@ export default function Form({
         {pet ? (
           <BackLink link={`/pets/${pet.slug}`} linkText="Cancel" />
         ) : (
-          <BackLink link="/" linkText="back to overview" />
+          <BackLink link="/pets" linkText="back to overview" />
         )}
       </Article>
     </StyledForm>
