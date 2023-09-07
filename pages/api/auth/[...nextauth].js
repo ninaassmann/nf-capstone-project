@@ -30,20 +30,39 @@ const fakeLogin = CredentialsProvider({
   },
 });
 
-const providers =
-  process.env.VERCEL_ENV === "preview"
-    ? [fakeLogin]
-    : [
-        GithubProvider({
-          clientId: process.env.GITHUB_ID,
-          clientSecret: process.env.GITHUB_SECRET,
-        }),
-        GoogleProvider({
-          clientId: process.env.GOOGLE_CLIENT_ID,
-          clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        }),
-        // ...add more providers here
-      ];
+const providers = [
+  GithubProvider({
+    clientId: process.env.GITHUB_ID,
+    clientSecret: process.env.GITHUB_SECRET,
+  }),
+  GoogleProvider({
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  }),
+  CredentialsProvider({
+    name: "Credentials",
+    credentials: {
+      username: { label: "Username", type: "text", placeholder: "tester" },
+      password: { label: "Password", type: "password" },
+    },
+    // and adding a fake authorization with static username and password:
+    async authorize(credentials) {
+      if (
+        credentials.username === "tester" &&
+        credentials.password === "tester1234!"
+      ) {
+        return {
+          id: "1",
+          name: "Tester",
+          email: "tester@github",
+        };
+      } else {
+        return null;
+      }
+    },
+  }),
+  // ...add more providers here
+];
 
 export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
