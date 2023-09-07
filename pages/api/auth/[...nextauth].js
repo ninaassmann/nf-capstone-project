@@ -67,18 +67,5 @@ const providers = [
 export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
   providers,
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        // only gets called once when logging in!
-        token.role = "Viewer";
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      session.user.role = token.role;
-      return session;
-    },
-  },
 };
 export default NextAuth(authOptions);
