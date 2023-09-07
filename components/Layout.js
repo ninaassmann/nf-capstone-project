@@ -16,6 +16,7 @@ export default function Layout({ children, theme, toggleTheme }) {
 
   const { data: session } = useSession();
 
+  console.log(session);
   return (
     <>
       {
