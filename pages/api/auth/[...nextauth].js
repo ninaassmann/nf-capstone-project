@@ -7,13 +7,6 @@ import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-async function getUserRoleFromDatabase(email) {
-  if (email === "hallo@ninaassmann.de") {
-    return "admin";
-  }
-  return "viewer";
-}
-
 const providers = [
   GithubProvider({
     clientId: process.env.GITHUB_ID,
@@ -50,20 +43,6 @@ const providers = [
 
 export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
-  secret: process.env.NEXTAUTH_SECRET,
   providers,
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        // only gets called once when logging in!
-        token.role = await getUserRoleFromDatabase(user.email);
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      session.user.role = token.role;
-      return session;
-    },
-  },
 };
 export default NextAuth(authOptions);
