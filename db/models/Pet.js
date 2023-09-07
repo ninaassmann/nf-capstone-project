@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const petSchema = new mongoose.Schema({
+  author: { type: String },
   slug: { type: String },
   petName: { type: String },
   gender: { type: String },

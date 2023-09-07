@@ -27,16 +27,19 @@ export default function Layout({ children, theme, toggleTheme }) {
               <>
                 <StyledHeader>
                   <span>PawConnect</span>
-                  <IconButton onClick={toggleTheme} aria-label="Toggle theme">
-                    {theme === "light" ? <Moon /> : <Sun />}
-                  </IconButton>
-                  <IconButton onClick={signOut}>
-                    <Logout />
-                  </IconButton>
+                  <div>
+                    <IconButton onClick={toggleTheme} aria-label="Toggle theme">
+                      {theme === "light" ? <Moon /> : <Sun />}
+                    </IconButton>
+                    <IconButton onClick={signOut}>
+                      <Logout />
+                    </IconButton>
+                  </div>
                 </StyledHeader>
                 <main>{children}</main>
                 <StyledFooter>
                   <StyledNav>
+                    <Link href="/">Home</Link>
                     <Link href="/pets">Pets</Link>
                     <Link href="/breeds">Breeds</Link>
                   </StyledNav>
@@ -53,7 +56,7 @@ export default function Layout({ children, theme, toggleTheme }) {
               onClick={() => {
                 signIn();
               }}
-              buttonText="Login with GitHub"
+              buttonText="Login"
               $variant="primary"
             />
           </StyledContainer>
@@ -86,6 +89,10 @@ const StyledHeader = styled.header`
   & span {
     font-size: var(--font-big);
     font-weight: 300;
+  }
+  & div {
+    display: flex;
+    gap: 2rem;
   }
 `;
 

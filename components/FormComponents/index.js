@@ -1,12 +1,17 @@
+import { useSession } from "next-auth/react";
+
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { styled } from "styled-components";
 
-import Link from "next/link";
+import initialPageOptions from "@/data/formStepsOptions";
+
+import { handleExistingPetName } from "@/utils/handleExistingPetName";
+
+import { ErrorWrapper, Errortext } from "./Error.styled";
 
 import Button from "../Button";
 import ButtonWrapper from "../ButtonWrapper.styled";
-
 import StyledForm from "./Form.styled";
 import Wrapper from "./Wrapper.styled";
 import Input from "./Input.styled";
@@ -14,10 +19,6 @@ import VetFieldset from "./VetFieldset";
 import BreedFieldset from "./BreedFieldset";
 import FoodFieldset from "./FoodFieldset";
 
-import initialPageOptions from "@/data/formStepsOptions";
-import { uid } from "uid";
-import { handleExistingPetName } from "@/utils/handleExistingPetName";
-import { ErrorWrapper, Errortext } from "./Error.styled";
 import Fieldset from "./Fieldset.styled";
 import StyledLabel from "./Label.styled";
 import StyledRadio from "./Radio.styled";
@@ -42,6 +43,8 @@ export default function Form({
   pet,
   setToast,
 }) {
+  const { data: session } = useSession();
+
   const initialPetBreeds = pet ? pet.petBreed : [];
 
   const router = useRouter();
@@ -76,6 +79,7 @@ export default function Form({
 
     const dataPet = newPet;
 
+    dataPet.author = session.user.email;
     dataPet.slug = pet
       ? pet.slug
       : slugify(handleExistingPetName(dataPet.petName, pets), { lower: true });

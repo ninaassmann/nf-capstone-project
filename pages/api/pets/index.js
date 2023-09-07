@@ -1,11 +1,20 @@
 import dbConnect from "@/db/connect";
 import Pet from "@/db/models/Pet";
 
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { getServerSession } from "next-auth/next";
+
 export default async function handler(request, response) {
   await dbConnect();
 
   if (request.method === "GET") {
     try {
+      const session = await getServerSession(request, response, authOptions);
+
+      if (!session) {
+        return response.status(401).json({ message: "Unauthorized" });
+      }
+
       const pets = await Pet.find();
 
       return response.status(200).json(pets);

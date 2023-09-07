@@ -100,10 +100,10 @@ export default function App({ session, Component, pageProps }) {
       if (response.ok) {
         mutate();
       } else {
-        console.error(`Failed to update ${pet.petName}:`);
+        console.error(`Failed to update ${pet?.petName}:`);
       }
     } catch (error) {
-      console.error(`Error updating ${pet.petName}:`, error);
+      console.error(`Error updating ${pet?.petName}:`, error);
     }
   }
 
