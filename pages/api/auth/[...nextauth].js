@@ -7,28 +7,12 @@ import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const fakeLogin = CredentialsProvider({
-  name: "Credentials",
-  credentials: {
-    username: { label: "Username", type: "text", placeholder: "tester" },
-    password: { label: "Password", type: "password" },
-  },
-  // and adding a fake authorization with static username and password:
-  async authorize(credentials) {
-    if (
-      credentials.username === "tester" &&
-      credentials.password === "tester1234!"
-    ) {
-      return {
-        id: "1",
-        name: "Tester",
-        email: "tester@github",
-      };
-    } else {
-      return null;
-    }
-  },
-});
+async function getUserRoleFromDatabase(email) {
+  if (email === "hallo@ninaassmann.de") {
+    return "admin";
+  }
+  return "viewer";
+}
 
 const providers = [
   GithubProvider({
@@ -46,7 +30,7 @@ const providers = [
       password: { label: "Password", type: "password" },
     },
     // and adding a fake authorization with static username and password:
-    async authorize(credentials) {
+    authorize(credentials) {
       if (
         credentials.username === "tester" &&
         credentials.password === "tester1234!"
@@ -66,6 +50,20 @@ const providers = [
 
 export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
+  secret: process.env.NEXTAUTH_SECRET,
   providers,
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        // only gets called once when logging in!
+        token.role = await getUserRoleFromDatabase(user.email);
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.user.role = token.role;
+      return session;
+    },
+  },
 };
 export default NextAuth(authOptions);
