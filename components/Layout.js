@@ -58,7 +58,17 @@ export default function Layout({ children, theme, toggleTheme }) {
                     "http://nf-capstone-project-git-feat-login-ninaassmann.vercel.app",
                 });
               }}
-              buttonText="Login"
+              buttonText="Login with Google"
+              $variant="primary"
+            />
+            <Button
+              onClick={() => {
+                signIn("github", {
+                  callbackUrl:
+                    "http://nf-capstone-project-git-feat-login-ninaassmann.vercel.app",
+                });
+              }}
+              buttonText="Login with GitHub"
               $variant="primary"
             />
           </StyledContainer>
