@@ -55,7 +55,7 @@ export default function Layout({ children, theme, toggleTheme }) {
               onClick={() => {
                 signIn("google", {
                   callbackUrl:
-                    "http://nf-capstone-project-git-feat-login-ninaassmann.vercel.app",
+                    "https://nf-capstone-project-git-feat-login-ninaassmann.vercel.app/api/auth/callback/google",
                 });
               }}
               buttonText="Login with Google"
@@ -65,7 +65,7 @@ export default function Layout({ children, theme, toggleTheme }) {
               onClick={() => {
                 signIn("github", {
                   callbackUrl:
-                    "http://nf-capstone-project-git-feat-login-ninaassmann.vercel.app",
+                    "https://nf-capstone-project-git-feat-login-ninaassmann.vercel.app/api/auth/callback/github",
                 });
               }}
               buttonText="Login with GitHub"
