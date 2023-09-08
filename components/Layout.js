@@ -25,7 +25,7 @@ export default function Layout({ children, theme, toggleTheme }) {
             {path !== "/pets/create" && !path.includes("/pets/update/") ? (
               <>
                 <StyledHeader>
-                  <span>PawConnect</span>
+                  <Logo>PawConnect</Logo>
                   <div>
                     <IconButton onClick={toggleTheme} aria-label="Toggle theme">
                       {theme === "light" ? <Moon /> : <Sun />}
@@ -51,26 +51,20 @@ export default function Layout({ children, theme, toggleTheme }) {
         ) : (
           // no session data available yet, display a login button
           <StyledContainer>
-            <Button
-              onClick={() => {
-                signIn("google", {
-                  callbackUrl:
-                    "https://nf-capstone-project-git-feat-login-ninaassmann.vercel.app/api/auth/callback/google",
-                });
-              }}
-              buttonText="Login with Google"
-              $variant="primary"
-            />
-            <Button
-              onClick={() => {
-                signIn("github", {
-                  callbackUrl:
-                    "https://nf-capstone-project-git-feat-login-ninaassmann.vercel.app/api/auth/callback/github",
-                });
-              }}
-              buttonText="Login with GitHub"
-              $variant="primary"
-            />
+            <StyledWrapper>
+              <Logo>PawConnect</Logo>
+              <small>Manage all your pets at one place</small>
+              <Button
+                onClick={() => {
+                  signIn("google", {
+                    callbackUrl:
+                      "https://nf-capstone-project-git-feat-login-ninaassmann.vercel.app/api/auth/callback/google",
+                  });
+                }}
+                buttonText="Login with Google"
+                $variant="primary"
+              />
+            </StyledWrapper>
           </StyledContainer>
         )
       }
@@ -79,11 +73,33 @@ export default function Layout({ children, theme, toggleTheme }) {
 }
 
 const StyledContainer = styled(Container)`
-  display: grid;
-  justify-content: center;
-  align-items: center;
   height: 100vh;
   width: 100vw;
+  background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 50, 0.15),
+      rgba(0, 0, 50, 0.85)
+    ),
+    url("/puppybackground.jpg");
+  background-size: 175%;
+  background-position: center;
+`;
+
+const StyledWrapper = styled.div`
+  width: calc(100vw - 4rem);
+  position: absolute;
+  bottom: 10rem;
+  left: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  background: ${({ theme }) => theme.darkBackground};
+
+  & small {
+    margin-bottom: 2rem;
+  }
 `;
 
 const StyledHeader = styled.header`
@@ -97,15 +113,15 @@ const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  & span {
-    font-size: var(--font-big);
-    font-weight: 300;
-  }
   & div {
     display: flex;
     gap: 2rem;
   }
+`;
+
+const Logo = styled.span`
+  font-size: var(--font-big);
+  font-weight: 300;
 `;
 
 const ImageWrapper = styled.div`
