@@ -1,8 +1,11 @@
-import Container from "@/components/Container.styled";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { calculateAge } from "@/utils/calculateAge";
-import Label from "@/components/Label.styled";
 import { useState } from "react";
+
+import { calculateAge } from "@/utils/calculateAge";
+
+import Container from "@/components/Container.styled";
+import Label from "@/components/Label.styled";
 import Button from "@/components/Button";
 import DeleteModal from "@/components/DeleteModal";
 import Toast from "@/components/Toast";
@@ -21,12 +24,15 @@ export default function Pet({
   toast,
   updatePets,
 }) {
+  const { data: session } = useSession();
   const router = useRouter();
   const { slug } = router.query;
 
   const [modal, setModal] = useState();
 
-  const pet = pets.find((pet) => slug === pet.slug);
+  const pet = pets.find(
+    (pet) => slug === pet.slug && pet.author === session.user.email
+  );
   const age = calculateAge(pet && pet.petBirthday);
 
   if (!pet) {
@@ -34,7 +40,7 @@ export default function Pet({
       <main>
         <Container>
           <h1>page not found</h1>
-          <BackLink link="/" linkText="back to overview" />
+          <BackLink link="/pets" linkText="back to overview" />
         </Container>
       </main>
     );
@@ -43,7 +49,7 @@ export default function Pet({
   return (
     <>
       <Container>
-        <BackLink link="/" linkText="back to overview" />
+        <BackLink link="/pets" linkText="back to overview" />
 
         <Section>
           {pet.mixed && <Label>Mixed</Label>}

@@ -1,5 +1,6 @@
 import GlobalStyle from "../styles";
 import slugify from "slugify";
+import { SessionProvider } from "next-auth/react";
 
 import useSWR, { SWRConfig } from "swr";
 import { useRouter } from "next/router";
@@ -23,7 +24,7 @@ const fetcher = async (url) => {
   return response.json();
 };
 
-export default function App({ Component, pageProps }) {
+export default function App({ session, Component, pageProps }) {
   const [theme, setTheme] = useState("dark");
   function toggleTheme() {
     theme === "light" ? setTheme("dark") : setTheme("light");
@@ -99,10 +100,10 @@ export default function App({ Component, pageProps }) {
       if (response.ok) {
         mutate();
       } else {
-        console.error(`Failed to update ${pet.petName}:`);
+        console.error(`Failed to update ${pet?.petName}:`);
       }
     } catch (error) {
-      console.error(`Error updating ${pet.petName}:`, error);
+      console.error(`Error updating ${pet?.petName}:`, error);
     }
   }
 
@@ -139,18 +140,20 @@ export default function App({ Component, pageProps }) {
             />
             <meta property="og:image" content="/pawconnect.jpg" />
           </Head>
-          <Layout theme={theme} toggleTheme={toggleTheme}>
-            <Component
-              {...pageProps}
-              addNewPet={handleNewPet}
-              updatePets={handleUpdate}
-              handleDelete={handleDelete}
-              pets={pets}
-              dogBreeds={dogBreeds}
-              toast={toast}
-              setToast={setToast}
-            />
-          </Layout>
+          <SessionProvider session={session}>
+            <Layout theme={theme} toggleTheme={toggleTheme}>
+              <Component
+                {...pageProps}
+                addNewPet={handleNewPet}
+                updatePets={handleUpdate}
+                handleDelete={handleDelete}
+                pets={pets}
+                dogBreeds={dogBreeds}
+                toast={toast}
+                setToast={setToast}
+              />
+            </Layout>
+          </SessionProvider>
         </SWRConfig>
       </ThemeProvider>
     </>

@@ -1,11 +1,17 @@
+import { useSession } from "next-auth/react";
+
 import ListItem from "./ListItem";
 import StyledList from "./List.styled";
 
 export default function List({ pets }) {
+  const { data: session } = useSession();
+
+  const userPets = pets?.filter((pet) => pet.author === session.user.email);
+
   return (
     <StyledList>
-      {pets &&
-        pets.map((pet) => (
+      {userPets &&
+        userPets.map((pet) => (
           <ListItem
             key={pet._id}
             slug={pet.slug}
