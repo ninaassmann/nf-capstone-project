@@ -53,7 +53,10 @@ export default function Layout({ children, theme, toggleTheme }) {
           <StyledContainer>
             <Button
               onClick={() => {
-                signIn();
+                signIn("google", {
+                  callbackUrl:
+                    "http://nf-capstone-project-git-feat-login-ninaassmann.vercel.app",
+                });
               }}
               buttonText="Login"
               $variant="primary"

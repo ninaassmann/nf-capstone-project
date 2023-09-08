@@ -24,7 +24,6 @@ export default function Button({
 const StyledButton = styled.button`
   cursor: pointer;
   width: 100%;
-  min-width: 200px;
   padding: 1rem;
   border-radius: var(--border-radius);
   border: none;
