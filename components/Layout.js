@@ -58,7 +58,7 @@ export default function Layout({ children, theme, toggleTheme }) {
                 onClick={() => {
                   signIn("google", {
                     callbackUrl:
-                      "https://nf-capstone-project-git-feat-login-ninaassmann.vercel.app",
+                      "https://pawconnect.vercel.app",
                   });
                 }}
                 buttonText="Login with Google"
