@@ -74,7 +74,7 @@ export default function Layout({ children, theme, toggleTheme }) {
 
 const StyledContainer = styled(Container)`
   height: 100vh;
-  width: 100vw;
+  width: min(100vw, 800px);
   background-image: linear-gradient(
       to bottom,
       rgba(0, 0, 50, 0.15),
@@ -86,7 +86,7 @@ const StyledContainer = styled(Container)`
 `;
 
 const StyledWrapper = styled.div`
-  width: calc(100vw - 4rem);
+  width: calc(100% - 4rem);
   position: absolute;
   bottom: 10rem;
   left: 2rem;
