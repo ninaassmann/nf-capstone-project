@@ -73,6 +73,7 @@ export default function Layout({ children, theme, toggleTheme }) {
 }
 
 const StyledContainer = styled(Container)`
+position: relative;
   height: 100vh;
   width: min(100vw, 800px);
   margin-inline: auto;
